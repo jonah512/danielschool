@@ -1,0 +1,104 @@
+{
+  "users": {
+    "view": true
+  },
+  "parameters": {
+    "general": {
+      "view": true,
+      "modify": true,
+      "save": true,
+      "liveview":true
+    },
+    "framerate": {
+      "view": true,
+      "modify": true,
+      "save": true
+    },
+    "resolution": {
+      "view": true,
+      "modify": true,
+      "save": true
+    }
+  },
+  "network": {
+    "view": true
+  },
+  "liveview": {
+    "general":{
+      "view": true
+    },
+    "option": {
+      "view": true,
+      "modify": true
+    },
+    "control": {
+      "view": true,
+      "modify": true,
+      "save": true
+    },
+    "streaming": {
+      "view": true
+    },
+    "capture": {
+      "enable": true
+    },
+    "imagelist": {
+      "view": true,
+      "save": true,
+      "delete": true,
+      "download": true
+    }
+  },
+  "aimodel": {
+    "general":{
+      "view": true
+    },
+    "selection": {
+      "view": true,
+      "modify": true
+    },
+    "list": {
+      "view": true,
+      "delete": true,
+      "upload": true
+    }
+  },
+  "result": {
+    "view": true,
+    "delete": true,
+    "download": true,
+    "namespace": true,
+    "upload": true
+  },
+  "workflow": {
+    "view": true,
+    "delete": true,
+    "download": true,
+    "upload": true,
+    "history": true,
+    "selection": true
+  },
+  "logs": {
+    "view": true,
+    "download": true,
+    "delete": true
+  },
+  "user_menu":{
+    "logout":true,
+    "reboot":true,
+    "language":true,
+    "settingdatetime":true,
+    "upgrade":true
+  },
+  "experiment":{
+    "view": true
+  },
+  "roi":{
+    "view": true,
+    "edit": true,
+    "save": true
+  },
+  "upgrade":{
+    "read_detail": true
+  }
+}

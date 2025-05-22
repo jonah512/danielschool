@@ -1,0 +1,20 @@
+.countdown-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999; /* Ensure the countdown appears at the front */
+    font-size: 48px; /* Double the font size */
+    color: #2d393b; /* Change text color */
+    background-color: rgba(255, 255, 255, 0.8); /* White box with 80% opacity */
+    padding: 20px; /* Add padding for better appearance */
+    border-radius: 10px; /* Add border radius for rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add box shadow for depth effect */
+    text-align: center; /* Center align text */
+    width: 400px;
+    height: 200px;
+}
+
+.countdown-heading {
+    margin-bottom: 10px; /* Add margin below the heading */
+}

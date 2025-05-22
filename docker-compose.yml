@@ -1,0 +1,26 @@
+# Copyright (C) 2018-2022 Intel Corporation
+# Copyright (C) 2025 daniel.ai Corporation
+#
+# SPDX-License-Identifier: MIT
+
+name: daniel
+
+services:
+  daniel-service:
+    build:
+      context: .
+      dockerfile: Dockerfile  
+    container_name: daniel-service
+    ports:
+      - "8080:8080"
+    volumes:
+      - daniel_data:/home/data
+    environment:
+      - SQLITE_DB=./app/database.sqlite  # SQLite Database path
+    networks:
+      - daniel
+
+volumes:
+  daniel_data:
+networks:
+  daniel:

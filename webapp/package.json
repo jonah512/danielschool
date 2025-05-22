@@ -1,0 +1,53 @@
+{
+  "name": "Camera Utility",
+  "version": "0.1.1",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^5.16.7",
+    "@mui/material": "^5.16.7",
+    "@mui/styled-engine-sc": "^6.1.6",
+    "@mui/x-data-grid": "^7.22.1",
+    "@mui/x-date-pickers": "^7.22.1",
+    "@mui/x-tree-view": "^7.22.1",
+    "@stomp/stompjs": "^7.0.0",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.7.7",
+    "dayjs": "^1.11.13",
+    "jszip": "^3.10.1",
+    "php-server": "^1.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.3.1",
+    "react-scripts": "^5.0.1",
+    "styled-components": "^6.1.13",
+    "view-json-react": "^1.1.2",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
