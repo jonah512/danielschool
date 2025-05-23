@@ -32,8 +32,7 @@ export default function Teachers(props) {
           value={searchWord}
           onChange={handleSearchChange} 
         />
-        <Button variant="contained" startIcon={<SearchIcon />}>
-        </Button>
+
       </Stack>
       <TeachersTable search={searchWord}/> 
     </Stack>

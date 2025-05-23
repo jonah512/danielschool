@@ -46,7 +46,6 @@ export default function AddNewClass({ open, onClose }) {
     }, [window.APIURL]);
 
     const onTeacherListChange = (event) => {
-        console.log('onTeacherListChange', event);
         setTeachers(event); // Update teachers state
     }
 

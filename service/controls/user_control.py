@@ -10,6 +10,7 @@ from ..schemas import models, schemas_entity
 from typing import List
 from ..logging_config import setup_logging
 import logging
+import uuid
 logger = logging.getLogger(__name__)
 
 
@@ -70,12 +71,15 @@ class UserControl:
         # Compare the MD5 hash of the plain password with the stored hashed password
         return self.get_password_hash(plain_password) == hashed_password
 
-    def login_check(self, email: str, password: str) -> bool:
+    def login_check(self, email: str, password: str) -> (bool, str):
         user = self.db.query(User).filter(User.email == email).first()
         print(f"User: {user}")
         print(f"email: {email}")
         print(f"Password: {password}")  
         print(f"Hashed Password: {user.hashed_password}")
+        random_uuid = str(uuid.uuid4())
+        #random uuid should be stored in session manager controller : TBD
+        print(f"Generated UUID: {random_uuid}")
         if user and password == user.hashed_password:
-            return True
-        return False
+            return True, random_uuid
+        return False, None

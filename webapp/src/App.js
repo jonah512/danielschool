@@ -20,17 +20,49 @@ export default function App(props) {
   const MODULE = 'App';
   
   useEffect(() => {
-    Resource.loadLanguageList(); 
+    (async () => {
+      await Resource.loadLanguageList();
+    })();
+
     if (SessionManager.connectionTimer !== undefined) {
       clearInterval(SessionManager.connectionTimer);
     }
     SessionManager.connectionTimer = setInterval(checkDeviceConnection, 3000);
-
+    setTimeout(() => {
+      checkIfLiveConnection();
+    }, 1000);
     return () => {
       clearInterval(SessionManager.connectionTimer);
     }
   }, [props, window.APIURL]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const checkIfLiveConnection = () => {
+    // get sessionId, userRole, userId from localStorage
+    const sessionId = localStorage.getItem('sessionId');
+    const userRole = localStorage.getItem('userRole'); 
+    const userId = localStorage.getItem('userId');
+    const language = localStorage.getItem('selectedLanguage')
+    console.log('sessionId:', sessionId);
+    console.log('userRole:', userRole);
+    console.log('userId:', userId);
+
+    if (sessionId !== undefined && sessionId !== null && sessionId !== '' && sessionId !== 'undefined') {
+      console.log('sessionId is valid', sessionId);
+      SessionManager.setLoginStatus(true);
+      SessionManager.setUserRole(userRole);
+      SessionManager.setUserId(userId);
+      setIsLoggedIn(true);
+      UserRole.load(userRole);
+      setLoginForbidden(false);
+      console.log('language:', language);
+      if(language !== undefined && language !== null && language !== '' && language !== 'undefined') {
+        Resource.setLanguage(language);
+      }
+    } else {
+      SessionManager.setLoginStatus(false);
+      setIsLoggedIn(false);
+    }
+  }
 
   const checkDeviceConnection = () => {
     SessionManager.checkDeviceConnection();

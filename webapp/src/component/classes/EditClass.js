@@ -40,7 +40,6 @@ export default function EditClass({ open, onClose, class_ }) {
     const MODULE = 'EditClass';
 
     useEffect(() => {
-        console.log('EditClass useEffect', class_);
         const teacherControl = new TeachersCtrl(window.APIURL);
         EventPublisher.addEventListener(EventDef.onTeacherListChange, MODULE, onTeacherListChange);
         teacherControl.getTeachers('');
@@ -51,14 +50,12 @@ export default function EditClass({ open, onClose, class_ }) {
     }, [window.APIURL]);
 
     const onTeacherListChange = (event) => {
-        console.log('onTeacherListChange', event);
         setTeachers(event); // Update teachers state
     }
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
-        console.log(name, value);
         if (name === 'email') {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(value)) {

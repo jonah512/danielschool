@@ -22,6 +22,17 @@ export default class StudentCtrl {
       .catch(error => Logger.error("Error fetching students:", error));
   }
 
+  async getStudentsSync(search = '') {
+    Logger.info('getStudentsSync', search);
+    try {
+      const response = await axios.get(this.#url + "/students", { params: { name: search } });
+      Logger.info("getStudentsSync Students:", response.data);
+      return response.data;
+    } catch (error) {
+      Logger.error("Error fetching students:", error);
+    }
+  }
+
   addNewStudent(studentData, search = '') {
     Logger.info('Adding new student:', studentData);
     axios
@@ -42,7 +53,7 @@ export default class StudentCtrl {
       .catch(error => Logger.error("Error updating student:", error));
   }
 
-  async deleteStudents(studentIds, search = '') {
+  async deleteStudentsSync(studentIds, search = '') {
     Logger.info('Deleting students:', studentIds);
 
     for (const id of studentIds) {

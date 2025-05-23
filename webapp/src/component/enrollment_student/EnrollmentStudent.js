@@ -3,31 +3,31 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Stack, TextField, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import ClassesTable from './ClassesTable';
+import EnrollmentStudentTable from './EnrollmentStudentTable';
 import Resource from '../../framework/resource/Resource';
 import SessionManager from '../../control/SessionManager';
 
-export default function Classes() {
-  const [searchWord, setSearchWord] = React.useState(SessionManager.getSearchWord('Classes'));
-  const [selectedYear, setSelectedYear] = useState(SessionManager.getSearchWord('Classes_Year') || 'all');
-  const [selectedTerm, setSelectedTerm] = useState(SessionManager.getSearchWord('Classes_Term') || 'all');
+export default function EnrollmentStudent() {
+  const [searchWord, setSearchWord] = React.useState(SessionManager.getSearchWord('Enrollment'));
+  const [selectedYear, setSelectedYear] = useState(SessionManager.getSearchWord('Enrollment_Year') || '2025');
+  const [selectedTerm, setSelectedTerm] = useState(SessionManager.getSearchWord('Enrollment_Term') || 'spring');
 
 
   const handleSearchChange = (event) => {
     setSearchWord(event.target.value);
-    SessionManager.setSearchWord('Classes', event.target.value);
+    SessionManager.setSearchWord('Enrollment', event.target.value);
     console.log("Search text changed:", event.target.value);
   };
 
   const onYearChange = (year) => {
     console.log("Year changed:", year);
-    SessionManager.setSearchWord('Classes_Year', year);
+    SessionManager.setSearchWord('Enrollment_Year', year);
     setSelectedYear(year);
   }
 
   const onTermChange = (term) => {
     console.log("Term changed:", term);
-    SessionManager.setSearchWord('Classes_Term', term);
+    SessionManager.setSearchWord('Enrollment_Term', term);
     setSelectedTerm(term);
   };
 
@@ -47,9 +47,6 @@ export default function Classes() {
           }}
           variant="outlined"
         >
-            <option key={'all'} value={'all'}>
-              {'all'}
-            </option>
           {years.map((year) => (
             <option key={year} value={year}>
               {year}
@@ -66,20 +63,21 @@ export default function Classes() {
           }}
           variant="outlined"
         >
-          {["all", "spring", "fall"].map((term) => (
+          {["spring", "fall"].map((term) => (
             <option key={term} value={term}>
               {term}
             </option>
           ))}
         </TextField>
-        <TextField 
-          label="Search" 
-          variant="outlined" 
+        <TextField
+          label="Search"
+          variant="outlined"
           value={searchWord}
-          onChange={handleSearchChange} 
+          onChange={handleSearchChange}
         />
+
       </Stack>
-      <ClassesTable search={searchWord} year={selectedYear} term={selectedTerm}/> 
+      <EnrollmentStudentTable search={searchWord} year={selectedYear} term={selectedTerm} />
     </Stack>
   );
 }

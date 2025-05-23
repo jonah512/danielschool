@@ -13,6 +13,7 @@ class ResourceObj {
       throw new Error('ResourceObj cannot be created! Try to use Resource');
     }
     ResourceObj.#instance = this;
+    this.#load();
   }
 
   language = 'English';
@@ -25,6 +26,7 @@ class ResourceObj {
     this.language = localStorage.getItem('selectedLanguage') || 'English';
     if (this.languageObjects[this.language]) {
       this.#resource = this.languageObjects[this.language].getResource();
+      console.log('this.#resource:', this.#resource);
     }
   }
 
@@ -44,6 +46,7 @@ class ResourceObj {
   }
 
   setLanguage(lang) {
+    console.log('languageObjects:', this.languageObjects);
     if (this.languageObjects[lang] == null) {
       Logger.error('cannot find language:' + lang);
     }
@@ -95,13 +98,14 @@ class ResourceObj {
       }
       const resourceData = await response.json();
       this.#languages = resourceData.languages.map(lang => lang.replace('.json', ''));
-      this.loadLanguageClasses();
+      await this.loadLanguageClasses();
     } catch (error) {
       Logger.error('Error fetching resource:', error);
     }
+    console.log('this.#languages:', this.#languages, this.language);
   };
 
-  loadLanguageClasses = () => {
+  loadLanguageClasses = async () => {
     this.#languages.forEach(async (lang) => {
       const response = await fetch('/language/' + lang + '.json?index=' + Guid.generate16());
       if (!response.ok) {

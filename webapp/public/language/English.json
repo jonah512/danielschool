@@ -43,7 +43,8 @@
     "students": "Students",
     "teachers": "Teachers",
     "classes": "Classes",
-    "enrollment": "Enrollment"
+    "enrollment": "Enrollment",
+    "classroommanager": "Classroom Manager"
   },
   "users": {
     "id": "ID",
@@ -122,5 +123,11 @@
   },
   "usermenu": {
     "language": "Language"
-  }
+  },
+  "classroom":{
+    "name": "Name(Grade)",
+    "add_student": "Add Student",
+    "remove_student_tilte": "Remove Student",
+    "remove_student_content": "Are you sure you want to remove this student, '{0}'?"
+   }
 }

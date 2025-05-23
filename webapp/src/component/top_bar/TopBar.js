@@ -39,7 +39,7 @@ export default function TopBar(props) {
             variant="h5"
             textAlign="center"
             width={'100%'}
-            style={{ color: 'inherit', fontWeight: 'bold' }}
+            style={{ color: '#4B0082', fontWeight: 'bold' }} // Dark purple color
           >
             {Resource.get("common.title")}
           </Typography>

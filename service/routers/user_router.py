@@ -45,6 +45,7 @@ class LoginRequest(BaseModel):
 
 @router.post("/login")
 def login(request: LoginRequest, db: Session = Depends(get_db)):
-    if UserControl(db).login_check( email = request.email, password = request.password):
-        return {"success": True, "message": "Login successful", "user_role": "developer"}
+    success, session_id = UserControl(db).login_check( email = request.email, password = request.password)
+    if success:
+        return {"success": True, "message": "Login successful", "user_role": "developer", "session_id": session_id}
     raise HTTPException(status_code=401, detail="Invalid email or password")

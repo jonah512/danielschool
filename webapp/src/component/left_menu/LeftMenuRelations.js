@@ -10,6 +10,8 @@ import Logger from '../../framework/logger/Logger';
 import Resource from '../../framework/resource/Resource';
 import UserRole from '../../framework/user_role/UserRole';
 import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
+import RoomPreferencesIcon from '@mui/icons-material/RoomPreferences';
+
 export default function LeftMenuRelations(props) {
 
   const [selectedMenu, SetSelectedMenu] = React.useState(props.SelectedMenu);
@@ -39,15 +41,32 @@ export default function LeftMenuRelations(props) {
             },
             ":hover": { backgroundColor: "#D4A8DC" }
           }}
-          selected={selectedMenu === 'Enrollment'}
-          onClick={(event) => handleListItemClick(event, 'Enrollment')}>
-          <ListItemIcon sx={{ color: selectedMenu === 'Enrollment' ? "#FFFFFF" : "inherit" }}>
+          selected={selectedMenu === 'EnrollmentStudent'}
+          onClick={(event) => handleListItemClick(event, 'EnrollmentStudent')}>
+          <ListItemIcon sx={{ color: selectedMenu === 'EnrollmentStudent' ? "#FFFFFF" : "inherit" }}>
             <ContactEmergencyIcon />
           </ListItemIcon>
-          <ListItemText primary={Resource.get('menu.enrollment')} sx={{ color: selectedMenu === 'Enrollment' ? "#FFFFFF" : "inherit" }} />
+          <ListItemText primary={Resource.get('menu.enrollment')} sx={{ color: selectedMenu === 'EnrollmentStudent' ? "#FFFFFF" : "inherit" }} />
         </ListItemButton>
       </List>
-
+      <List>
+        <ListItemButton
+          sx={{
+            "&.Mui-selected": {
+              backgroundColor: "#641c71",
+              color: "#000000",
+              ":hover": { backgroundColor: "#D4A8DC" }
+            },
+            ":hover": { backgroundColor: "#D4A8DC" }
+          }}
+          selected={selectedMenu === 'ClassroomManager'}
+          onClick={(event) => handleListItemClick(event, 'ClassroomManager')}>
+          <ListItemIcon sx={{ color: selectedMenu === 'ClassroomManager' ? "#FFFFFF" : "inherit" }}>
+            <RoomPreferencesIcon />
+          </ListItemIcon>
+          <ListItemText primary={Resource.get('menu.classroommanager')} sx={{ color: selectedMenu === 'ClassroomManager' ? "#FFFFFF" : "inherit" }} />
+        </ListItemButton>
+      </List>
     </React.Fragment>
   );
 };

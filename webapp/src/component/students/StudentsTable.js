@@ -69,10 +69,10 @@ export default function StudentsTable({ search }) {
         setSelectedStudent(null); // Clear the selected student data
     };
 
-    const onConfirm = () => {
+    const onConfirm = async () => {
         setDeleteConfirm(false);
         const control = new StuidentCtrl(window.APIURL);
-        control.deleteStudents(selectedIds, SessionManager.getSearchWord('Students')); // Call deleteStudents to remove selected items
+        await control.deleteStudentsSync(selectedIds, SessionManager.getSearchWord('Students')); // Call deleteStudentsSync to remove selected items
         setEnableDeleteButton(false); // Disable delete button after deletion
         setSelectedIds([]); // Clear selected IDs
     }
@@ -92,7 +92,6 @@ export default function StudentsTable({ search }) {
         { field: 'birth_date', headerName: Resource.get('students.birthdate'), width: 150 },
         { field: 'grade', headerName: Resource.get('students.grade'), width: 150, 
             renderCell: (params) => {
-                console.log('grade diplay: ', params);
                 const grade = Defines.gradeOptions.find(grade => grade.value === params.value);
                 return grade ? grade.label : params.value;
             }
@@ -104,7 +103,6 @@ export default function StudentsTable({ search }) {
         { field: 'address', headerName: Resource.get('students.address'), width: 250 },
         { field: 'religion', headerName: Resource.get('students.religion'), width: 150,
             renderCell: (params) => {
-                console.log('religion diplay: ', params);
                 return Resource.get('students.' + params.value);
             }
          },

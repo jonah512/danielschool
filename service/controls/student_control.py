@@ -50,7 +50,7 @@ class StudentControl:
         self.db.commit()
         return student
 
-    def search(self, name: str = None, page: int = 0, page_size: int = 10):
+    def search(self, name: str = None):
         """Search for students by name or email with pagination."""
         query = self.db.query(models.Student)
         if name:
@@ -58,9 +58,7 @@ class StudentControl:
                 func.lower(models.Student.name).like(f"%{name.lower()}%") |
                 func.lower(models.Student.email).like(f"%{name.lower()}%")
             )
-        total = query.count()
-        students = query.offset(page * page_size).limit(page_size).all()
-        return {"total": total, "students": students}
+        return query.all()
 
     def get(self, student_id: int):
         """Retrieve a student by ID."""

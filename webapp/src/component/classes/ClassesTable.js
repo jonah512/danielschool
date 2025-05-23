@@ -82,10 +82,10 @@ export default function ClassesTable({search, year, term}) {
         setSelectedClass(null); // Clear the selected class data
     };
 
-    const onConfirm = () => {
+    const onConfirm = async () => {
         setDeleteConfirm(false);
         const control = new ClassesCtrl(window.APIURL);
-        control.deleteClasses(selectedIds,  SessionManager.getSearchWord('Classes')); // Call deleteClasses to remove selected items
+        await control.deleteClasses(selectedIds,  SessionManager.getSearchWord('Classes')); // Call deleteClasses to remove selected items
         setEnableDeleteButton(false); // Disable delete button after deletion
         setSelectedIds([]); // Clear selected IDs
     }

@@ -39,6 +39,17 @@ export default class EnrollmentCtrl {
         Logger.error("Error adding enrollment:", error.response?.data || error.message);
       });
   }
+
+  async addEnrollmentSync(enrollmentData) {
+    Logger.info('Adding new enrollment:', enrollmentData);
+    try {
+      const response = await axios.post(`${this.#url}/enrollment/`, enrollmentData); // Ensure trailing slash
+      Logger.info("Enrollment added successfully:", response.data);
+      this.getEnrollment(enrollmentData.year, enrollmentData.term);
+    } catch (error) {
+      Logger.error("Error adding enrollment:", error.response?.data || error.message);
+    }
+  }
   
   async updateEnrollmentSync(enrollmentId, enrollmentData) {
     try {
@@ -61,18 +72,15 @@ export default class EnrollmentCtrl {
 
   }
 
-  async deleteEnrollment(studentIds, search = '') {
-    Logger.info('Deleting enrollment:', studentIds);
+  async deleteEnrollment(enrollmentId, year = null, term = null) {
+    Logger.info('Deleting enrollment:', enrollmentId, year, term);
 
-    for (const id of studentIds) {
-      try {
-        const response = await axios.delete(`${this.#url}/enrollment/${id}`);
-        Logger.info(`Class with ID ${id} deleted successfully:`);
-      } catch (error) {
-        Logger.error(`Error deleting enrollment with ID ${id}:`, error);
-      }
+    try {
+      const response = await axios.delete(`${this.#url}/enrollment/${enrollmentId }`);
+      Logger.info(`Enrollment with ID ${enrollmentId } deleted successfully:`);
+    } catch (error) {
+      Logger.error(`Error deleting enrollment with ID ${enrollmentId }:`, error);
     }
-    this.getEnrollment(search); // Refresh the student list
   }
 
 }

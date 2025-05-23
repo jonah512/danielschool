@@ -46,16 +46,16 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-export default function EnrollmentTable({ search, year, term }) {
+export default function EnrollmentStudentTable({ search, year, term }) {
     const [studentList, setStudentList] = useState([]); // State for user list
     const [classList, setClassList] = useState([]); // State for class list
     const [enrollmentList, setEnrollmentList] = useState([]); // State for enrollment list
-    const MODULE = 'EnrollmentTable';
+    const MODULE = 'EnrollmentStudentTable';
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
     useEffect(() => {
-        console.log('EnrollmentTable useEffect', search, year, term);
+        console.log('EnrollmentStudentTable useEffect', search, year, term);
         const student_control = new StuidentCtrl(window.APIURL);
         const enrollment_control = new EnrollmentCtrl(window.APIURL);
         const class_control = new ClassesCtrl(window.APIURL);
@@ -111,7 +111,7 @@ export default function EnrollmentTable({ search, year, term }) {
         return -1;
     }
 
-    const handleChange = (studentId, period, classId) => {
+    const handleChange = async (studentId, period, classId) => {
         const enrollment = enrollmentList.find((enrollment) =>
             enrollment.student_id === studentId &&
             classList.find((classItem) => classItem.id === enrollment.class_id)?.period === period
@@ -121,7 +121,7 @@ export default function EnrollmentTable({ search, year, term }) {
             // update existing enrollment
             const enrollment_control = new EnrollmentCtrl(window.APIURL);
             enrollment.class_id = classId;
-            enrollment_control.updateEnrollmentSync(enrollment.id, enrollment);
+            await enrollment_control.updateEnrollmentSync(enrollment.id, enrollment);
             enrollment_control.getEnrollment(year, term);
         }
         else {
@@ -159,10 +159,10 @@ export default function EnrollmentTable({ search, year, term }) {
     const handleStatusChange = (studentId, status) => {
 
         const enrollment_control = new EnrollmentCtrl(window.APIURL);
-        enrollmentList.map((enrollment) => {
+        enrollmentList.map(async (enrollment) => {
             if (enrollment.student_id === studentId) {
                 enrollment.status = status;
-                enrollment_control.updateEnrollmentSync(enrollment.id, enrollment);
+                await enrollment_control.updateEnrollmentSync(enrollment.id, enrollment);
             }
         });
 

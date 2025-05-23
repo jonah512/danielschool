@@ -14,6 +14,15 @@ export default class LoginCtrl {
       })
       .then(response => {
         Logger.debug('verifyCredentials:' + response.data.success);
+        if (response.data.success) {
+          Logger.info('Login successful:', response.data);
+          // Store the session ID in local storage
+          localStorage.setItem('sessionId', response.data.session_id);
+          localStorage.setItem('userRole', response.data.user_role);
+          localStorage.setItem('userId', id);
+        } else {
+          Logger.error('Login failed:', response.data.message);
+        }
         if (onLoginVerification !== undefined) {onLoginVerification(response.data); }
       })
       .catch(error => { Logger.error(error); onLoginVerification(error.message); });

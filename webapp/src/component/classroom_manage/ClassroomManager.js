@@ -3,20 +3,27 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Stack, TextField, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import EnrollmentTable from './EnrollmentTable';
+import ClassroomTable from './ClassroomTable';
 import Resource from '../../framework/resource/Resource';
 import SessionManager from '../../control/SessionManager';
 
-export default function Enrollment() {
+export default function ClassroomManager() {
   const [searchWord, setSearchWord] = React.useState(SessionManager.getSearchWord('Enrollment'));
   const [selectedYear, setSelectedYear] = useState(SessionManager.getSearchWord('Enrollment_Year') || '2025');
   const [selectedTerm, setSelectedTerm] = useState(SessionManager.getSearchWord('Enrollment_Term') || 'spring');
 
+  useEffect(() => {
+    if(SessionManager.getSearchWord('Enrollment_Year') == null) {
+      SessionManager.setSearchWord('Enrollment_Year', selectedYear);
+    }
+    if(SessionManager.getSearchWord('Enrollment_Term') == null) {
+      SessionManager.setSearchWord('Enrollment_Term', selectedTerm);
+    }
+  }, []);
 
   const handleSearchChange = (event) => {
     setSearchWord(event.target.value);
-    SessionManager.setSearchWord('Enrollment', event.target.value);
-    console.log("Search text changed:", event.target.value);
+    SessionManager.setSearchWord('ClassroomManager', event.target.value);
   };
 
   const onYearChange = (year) => {
@@ -26,7 +33,6 @@ export default function Enrollment() {
   }
 
   const onTermChange = (term) => {
-    console.log("Term changed:", term);
     SessionManager.setSearchWord('Enrollment_Term', term);
     setSelectedTerm(term);
   };
@@ -75,10 +81,9 @@ export default function Enrollment() {
           value={searchWord}
           onChange={handleSearchChange}
         />
-        <Button variant="contained" startIcon={<SearchIcon />} onClick={handleSearchChange}>
-        </Button>
+
       </Stack>
-      <EnrollmentTable search={searchWord} year={selectedYear} term={selectedTerm} />
+      <ClassroomTable search={searchWord} year={selectedYear} term={selectedTerm} />
     </Stack>
   );
 }

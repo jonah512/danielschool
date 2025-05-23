@@ -28,12 +28,11 @@ import { EventDef } from './framework/event/EventDef';
 import Resource from './framework/resource/Resource';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import UserRole from './framework/user_role/UserRole';
-import AlertDialog from './component/common/AlertDialog';
-import AlertDialogDetail from './component/common/AlertDialogDetail';
 import Students from './component/students/Students';
 import Teachers from './component/teachers/Teachers';
 import Classes from './component/classes/Classes';
-import Enrollment from './component/enrollment/Enrollment';
+import EnrollmentStudent from './component/enrollment_student/EnrollmentStudent';
+import ClassroomManager from './component/classroom_manage/ClassroomManager';
 
 const drawerWidth = 240;
 
@@ -146,8 +145,10 @@ export default function DanielAdminApp() {
         return (<Teachers />);
       case 'Classes':
         return (<Classes />);
-      case 'Enrollment':
-        return (<Enrollment />);
+      case 'EnrollmentStudent':
+        return (<EnrollmentStudent />);
+        case 'ClassroomManager':
+          return (<ClassroomManager />);
       default:
         return (selectedMenu);
     }

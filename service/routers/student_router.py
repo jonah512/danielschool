@@ -43,12 +43,12 @@ student_control = StudentControl(db=SessionLocal())
 @router.post("/students/", response_model=Student)
 def add_student(student: StudentCreate, db: Session = Depends(get_db)):
     """Add a new student."""
-    return StudentControl(db).add(student)
+    return student_control.add(student)
 
 @router.put("/students/{student_id}/", response_model=Student)
 def modify_student(student_id: int, student: StudentCreate, db: Session = Depends(get_db)):
     """Modify an existing student."""
-    updated_student = StudentControl(db).modify(student_id, student)
+    updated_student = student_control.modify(student_id, student)
     if not updated_student:
         raise HTTPException(status_code=404, detail="Student not found")
     return updated_student
@@ -56,7 +56,7 @@ def modify_student(student_id: int, student: StudentCreate, db: Session = Depend
 @router.delete("/students/{student_id}/", response_model=Student)
 def delete_student(student_id: int, db: Session = Depends(get_db)):
     """Delete a student."""
-    deleted_student = StudentControl(db).delete(student_id)
+    deleted_student = student_control.delete(student_id)
     if not deleted_student:
         raise HTTPException(status_code=404, detail="Student not found")
     return deleted_student
@@ -64,7 +64,7 @@ def delete_student(student_id: int, db: Session = Depends(get_db)):
 @router.get("/students/{student_id}/", response_model=Student)
 def get_student(student_id: int, db: Session = Depends(get_db)):
     """Retrieve a student by ID."""
-    student = StudentControl(db).get(student_id)
+    student = student_control.get(student_id)
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
     return student
@@ -72,7 +72,7 @@ def get_student(student_id: int, db: Session = Depends(get_db)):
 @router.get("/students/", response_model=List[Student])
 def search_students(name: Optional[str] = None, db: Session = Depends(get_db)):
     """Search for students by name or email."""
-    return StudentControl(db).search(name=name)
+    return student_control.search(name=name)
 
 @router.post("/students/upload_csv/")
 def upload_students_csv(file: UploadFile, db: Session = Depends(get_db)):
@@ -80,5 +80,5 @@ def upload_students_csv(file: UploadFile, db: Session = Depends(get_db)):
     if file.content_type != "text/csv":
         raise HTTPException(status_code=400, detail="Invalid file type. Please upload a CSV file.")
     content = file.file.read().decode("utf-8")
-    students = StudentControl(db).bulk_add_from_csv(content)
+    students = student_control.bulk_add_from_csv(content)
     return {"message": f"{len(students)} students added successfully."}
