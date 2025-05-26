@@ -11,7 +11,7 @@ export default class StudentCtrl {
     this.#url = url;
   }
 
-  getStudents( search = '') {
+  getStudents(search = '') {
     Logger.info('getStudents');
     axios
       .get(this.#url + "/students", { params: { name: search } })

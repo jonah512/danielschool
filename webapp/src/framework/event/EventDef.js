@@ -11,4 +11,6 @@ export const EventDef = {
   onClassListChange: 'onClassListChange',
   onEnrollmentListChange: 'onEnrollmentListChange',
   onEnrollmentDelete: 'onEnrollmentDelete',
+  onMenuChanged: 'onMenuChanged',
+  onStudentSelected: 'onStudentSelected',
 };

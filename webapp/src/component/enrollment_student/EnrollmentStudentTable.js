@@ -21,8 +21,7 @@ import EventPublisher from '../../framework/event/EventPublisher';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import { TablePagination } from '@mui/material';
-
-import SessionManager from '../../control/SessionManager';
+import DownloadIcon from '@mui/icons-material/Download';
 import Defines from '../Defines';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -139,7 +138,7 @@ export default function EnrollmentStudentTable({ search, year, term }) {
         }
 
     }
-    
+
     const statusMap = React.useMemo(() => {
         const map = new Map();
         enrollmentList.forEach((enrollment) => {
@@ -177,7 +176,39 @@ export default function EnrollmentStudentTable({ search, year, term }) {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
+    const handleDownloadCsv = () => {
+        const csvContent = [
+            ['Student ID', 'Student Name', 'Grade', 'Period 1 Class', 'Period 2 Class', 'Period 3 Class', 'Status', 'Email', 'Total Fee'],
+            ...studentList.map(student => [
+                student.id,
+                student.name,
+                student.grade,
+                classList.find(classItem => classItem.id === getEnrolledClass(student.id, 1))?.name || '',
+                classList.find(classItem => classItem.id === getEnrolledClass(student.id, 2))?.name || '',
+                classList.find(classItem => classItem.id === getEnrolledClass(student.id, 3))?.name || '',
+                getStatus(student.id),
+                student.email || '',
+                classList
+                    .filter(classItem => 
+                        [1, 2, 3].includes(classItem.period) && 
+                        getEnrolledClass(student.id, classItem.period) === classItem.id
+                    )
+                    .reduce((sum, classItem) => sum + (classItem.fee || 0), 0)
+                    .toFixed(2) // Ensure proper rounding to two decimal places
+            ])
+        ].map(row => row.join(',')).join('\n');
 
+        const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        const file_name = `enrollments_${new Date().toISOString().split('T')[0].replace(/-/g, '_')}.csv`;
+        link.setAttribute('download', file_name);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+  
     return (
         <div style={{ width: '100%' }}>
             <Stack spacing={2} style={{ width: '100%' }}>
@@ -192,106 +223,122 @@ export default function EnrollmentStudentTable({ search, year, term }) {
                                 <StyledTableCell align="center">{Resource.get('enrollment.period_2')}</StyledTableCell>
                                 <StyledTableCell align="center">{Resource.get('enrollment.period_3')}</StyledTableCell>
                                 <StyledTableCell align="center">{Resource.get('enrollment.status')}</StyledTableCell>
+                                <StyledTableCell align="center">{Resource.get('students.email')}</StyledTableCell>
+                                <StyledTableCell align="center">{Resource.get('classes.fee')}</StyledTableCell>
+                                
+                                
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {studentList
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row) => (
-                                <StyledTableRow key={row.id}>
-                                    <StyledTableCell align="center">{row.id}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.name}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.grade}</StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        <TextField
-                                            select
-                                            name="period_3"
-                                            value={getEnrolledClass(row.id, 1)}
-                                            onChange={(event) => { handleChange(row.id, 1, event.target.value) }}
-                                            InputProps={{
-                                                style: {
-                                                    fontSize: '15px',
-                                                    height: '30px',
-                                                    width: '150px'
-                                                },
-                                            }}
-                                            disabled={getStatus(row.id) !== 'draft'}
-                                        >
-                                            {classList.map((classItem) => (
-                                                classItem.period === 1 &&
-                                                <MenuItem key={classItem.id} value={classItem.id}>
-                                                    {classItem.name}
-                                                </MenuItem>
-                                            ))}
-                                        </TextField>
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        <TextField
-                                            select
-                                            name="period_2"
-                                            value={getEnrolledClass(row.id, 2)}
-                                            onChange={(event) => { handleChange(row.id, 2, event.target.value) }}
-                                            InputProps={{
-                                                style: {
-                                                    fontSize: '15px',
-                                                    height: '30px',
-                                                    width: '150px'
-                                                },
-                                            }}
-                                            disabled={getStatus(row.id) !== 'draft'}
-                                        >
-                                            {classList.map((classItem) => (
-                                                classItem.period === 2 &&
-                                                <MenuItem key={classItem.id} value={classItem.id}>
-                                                    {classItem.name}
-                                                </MenuItem>
-                                            ))}
-                                        </TextField>
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        <TextField
-                                            select
-                                            name="period_3"
-                                            value={getEnrolledClass(row.id, 3)}
-                                            onChange={(event) => { handleChange(row.id, 3, event.target.value) }}
-                                            InputProps={{
-                                                style: {
-                                                    fontSize: '15px',
-                                                    height: '30px',
-                                                    width: '150px'
-                                                },
-                                            }}
-                                            disabled={getStatus(row.id) !== 'draft'}
-                                        >
-                                            {classList.map((classItem) => (
-                                                classItem.period === 3 &&
-                                                <MenuItem key={classItem.id} value={classItem.id}>
-                                                    {classItem.name}
-                                                </MenuItem>
-                                            ))}
-                                        </TextField>
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        <TextField
-                                            select
-                                            name="status"
-                                            value={getStatus(row.id)}
-                                            onChange={(event) => { handleStatusChange(row.id, event.target.value) }}
-                                            InputProps={{
-                                                style: {
-                                                    fontSize: '15px',
-                                                    height: '30px',
-                                                    width: '150px'
-                                                },
-                                            }}
-                                        >
-                                            <MenuItem value="draft">Draft</MenuItem>
-                                            <MenuItem value="enrolled">Enrolled</MenuItem>
-                                            <MenuItem value="dropped">Dropped</MenuItem>
-                                        </TextField>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                            ))}
+                                    <StyledTableRow key={row.id}>
+                                        <StyledTableCell align="center">{row.id}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.name}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.grade}</StyledTableCell>
+                                        <StyledTableCell align="center">
+                                            <TextField
+                                                select
+                                                name="period_3"
+                                                value={getEnrolledClass(row.id, 1)}
+                                                onChange={(event) => { handleChange(row.id, 1, event.target.value) }}
+                                                InputProps={{
+                                                    style: {
+                                                        fontSize: '15px',
+                                                        height: '30px',
+                                                        width: '150px'
+                                                    },
+                                                }}
+                                                disabled={getStatus(row.id) !== 'draft'}
+                                            >
+                                                {classList.map((classItem) => (
+                                                    classItem.period === 1 &&
+                                                    <MenuItem key={classItem.id} value={classItem.id}>
+                                                        {classItem.name}
+                                                    </MenuItem>
+                                                ))}
+                                            </TextField>
+                                        </StyledTableCell>
+                                        <StyledTableCell align="center">
+                                            <TextField
+                                                select
+                                                name="period_2"
+                                                value={getEnrolledClass(row.id, 2)}
+                                                onChange={(event) => { handleChange(row.id, 2, event.target.value) }}
+                                                InputProps={{
+                                                    style: {
+                                                        fontSize: '15px',
+                                                        height: '30px',
+                                                        width: '150px'
+                                                    },
+                                                }}
+                                                disabled={getStatus(row.id) !== 'draft'}
+                                            >
+                                                {classList.map((classItem) => (
+                                                    classItem.period === 2 &&
+                                                    <MenuItem key={classItem.id} value={classItem.id}>
+                                                        {classItem.name}
+                                                    </MenuItem>
+                                                ))}
+                                            </TextField>
+                                        </StyledTableCell>
+                                        <StyledTableCell align="center">
+                                            <TextField
+                                                select
+                                                name="period_3"
+                                                value={getEnrolledClass(row.id, 3)}
+                                                onChange={(event) => { handleChange(row.id, 3, event.target.value) }}
+                                                InputProps={{
+                                                    style: {
+                                                        fontSize: '15px',
+                                                        height: '30px',
+                                                        width: '150px'
+                                                    },
+                                                }}
+                                                disabled={getStatus(row.id) !== 'draft'}
+                                            >
+                                                {classList.map((classItem) => (
+                                                    classItem.period === 3 &&
+                                                    <MenuItem key={classItem.id} value={classItem.id}>
+                                                        {classItem.name}
+                                                    </MenuItem>
+                                                ))}
+                                            </TextField>
+                                        </StyledTableCell>
+                                        <StyledTableCell align="center">
+                                            <TextField
+                                                select
+                                                name="status"
+                                                value={getStatus(row.id)}
+                                                onChange={(event) => { handleStatusChange(row.id, event.target.value) }}
+                                                InputProps={{
+                                                    style: {
+                                                        fontSize: '15px',
+                                                        height: '30px',
+                                                        width: '150px'
+                                                    },
+                                                }}
+                                            >
+                                                <MenuItem value="draft">Draft</MenuItem>
+                                                <MenuItem value="enrolled">Enrolled</MenuItem>
+                                                <MenuItem value="dropped">Dropped</MenuItem>
+                                            </TextField>
+                                        </StyledTableCell>
+
+                                        <StyledTableCell align="center">{row.email}</StyledTableCell>
+                                        <StyledTableCell align="center">
+                                            {classList
+                                                .filter(classItem => 
+                                                    [1, 2, 3].includes(classItem.period) && 
+                                                    getEnrolledClass(row.id, classItem.period) === classItem.id
+                                                )
+                                                .reduce((sum, classItem) => sum + (classItem.fee || 0), 0)
+                                                .toFixed(2) // Ensure proper rounding to two decimal places
+                                            }
+                                        </StyledTableCell>
+                                    </StyledTableRow>
+                                ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
@@ -303,6 +350,17 @@ export default function EnrollmentStudentTable({ search, year, term }) {
                     rowsPerPage={rowsPerPage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
+                <Box sx={{ flexGrow: 1 }} >
+                <Button
+                    variant="contained"
+                    color="primary"
+                    component="span"
+                    onClick={handleDownloadCsv} // Open dialog
+                    startIcon={<DownloadIcon />}
+                >
+                    {Resource.get('common.download')}
+                </Button>
+                </Box>
             </Stack>
         </div>
     );

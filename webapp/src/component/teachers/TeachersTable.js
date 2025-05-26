@@ -17,6 +17,7 @@ import AddNewTeacher from './AddNewTeacher'; // Import the new component
 import EditTeacher from './EditTeacher'; // Import the EditTeacher component
 import SessionManager from '../../control/SessionManager';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import DownloadIcon from '@mui/icons-material/Download';
 
 export default function TeachersTable({search}) {
     const [userList, setUserList] = useState([]); // State for user list
@@ -85,6 +86,31 @@ export default function TeachersTable({search}) {
         }
         setDeleteConfirm(true);
       }
+
+
+    const handleDownloadCsv = () => {
+      const csvContent = [
+        ['ID', 'Name', 'Subject', 'Email', 'Phone'],
+        ...userList.map(teacher => [
+            teacher.id,
+            teacher.name,
+            teacher.subject,
+            teacher.email,
+            teacher.phone
+        ])
+      ].map(row => row.join(',')).join('\n');
+
+      const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      const file_name = `teachers_${new Date().toISOString().split('T')[0].replace(/-/g, '_')}.csv`;
+      link.setAttribute('download', file_name);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
     const columns = [
         { field: 'id', headerName: Resource.get('teachers.id'), width: 90 },
         { field: 'name', headerName: Resource.get('teachers.name'), width: 150 },
@@ -133,6 +159,15 @@ export default function TeachersTable({search}) {
                         startIcon={<AddCircleIcon />}
                     >
                        {Resource.get('teachers.title')}
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        component="span"
+                        onClick={handleDownloadCsv} // Open dialog
+                        startIcon={<DownloadIcon />}
+                    >
+                        {Resource.get('common.download')}
                     </Button>
                 </Stack>
             </Stack>

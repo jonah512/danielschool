@@ -25,7 +25,7 @@ import Typography from '@mui/material/Typography';
 import SessionManager from '../../control/SessionManager';
 import Defines from '../Defines';
 import ClassroomElement from './ClassroomElement';
-import Container from '@mui/material/Container';
+import DownloadIcon from '@mui/icons-material/Download';
 import Divider from '@mui/material/Divider';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -104,6 +104,54 @@ export default function ClassroomTable({ search, year, term }) {
         setStudentList(processedData); // Update user list state with formatted data
     };
 
+    const handleDownloadCsv = () => {
+        const csvContent = [
+            [ ...classList.map(classItem => classItem.name + '_ ' + classItem.period)], // Header row with class names
+            ...studentList.map(student => [
+                ...classList.map(classItem => {
+                    const isEnrolled = enrollmentList.some(enrollment => 
+                        enrollment.student_id === student.id && enrollment.class_id === classItem.id
+                    );
+                    return isEnrolled ? student.name : ''; // Add student name if enrolled, otherwise empty
+                })
+            ])
+        ].map(row => row.join(',')).join('\n');
+
+        const csvRows = csvContent.split('\n');
+        const headerRow = csvRows[0].split(','); // First row is the header
+        console.log('headerRow', headerRow);
+        // create 2d additional array with same size of csvRows and headerRow
+        const additionalData = Array.from({ length: headerRow.length * csvRows.length }, () => []);
+
+        for(let i = 0; i < headerRow.length; i++) {
+            let data_index = 0;
+            for(let j = 1; j < csvRows.length; j++) {
+                const row = csvRows[j].split(',');
+                if(row[i]) {
+                    additionalData[data_index++][i] = row[i]; // Add student name to the additional data
+                }
+            }
+        }
+
+        // Create a CSV content string
+        const csvContentWithAdditionalData = [
+            headerRow.join(','),
+            // use additionalData to create rows
+            ...additionalData.map(row => row.join(','))
+        ].join('\n');
+        console.log('csvContentWithAdditionalData');
+
+        const blob = new Blob(["\uFEFF" + csvContentWithAdditionalData], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        const file_name = `classroom_students_${new Date().toISOString().split('T')[0].replace(/-/g, '_')}.csv`;
+        link.setAttribute('download', file_name);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
     return (
         <div style={{ width: '100%' }}>
             <Stack spacing={2} style={{ width: '100%' }} direction={"column"}>
@@ -156,6 +204,15 @@ export default function ClassroomTable({ search, year, term }) {
                         ))}
                 </Stack>
             </Stack>
+            <Button
+                        variant="contained"
+                        color="primary"
+                        component="span"
+                        onClick={handleDownloadCsv} // Open dialog
+                        startIcon={<DownloadIcon />}
+                    >
+                        {Resource.get('common.download')}
+                    </Button>
         </div>
     );
 }

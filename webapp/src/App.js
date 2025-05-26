@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import DanielAdminApp from './DanielAdminApp';
 import Login from './Login'
+import Register from './component/register/Register'; // Import the Register component
 import SessionManager from './control/SessionManager';
 import AlertDialog from './component/common/AlertDialog';
 import LoginCtrl from './control/LoginCtrl';
@@ -107,12 +108,11 @@ export default function App(props) {
   return (
     <div>
       {
-        isLoggedIn ? (
-          <DanielAdminApp />
-        ) :
-          (
-            <Login onLogin={handleLogin} />
-          )
+
+          window.location.pathname === '/manager' ? 
+            (isLoggedIn ? <DanielAdminApp /> : <Login onLogin={handleLogin} />) : 
+            (<Register />)
+
       }
       <div>
         {loginFail &&

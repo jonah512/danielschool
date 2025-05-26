@@ -12,7 +12,7 @@ if (tailAddress.endsWith('/')) {
   tailAddress = tailAddress.substring(0, tailAddress.length - 1);
 }
 window.LOGLEVEL = 'INFO';
-window.APIURL = localStorage.getItem('apiUrl') || headerAddress + tailAddress + ':8080';
+window.APIURL = headerAddress + tailAddress + ':8080';
 root.render(
   <React.StrictMode>
     <App loginStatus={SessionManager.loginStatus} />

@@ -19,6 +19,7 @@ import SessionManager from '../../control/SessionManager';
 import Defines from '../Defines';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import StudentBulkUpload from './StudentBulkUpload';
+import DownloadIcon from '@mui/icons-material/Download';
 
 export default function StudentsTable({ search }) {
     const [userList, setUserList] = useState([]); // State for user list
@@ -75,17 +76,51 @@ export default function StudentsTable({ search }) {
         await control.deleteStudentsSync(selectedIds, SessionManager.getSearchWord('Students')); // Call deleteStudentsSync to remove selected items
         setEnableDeleteButton(false); // Disable delete button after deletion
         setSelectedIds([]); // Clear selected IDs
-    }
+    };
 
     const onClosePopup = () => {
         setDeleteConfirm(false);
-    }
+    };
+
     const deleteSelectedFiles = () => {
         if (selectedIds.length === 0) {
             return;
         }
         setDeleteConfirm(true);
+    };
+
+    const handleDownloadCsv = () => {
+        // const control = new StuidentCtrl(window.APIURL);
+        // control.downloadCsv();
+        const csvContent = [
+            ['ID', 'Name', 'Birth Date', 'Grade', 'Korean Level', 'Email', 'Phone', 'Parent Name', 'Address', 'Religion', 'Church'],
+            ...userList.map(student => [
+            student.id,
+            student.name,
+            student.birth_date,
+            Defines.gradeOptions.find(grade => grade.value === student.grade)?.label || student.grade,
+            student.korean_level,
+            student.email,
+            student.phone,
+            student.parent_name,
+            student.address,
+            Resource.get('students.' + student.religion),
+            student.church
+            ])
+        ].map(row => row.join(',')).join('\n');
+
+        const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        const file_name = `students_${new Date().toISOString().split('T')[0].replace(/-/g, '_')}.csv`;
+        link.setAttribute('download', file_name);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
     }
+
     const columns = [
         { field: 'id', headerName: Resource.get('students.id'), width: 90 },
         { field: 'name', headerName: Resource.get('students.name'), width: 150 },
@@ -152,6 +187,15 @@ export default function StudentsTable({ search }) {
                         {Resource.get('students.title')}
                     </Button>
                     <StudentBulkUpload />
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        component="span"
+                        onClick={handleDownloadCsv} // Open dialog
+                        startIcon={<DownloadIcon />}
+                    >
+                        {Resource.get('common.download')}
+                    </Button>
                 </Stack>
             </Stack>
             {deleteConfirm ?

@@ -31,8 +31,7 @@ export default function Students(props) {
           variant="outlined" 
           value={searchWord}
           onChange={handleSearchChange} 
-        />
-        <Button variant="contained" startIcon={<SearchIcon />}/>        
+        />      
       </Stack>
       <StudentsTable search={searchWord}/> 
     </Stack>
