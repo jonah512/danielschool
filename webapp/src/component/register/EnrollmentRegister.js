@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import Accordion from '@mui/material/Accordion';
 import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -12,11 +13,18 @@ import RegisterCtrl from '../../control/RegisterCtrl';
 import SelectClasses from './SelectClasses';
 import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
+import Confirmation from './Confirmation';
+import AlertDialog from '../common/AlertDialog';
+import MuiAppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import { Box } from '@mui/material';
+import UserMenu from '../user_menu/UserMenu';
 
 export default function EnrollmentRegister() {
 
   const [selectedStudent, setSelectedStudent] = useState(RegisterCtrl.selected_student);
   const [stage, setStage] = useState(0);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const MODULE = 'EnrollmentRegister';
 
   useEffect(() => {
@@ -28,7 +36,7 @@ export default function EnrollmentRegister() {
   }, []);
 
   const onSelectedStudentChanged = (student) => {
-    console.log('onSelectedStudentChanged student : ' + student);
+    console.log('onSelectedStudentChanged student : ', student);
     setSelectedStudent(student);
   };
 
@@ -48,9 +56,16 @@ export default function EnrollmentRegister() {
   const handleMovePrevFromFinalCheck = () => {
     setStage(1);
   }
-  
+
+  const handleSubmit = () => {
+    // show confirmation dialog
+    console.log('handleSubmit called');
+    setShowConfirmation(true);
+  }
+
   return (
     <div>
+
       <Accordion disabled={stage !== 0} expanded={stage === 0}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -62,6 +77,7 @@ export default function EnrollmentRegister() {
         </AccordionSummary>
         <AccordionDetails>
           <EditStudent
+            onPrev={() => EventPublisher.publish(EventDef.onMenuChanged, 'SelectStudent')} // Close dialog
             onNext={handleMoveNextFromStudenEdit} // Close dialog
             student={selectedStudent} // Pass selected student data
           />
@@ -92,20 +108,35 @@ export default function EnrollmentRegister() {
           <Typography component="span">최종확인</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          수강신청한 최종 내용을 확인합니다.
+
+          <Confirmation
+            student={selectedStudent}
+            ></Confirmation>
         </AccordionDetails>
         <AccordionActions>
           <Button
             variant="contained"
-            color="primary"
-            onClick={handleMovePrevFromFinalCheck}
-          >Prev(과목선택 단계로 이동)</Button>
+            color="secondary"
+            onClick={handleMovePrevFromFinalCheck}>Prev(과목선택 단계로 이동)</Button>
           <Button
             variant="contained"
-            color="primary"
-          >Submit(제출하기)</Button>
+            color="secondary"
+            onClick={handleSubmit}
+            >Submit(제출하기)</Button>
         </AccordionActions>
       </Accordion>
+      {showConfirmation && (<AlertDialog
+        YesOrNo={true} Open={true}
+        onClose={() => setShowConfirmation(false)}
+        Title="등록 확인"
+        Content="등록을 완료하시겠습니까?"
+        onNo={() => setShowConfirmation(false)}
+        onYes={() => {
+          setShowConfirmation(false);
+          RegisterCtrl.selected_student = null; // Clear selected student
+          EventPublisher.publish(EventDef.onSelectedStudentChanged, null); // Notify that the selected student has changed
+          EventPublisher.publish(EventDef.onMenuChanged, 'SelectStudent'); // Go back to student selection
+        }}/>)}
     </div>
   );
 }

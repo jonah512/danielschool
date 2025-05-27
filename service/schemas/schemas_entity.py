@@ -56,6 +56,7 @@ class ClassBase(BaseModel):
     period: int
     fee: float
     mendatory: bool
+    enrolled_number: Optional[int] = 0 
     
 class ClassCreate(ClassBase):
     pass

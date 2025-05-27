@@ -12,18 +12,18 @@ export default class TeacherCtrl {
   }
 
   getTeachers(search) {
-    Logger.info('fetchTeachers');
+    console.log('fetchTeachers');
     axios
       .get(this.#url + "/teachers", { params: { name: search } })
       .then(response => {
-        Logger.info("Fetched Teachers:", response.data);
+        console.log("Fetched Teachers:", response.data);
         EventPublisher.publish(EventDef.onTeacherListChange, response.data);
       })
       .catch(error => Logger.error("Error fetching teachers:", error));
   }
 
   updateTeacher(teacherId, teacherData, search = '') {
-    Logger.info('Updating teacher:', teacherId, teacherData);
+    console.log('Updating teacher:', teacherId, teacherData);
     axios
       .put(`${this.#url}/teachers/${teacherId}`, teacherData)
       .then(response => {
@@ -33,7 +33,7 @@ export default class TeacherCtrl {
   }
 
   addNewTeacher(teacherData, search = '') {
-    Logger.info('Adding new teacher:', teacherData);
+    console.log('Adding new teacher:', teacherData);
     axios
       .post(this.#url + "/teachers", teacherData)
       .then(response => {
@@ -43,12 +43,12 @@ export default class TeacherCtrl {
   }
 
   async deleteTeachers(teacherIds, search = '') {
-    Logger.info('Deleting teachers:', teacherIds);
+    console.log('Deleting teachers:', teacherIds);
 
     for (const id of teacherIds) {
       try {
         const response = await axios.delete(`${this.#url}/teachers/${id}`);
-        Logger.info(`Teacher with ID ${id} deleted successfully:`);
+        console.log(`Teacher with ID ${id} deleted successfully:`);
       } catch (error) {
         Logger.error(`Error deleting teacher with ID ${id}:`, error);
       }

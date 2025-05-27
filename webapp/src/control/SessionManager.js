@@ -23,9 +23,6 @@ class SessionManagerObj {
   userRole = '';
   deviceConnectionStatus = false;
   connectionTimer = undefined;
-  streamCheckTimer = undefined;
-  streamingGuid = Guid.generate16();
-  streamingPort = '9058';
   userId = '';
   passwordDigested = '';
   onDeviceConnectionChanged = new Map();
@@ -125,17 +122,6 @@ class SessionManagerObj {
         }
       );
   }
-  checkCmsMode(client) {
-    axios.get(`${window.APIURL}/GetCmsMode`)
-      .then(response => {
-        const cmsMode = response.data.Payload.Data;
-        Logger.debug('cms_mode:', cmsMode);
-
-      })
-      .catch(error => {
-        Logger.error('Error fetching cms_mode:', error);
-      });
-  }
 
   addDeviceConnectionArbiter(key, eventDeligator) {
     Logger.debug('addDeviceConnectionArbiter:' + key + " is added.");
@@ -145,30 +131,6 @@ class SessionManagerObj {
   removeDeviceConnectionArbiter(key) {
     Logger.debug('removeDeviceConnectionArbiter:' + key + " is removed.");
     self.onDeviceConnectionChanged.delete(key);
-  }
-
-  refreshLiveView() {
-
-    self.streamingGuid = Guid.generate16();
-    self.getStreamPort();
-    self.startCheckingStream();
-  }
-
-  getStreamPort(funcResp) {
-    axios
-      .post(window.APIURL + '/GetConfiguration', {
-        Key: 'tcpserversink.port'
-      })
-      .then(response => {
-        self.streamingPort = response.data.Payload.Data;
-        if (funcResp) {
-          funcResp(self.streamingPort);
-        }
-      })
-      .catch(error => {
-        Logger.error(error);
-      });
-
   }
 
   startCheckingStream() {

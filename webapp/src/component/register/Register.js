@@ -14,7 +14,7 @@ import Login from './Login'
 import Tobbar from './Topbar'
 import SelectStudent from './SelectStudent';
 import EnrollmentRegister from './EnrollmentRegister';
-
+import WaitingRoom from './WaitingRoom';
 const drawerWidth = 240;
 
 const defaultTheme = createTheme({
@@ -64,6 +64,8 @@ export default function Register() {
         return (<SelectStudent />);
       case 'EnrollmentRegister':
         return (<EnrollmentRegister />);
+        case 'WaitingRoom':
+        return (<WaitingRoom />);
       default:
         return (selectedMenu);
     }

@@ -12,21 +12,21 @@ export default class StudentCtrl {
   }
 
   getStudents(search = '') {
-    Logger.info('getStudents');
+    console.log('getStudents');
     axios
       .get(this.#url + "/students", { params: { name: search } })
       .then(response => {
-        Logger.info("Fetched Students:", response.data);
+        console.log("Fetched Students:", response.data);
         EventPublisher.publish(EventDef.onStudentListChange, response.data);
       })
       .catch(error => Logger.error("Error fetching students:", error));
   }
 
   async getStudentsSync(search = '') {
-    Logger.info('getStudentsSync', search);
+    console.log('getStudentsSync', search);
     try {
       const response = await axios.get(this.#url + "/students", { params: { name: search } });
-      Logger.info("getStudentsSync Students:", response.data);
+      console.log("getStudentsSync Students:", response.data);
       return response.data;
     } catch (error) {
       Logger.error("Error fetching students:", error);
@@ -34,7 +34,7 @@ export default class StudentCtrl {
   }
 
   addNewStudent(studentData, search = '') {
-    Logger.info('Adding new student:', studentData);
+    console.log('Adding new student:', studentData);
     axios
       .post(this.#url + "/students", studentData)
       .then(response => {
@@ -44,7 +44,7 @@ export default class StudentCtrl {
   }
 
   updateStudent(studentId, studentData, search = '') {
-    Logger.info('Updating student:', studentId, studentData);
+    console.log('Updating student:', studentId, studentData);
     axios
       .put(`${this.#url}/students/${studentId}`, studentData)
       .then(response => {
@@ -54,12 +54,12 @@ export default class StudentCtrl {
   }
 
   async deleteStudentsSync(studentIds, search = '') {
-    Logger.info('Deleting students:', studentIds);
+    console.log('Deleting students:', studentIds);
 
     for (const id of studentIds) {
       try {
         const response = await axios.delete(`${this.#url}/students/${id}`);
-        Logger.info(`Student with ID ${id} deleted successfully:`);
+        console.log(`Student with ID ${id} deleted successfully:`);
       } catch (error) {
         Logger.error(`Error deleting student with ID ${id}:`, error);
       }

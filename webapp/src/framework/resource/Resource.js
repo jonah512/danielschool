@@ -16,7 +16,7 @@ class ResourceObj {
     this.#load();
   }
 
-  language = 'English';
+  language = '한국어';
   #resource = null;
   #languages = [];
   languageObjects = {};

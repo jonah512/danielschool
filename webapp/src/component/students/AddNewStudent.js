@@ -15,7 +15,7 @@ import dayjs from 'dayjs';
 import SessionManager from '../../control/SessionManager';
 import Defines from '../Defines'
 
-export default function AddNewStudent({ open, onClose }) {
+export default function AddNewStudent({ open, onClose, onAddStudent }) {
     const [formData, setFormData] = useState({
         name: '',
         birth_date: dayjs().format('YYYY-MM-DD'), // Default to today's date
@@ -57,7 +57,7 @@ export default function AddNewStudent({ open, onClose }) {
 
         control.addNewStudent(formData, SessionManager.getSearchWord('Students')); // Call addNewStudent to save the new student
 
-        onClose(); // Close the dialog
+        onAddStudent(formData); // Close the dialog
     };
 
     return (

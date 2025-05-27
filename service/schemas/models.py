@@ -50,6 +50,7 @@ class Class(Base):
     period = Column(Integer)
     fee = Column(Float)
     mendatory = Column(Integer)
+    enrolled_number = Column(Integer, default=0)  # New column for enrolled number
 
 class User(Base):
     __tablename__ = "User"

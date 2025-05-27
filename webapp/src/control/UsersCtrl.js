@@ -12,11 +12,11 @@ export default class UsersCtrl {
   }
 
   updateProfile(search) {
-    Logger.info('fetchUsers', search);
+    console.log('fetchUsers', search);
     axios
       .get(this.#url + "/users", { params: { name: search } })
       .then(response => {
-        Logger.info("Fetched Users:", response.data);
+        console.log("Fetched Users:", response.data);
         EventPublisher.publish(EventDef.onUserListChange, response.data);
       })
       .catch(error => Logger.error("Error fetching users:", error));

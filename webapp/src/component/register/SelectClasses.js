@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Stack, Typography, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
+import { Stack, Typography, RadioGroup, FormControlLabel, Radio, Button, Tooltip } from '@mui/material';
 import RegisterCtrl from '../../control/RegisterCtrl';
 import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
@@ -7,6 +7,8 @@ import Defines from '../Defines';
 import dayjs from 'dayjs';
 import ClassesCtrl from '../../control/ClassesCtrl';
 import EnrollmentCtrl from '../../control/EnrollmentCtrl';
+import TeachersCtrl from '../../control/TeachersCtrl';
+
 
 export default function SelectClasses({ onNext, onPrev }) {
 
@@ -15,29 +17,29 @@ export default function SelectClasses({ onNext, onPrev }) {
     const [classes_period_1, setClasses_period_1] = useState([]);
     const [classes_period_2, setClasses_period_2] = useState([]);
     const [classes_period_3, setClasses_period_3] = useState([]);
-    const [classList, setClassList] = useState([]); // State for class list
-    const [enrollmentList, setEnrollmentList] = useState([]); // State for enrollment list
 
-    const [selectedClassPeriod1, setSelectedClassPeriod1] = useState('');
-    const [selectedClassPeriod2, setSelectedClassPeriod2] = useState('');
-    const [selectedClassPeriod3, setSelectedClassPeriod3] = useState('');
-    const year = 2025; // Example year, replace with actual value
-    const term = 'spring'; // Example term, replace with actual value
+
+    const [selectedClassPeriod1, setSelectedClassPeriod1] = useState(null);
+    const [selectedClassPeriod2, setSelectedClassPeriod2] = useState(null);
+    const [selectedClassPeriod3, setSelectedClassPeriod3] = useState(null);
+
     const MODULE = 'SelectClasses';
 
 
     useEffect(() => {
-        const class_control = new ClassesCtrl(window.APIURL);
-        class_control.getClasses(null, year, term);
-        const enrollment_control = new EnrollmentCtrl(window.APIURL);
-        enrollment_control.getEnrollment(year, term);
         EventPublisher.addEventListener(EventDef.onClassListChange, MODULE, onClassListChange);
         EventPublisher.addEventListener(EventDef.onSelectedStudentChanged, MODULE, onSelectedStudentChanged);
-        EventPublisher.addEventListener(EventDef.onEnrollmentListChange, MODULE, onEnrollmentListChange);
+        EventPublisher.addEventListener(EventDef.onTeacherListChange, MODULE, onTeacherListChange);
+
+        const class_control = new ClassesCtrl(window.APIURL);
+        class_control.getClasses(null, RegisterCtrl.year, RegisterCtrl.term);
+        const teacher_control = new TeachersCtrl(window.APIURL);
+        teacher_control.getTeachers();
+
         return () => {
             EventPublisher.removeEventListener(EventDef.onClassListChange, MODULE);
             EventPublisher.removeEventListener(EventDef.onSelectedStudentChanged, MODULE);
-            EventPublisher.removeEventListener(EventDef.onEnrollmentListChange, MODULE);
+            EventPublisher.removeEventListener(EventDef.onTeacherListChange, MODULE);
         };
     }, []);
 
@@ -45,13 +47,25 @@ export default function SelectClasses({ onNext, onPrev }) {
         console.log('onSelectedStudentChanged student : ', student);
         setSelectedStudent(student);
         const class_control = new ClassesCtrl(window.APIURL);
-        class_control.getClasses(null, year, term);
+        class_control.getClasses(null, RegisterCtrl.year, RegisterCtrl.term);
     };
 
     const onClassListChange = (classes) => {
+        console.log('onClassListChange classes:', classes);
+        RegisterCtrl.classes = classes;
+        onClassListEnrollmentChange(classes);
+    };
+
+    const onTeacherListChange = (teachers) => {
+        RegisterCtrl.teachers = teachers;
+        console.log('onTeacherListChange teachers:', teachers);
+    }
+
+    const onClassListEnrollmentChange = (classes) => {
+        if (!classes ) return;
+        if (classes.length == 0 ) return;
+
         const student = RegisterCtrl.selected_student;
-        console.log('onClassListChange:', classes, student);
-        setClassList(classes); // Update class list state
 
         const filteredClasses = classes.filter(c =>
             student.grade >= c.min_grade && student.grade <= c.max_grade
@@ -61,68 +75,155 @@ export default function SelectClasses({ onNext, onPrev }) {
         const period2 = filteredClasses.filter(c => c.period === 2);
         const period3 = filteredClasses.filter(c => c.period === 3);
 
-        // Add enrolled_students parameter to each class
-        period1.forEach(c => {
-            c.enrolled_students = enrollmentList.filter(e => e.class_id === c.id).length;
-        });
-        period2.forEach(c => {
-            c.enrolled_students = enrollmentList.filter(e => e.class_id === c.id).length;
-        });
-        period3.forEach(c => {
-            c.enrolled_students = enrollmentList.filter(e => e.class_id === c.id).length;
-        });
-
-        setClasses_period_1(period1);
-        setClasses_period_2(period2);
-        setClasses_period_3(period3);
-    };
-
-    const onEnrollmentListChange = (data) => {
-
-        const student = RegisterCtrl.selected_student;
-
-        const filteredClasses = classList.filter(c =>
-            student.grade >= c.min_grade && student.grade <= c.max_grade
-        );
-
-        const period1 = filteredClasses.filter(c => c.period === 1);
-        const period2 = filteredClasses.filter(c => c.period === 2);
-        const period3 = filteredClasses.filter(c => c.period === 3);
-
-        // Add enrolled_students parameter to each class
-        period1.forEach(c => {
-            c.enrolled_students = data.filter(e => e.class_id === c.id).length;
-        });
-        period2.forEach(c => {
-            c.enrolled_students = data.filter(e => e.class_id === c.id).length;
-        });
-        period3.forEach(c => {
-            c.enrolled_students = data.filter(e => e.class_id === c.id).length;
-        });
-
         setClasses_period_1(period1);
         setClasses_period_2(period2);
         setClasses_period_3(period3);
 
-        setEnrollmentList(data); // Update enrollment list state
+        // find out classes that are already enrolled by student for each period
+        const enrolledClasses = RegisterCtrl.enrollments.filter(e => e.student_id === student.id);
+        const enrolledClassPeriod1 = enrolledClasses.find(e => e.class_id && period1.some(c => c.id === e.class_id));
+        const enrolledClassPeriod2 = enrolledClasses.find(e => e.class_id && period2.some(c => c.id === e.class_id));   
+        const enrolledClassPeriod3 = enrolledClasses.find(e => e.class_id && period3.some(c => c.id === e.class_id));
+        console.log('onClassListEnrollmentChange enrolledClassPeriod1:', enrolledClassPeriod1);
+        console.log('onClassListEnrollmentChange enrolledClassPeriod2:', enrolledClassPeriod2);
+        console.log('onClassListEnrollmentChange enrolledClassPeriod3:', enrolledClassPeriod3);
+        if(selectedClassPeriod1 == null || selectedClassPeriod1 == undefined) {
+            setSelectedClassPeriod1(enrolledClassPeriod1 ? enrolledClassPeriod1.class_id : null);
+        }
+        if(selectedClassPeriod2 == null || selectedClassPeriod2 == undefined) {
+            setSelectedClassPeriod2(enrolledClassPeriod2 ? enrolledClassPeriod2.class_id : null);
+        }
+        if(selectedClassPeriod3 == null || selectedClassPeriod3 == undefined) {
+            setSelectedClassPeriod3(enrolledClassPeriod3 ? enrolledClassPeriod3.class_id : null);
+        }
+        
     };
 
     const handleClassSelection = (period, classId) => {
-        if (period === 1) setSelectedClassPeriod1(classId);
-        if (period === 2) setSelectedClassPeriod2(classId);
-        if (period === 3) setSelectedClassPeriod3(classId);
+
+        const selected_class = RegisterCtrl.classes.find(c => String(c.id) === String(classId));
+        console.log('handleClassSelection period:', period, 'classId:', classId, 'selected_class:', selected_class);
+        if (selected_class.max_grade < 0) { // kindergarten class
+            // find same class name in all periods and select it
+
+            const sameClasses = RegisterCtrl.classes.filter(c => String(c.name) === String(selected_class.name));
+            console.log('handleClassSelection sameClasses:', sameClasses);
+            sameClasses.forEach(sameClass => {
+                if (sameClass.period === 1) setSelectedClassPeriod1(sameClass.id);
+                if (sameClass.period === 2) setSelectedClassPeriod2(sameClass.id);
+                if (sameClass.period === 3) setSelectedClassPeriod3(sameClass.id);
+            });
+
+        }
+        else { // other classes
+            console.log('handleClassSelection classId:', classId);
+            if (period === 1) setSelectedClassPeriod1(classId);
+            if (period === 2) setSelectedClassPeriod2(classId);
+            if (period === 3) setSelectedClassPeriod3(classId);
+        }
     };
 
-    const onSumit = () => {
-        onNext();
-    }
+    const evaluateMandatoryClasses = () => {
+
+        const selectedClasses = [
+            Number(selectedClassPeriod1),
+            Number(selectedClassPeriod2),
+            Number(selectedClassPeriod3)
+        ];
+
+        console.log('evaluateMandatoryClasses selectedClasses:', selectedClasses);
+
+        const mandatoryClasses = RegisterCtrl.classes.filter(c => c.mendatory);
+        console.log('evaluateMandatoryClasses mandatoryClasses:', mandatoryClasses);
+        const selectedMandatoryClasses = mandatoryClasses.filter(c => selectedClasses.includes(c.id));
+        if (selectedMandatoryClasses.length === 0) {
+            alert('필수과목(파란색)을 하나 이상 선택해야 합니다. Please select at least one mandatory class.');
+            return false;
+        }
+
+        return true;
+    };
+
+    const onSumit = async () => {
+        if (!evaluateMandatoryClasses()) {
+            return;
+        }
+
+        // Create enrollment for each selected class
+        const selectedClasses = [
+            Number(selectedClassPeriod1),
+            Number(selectedClassPeriod2),
+            Number(selectedClassPeriod3)
+        ].filter(id => id); // Filter out empty selections
+
+        const enrollments = selectedClasses.map(classId => ({
+            student_id: RegisterCtrl.selected_student.id,
+            class_id: classId,
+            year: RegisterCtrl.year, // Example year, replace with actual value
+            term: RegisterCtrl.term, // Example term, replace with actual value
+            status: 'draft',
+            comment: ''
+        }));
+
+        console.log('onSumit enrollments:', enrollments);
+        const enrollment_control = new EnrollmentCtrl(window.APIURL);
+        const previousEnrollments = RegisterCtrl.enrollments.filter(
+            (enrollment) => enrollment.student_id === RegisterCtrl.selected_student.id
+        );
+
+        try {
+
+            for (const enrollment of enrollments) {
+                await enrollment_control.conditionAddEnrollmentSync(enrollment);
+            }
+
+            // Remove previous enrollments for the selected student
+            try {
+                for (const enrollment of previousEnrollments) {
+                    await enrollment_control.deleteEnrollmentSync(enrollment.id);
+                }
+            } catch (error) {
+                console.error('Error during enrollment removal:', error);
+                alert('An error occurred while removing previous enrollments. Please try again.');
+            }
+
+            enrollment_control.getEnrollment(RegisterCtrl.year, RegisterCtrl.term);
+            onNext();
+
+    } catch (error) {
+            console.error('Error during enrollment submission:', error);
+            alert('An error occurred while submitting enrollments. Please try again.');
+            
+            for (const enrollment of enrollments) {
+                try{
+                    await enrollment_control.deleteEnrollmentSync(enrollment.id);
+                }
+                catch (error) {
+                    console.error('Error during enrollment removal:', error);
+                }
+            }
+            enrollment_control.getEnrollment(RegisterCtrl.year, RegisterCtrl.term);
+        }
+    };
+
+    const getTeacherName = (classItem) => {
+        if (!classItem || !classItem.teacher_id) return 'N/A';
+        const teacher = RegisterCtrl.teachers.find(t => t.id === classItem.teacher_id);
+        return teacher ? teacher.name : 'N/A';
+    };
 
     return (
         <Stack
             direction="column"
-            spacing={2}
+            spacing={1}
         >
-
+            <Typography variant="h8" textAlign="center">
+                필수과목은 파란색으로 표시됩니다. 적어도 1개 이상의 필수과목을 선택하십시오.
+            </Typography>
+            <Typography variant="h8" textAlign="center">
+                Mendatory classes are marked in blue. Please select at least one mandatory class.
+            </Typography>
+            <div style={{ height: '20px' }}></div>
             <Stack direction="row" spacing={2} justifyContent="center">
                 <Stack direction="column" spacing={1} flex={1}>
                     <Typography variant="h6" textAlign="left">1교시(Period 1)</Typography>
@@ -135,8 +236,19 @@ export default function SelectClasses({ onNext, onPrev }) {
                                 key={classItem.id}
                                 value={classItem.id}
                                 control={<Radio />}
-                                disabled={classItem.enrolled_students >= classItem.max_students}
-                                label={`${classItem.name} (${classItem.enrolled_students}명/${classItem.max_students}명)`}
+                                disabled={classItem.enrolled_number >= classItem.max_students}
+                                label={
+                                    <Tooltip
+                                        title={`${getTeacherName(classItem)} 선생님,  Grade ${classItem.min_grade} ~ ${classItem.max_grade}`}
+                                        arrow
+                                    >
+                                        <Typography
+                                            sx={{ color: classItem.mendatory ? 'blue' : 'inherit' }}
+                                        >
+                                            {`${classItem.name} (${classItem.enrolled_number}명/${classItem.max_students}명)`}
+                                        </Typography>
+                                    </Tooltip>
+                                }
                             />
                         ))}
                     </RadioGroup>
@@ -152,8 +264,19 @@ export default function SelectClasses({ onNext, onPrev }) {
                                 key={classItem.id}
                                 value={classItem.id}
                                 control={<Radio />}
-                                disabled={classItem.enrolled_students >= classItem.max_students}
-                                label={`${classItem.name} (${classItem.enrolled_students}명/${classItem.max_students}명)`}
+                                disabled={classItem.enrolled_number >= classItem.max_students}
+                                label={
+                                    <Tooltip
+                                        title={`${getTeacherName(classItem)} 선생님,  Grade ${classItem.min_grade} ~ ${classItem.max_grade}`}
+                                        arrow
+                                    >
+                                        <Typography
+                                            sx={{ color: classItem.mendatory ? 'blue' : 'inherit' }}
+                                        >
+                                            {`${classItem.name} (${classItem.enrolled_number}명/${classItem.max_students}명)`}
+                                        </Typography>
+                                    </Tooltip>
+                                }
                             />
                         ))}
                     </RadioGroup>
@@ -169,8 +292,19 @@ export default function SelectClasses({ onNext, onPrev }) {
                                 key={classItem.id}
                                 value={classItem.id}
                                 control={<Radio />}
-                                disabled={classItem.enrolled_students >= classItem.max_students}
-                                label={`${classItem.name} (${classItem.enrolled_students}명/${classItem.max_students}명)`}
+                                disabled={classItem.enrolled_number >= classItem.max_students}
+                                label={
+                                    <Tooltip
+                                        title={`${getTeacherName(classItem)} 선생님, Grade ${classItem.min_grade} ~ ${classItem.max_grade}`}
+                                        arrow
+                                    >
+                                        <Typography
+                                            sx={{ color: classItem.mendatory ? 'blue' : 'inherit' }}
+                                        >
+                                            {`${classItem.name} (${classItem.enrolled_number}명/${classItem.max_students}명)`}
+                                        </Typography>
+                                    </Tooltip>
+                                }
                             />
                         ))}
                     </RadioGroup>
@@ -178,10 +312,10 @@ export default function SelectClasses({ onNext, onPrev }) {
             </Stack>
 
             <Stack direction="row" spacing={2}>
-                <Button variant="contained" color="primary" fullWidth onClick={onPrev}>
+                <Button variant="contained" color="secondary" fullWidth onClick={onPrev}>
                     Prev(기본정보확인 단계로 이동)
                 </Button>
-                <Button variant="contained" color="primary" fullWidth onClick={onSumit}>
+                <Button variant="contained" color="secondary" fullWidth onClick={onSumit}>
                     Next (최종확인 단계로 이동)
                 </Button>
             </Stack>

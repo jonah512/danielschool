@@ -34,6 +34,9 @@ export default function Login(props) {
   const languageMap = {};
 
   useEffect(() => {
+    localStorage.setItem('parent_email', '');
+    localStorage.setItem('session_key', '');
+
     SessionManager.addDeviceConnectionArbiter("login_window", onDeviceConnectionStatusChanged)
     setLanguage(languageMap[Resource.language]);
     EventPublisher.addEventListener(EventDef.onLanguageChange, MODULE, onLanguageChange);
@@ -74,7 +77,7 @@ export default function Login(props) {
   let cameraImageClickCount = 0;
   const onCameraImageClick = (event) => {
     cameraImageClickCount++;
-    Logger.info(cameraImageClickCount, virtekImageClickCount);
+    console.log(cameraImageClickCount, virtekImageClickCount);
     if (cameraImageClickCount !== virtekImageClickCount) {
       cameraImageClickCount = virtekImageClickCount = 0;
     }

@@ -3,6 +3,7 @@ import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Stack, Box
 import RegisterCtrl from '../../control/RegisterCtrl'; // Import the RegisterCtrl
 import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
+import Defines from '../Defines';
 
 function SelectStudent() {
     const [students, setStudents] = useState(RegisterCtrl.students); // List of students
@@ -10,7 +11,7 @@ function SelectStudent() {
 
     useEffect(() => {
         console.log('SelectStudent students:', students);
-        RegisterCtrl.selected_student =- students[0]; // Set the first student as selected by default
+        RegisterCtrl.selected_student = - students[0]; // Set the first student as selected by default
     }, []);
 
     const handleNext = () => {
@@ -19,14 +20,27 @@ function SelectStudent() {
         console.log('Selected student:', RegisterCtrl.selected_student, students, selectedStudent);
         // Handle the next button click, if needed
         EventPublisher.publish(EventDef.onSelectedStudentChanged, RegisterCtrl.selected_student);
-        EventPublisher.publish(EventDef.onMenuChanged, "EnrollmentRegister");
+
+        console.log('RegisterCtrl.waitingPosition:', RegisterCtrl.waitingPosition);
+        if (RegisterCtrl.waitingPosition > Defines.MAX_WAITING_POSITION) {
+            EventPublisher.publish(EventDef.onMenuChanged, "WaitingRoom");
+        }
+        else {
+            EventPublisher.publish(EventDef.onMenuChanged, "EnrollmentRegister");
+        }
+    }
+
+    const handleExit = () => {
+        RegisterCtrl.selected_student = null; // Clear the selected student
+        EventPublisher.publish(EventDef.onSelectedStudentChanged, null);
+        EventPublisher.publish(EventDef.onMenuChanged, "Login");
     }
 
     return (
-        <Stack 
-            spacing={2} 
-            alignItems="center" 
-            justifyContent="center" 
+        <Stack
+            spacing={2}
+            alignItems="center"
+            justifyContent="center"
 
         >
             <Box component="h2" textAlign="center">수강생 선택</Box>
@@ -53,7 +67,15 @@ function SelectStudent() {
                     ))}
                 </RadioGroup>
             </FormControl>
-            <Button variant="contained" onClick={handleNext}>다음</Button>
+            <Stack
+                spacing={2}
+                alignItems="center"
+                justifyContent="center"
+                direction={'row'}
+            >
+                <Button variant="contained" onClick={handleExit}>로그아웃</Button>
+                <Button variant="contained" onClick={handleNext}>다음</Button>
+            </Stack>
         </Stack>
     );
 }

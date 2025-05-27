@@ -56,7 +56,7 @@ export default function StudentsTable({ search }) {
         setOpenAddStudentDialog(true);
     };
 
-    const handleCloseAddStudentDialog = () => {
+    const handleCloseAddStudentDialog = (student) => {
         setOpenAddStudentDialog(false);
     };
 
@@ -208,7 +208,8 @@ export default function StudentsTable({ search }) {
             {openAddStudentDialog && (
                 <AddNewStudent
                     open={openAddStudentDialog}
-                    onClose={handleCloseAddStudentDialog} // Close dialog
+                    onAddStudent={handleCloseAddStudentDialog} // Close dialog
+                    onClose={()=>openAddStudentDialog(false)} // Close dialog
                 />
             )}
             {openEditStudentDialog && (

@@ -71,11 +71,8 @@ export default function UserMenu(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleLogout} disabled={!UserRole.check('user_menu.logout')}>
-          <LogoutIcon style={{ marginRight: '8px' }} />{Resource.get('login.logout')}
-        </MenuItem>
 
-        <MenuItem onClick={handleLocale} disabled={!UserRole.check('user_menu.language')}>
+        <MenuItem onClick={handleLocale} >
           <LanguageIcon style={{ marginRight: '8px' }} />{Resource.get('usermenu.language')}
           <Menu
             id="language-menu"
@@ -96,6 +93,10 @@ export default function UserMenu(props) {
             }
           </Menu>
         </MenuItem>
+        <MenuItem onClick={handleLogout} >
+          <LogoutIcon style={{ marginRight: '8px' }} />{Resource.get('login.logout')}
+        </MenuItem>
+
       </Menu>
 
     </div>

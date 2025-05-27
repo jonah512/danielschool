@@ -12,7 +12,7 @@ import SessionManager from '../../control/SessionManager';
 import Defines from '../Defines';
 import RegisterCtrl from '../../control/RegisterCtrl';
 
-export default function EditStudent({onNext, student }) {
+export default function EditStudent({onPrev, onNext, student }) {
     const [formData, setFormData] = useState({
         ...student,
         id: student?.id || '',
@@ -162,12 +162,21 @@ export default function EditStudent({onNext, student }) {
                         </MenuItem>
                     ))}
                 </TextField>
+                <Stack spacing={2} direction="row" justifyContent="center" style={{ marginTop: '20px' }}>
                 <Button
                     variant="contained"
-                    color="primary"
+                    color="secondary"
+                    onClick={onPrev}
+                    fullWidth
+                    >Prev(학생선택 단계로 이동)</Button>
+                <Button
+                    variant="contained"
+                    color="secondary"
                     onClick={handleSubmit}
                     fullWidth
                     >Next (과목선택 단계로로 이동)</Button>
+
+                    </Stack>
             </Stack>
         </Box>
     );

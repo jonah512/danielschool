@@ -4,6 +4,7 @@ import RegisterCtrl from '../../control/RegisterCtrl';
 import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
 import Defines from '../Defines';
+import UserMenu from '../user_menu/UserMenu';
 
 function Topbar() {
 
@@ -26,7 +27,7 @@ function Topbar() {
     return (
         <Stack
             direction="row"
-            spacing={2}
+            spacing={4}
             sx={{
                 backgroundColor: '#f4f4f4',
                 padding: '10px 20px',
@@ -51,6 +52,8 @@ function Topbar() {
                     </Typography>
                 </Box>
             )}
+            {selectedStudent && (<UserMenu />)}
+
         </Stack>
     );
 }

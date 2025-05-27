@@ -7,7 +7,7 @@ export default class LoginCtrl {
   }
 
   verifyCredentials(id, password, onLoginVerification) {
-    Logger.info('verifyCredentials:', window.APIURL + "/users/login", password);
+    console.log('verifyCredentials:', window.APIURL + "/users/login", password);
     axios.post(window.APIURL + "/users/login", {
         "email": id, 
         "password": password, 
@@ -15,7 +15,7 @@ export default class LoginCtrl {
       .then(response => {
         Logger.debug('verifyCredentials:' + response.data.success);
         if (response.data.success) {
-          Logger.info('Login successful:', response.data);
+          console.log('Login successful:', response.data);
           // Store the session ID in local storage
           localStorage.setItem('sessionId', response.data.session_id);
           localStorage.setItem('userRole', response.data.user_role);

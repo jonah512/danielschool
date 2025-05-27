@@ -27,6 +27,12 @@ def create_enrollment(enrollment: schemas_entity.EnrollmentCreate, db: Session =
     control = EnrollmentControl(db)
     return control.add(enrollment)
 
+@router.post("/enrollment_condition/", response_model=schemas_entity.Enrollment)
+def create_enrollment(enrollment: schemas_entity.EnrollmentCreate, db: Session = Depends(get_db)):
+    control = EnrollmentControl(db)
+    return control.condition_add(enrollment)
+
+
 @router.get("/enrollment/", response_model=List[schemas_entity.Enrollment])
 def get_enrollment(year: int, term: str, db: Session = Depends(get_db)):
     control = EnrollmentControl(db)
