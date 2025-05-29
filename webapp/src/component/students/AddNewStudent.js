@@ -46,7 +46,7 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
         }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const control = new StudentsCtrl(window.APIURL);
         formData.name = formData.name.trim();
         formData.email = formData.email.trim();
@@ -55,7 +55,7 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
         formData.address = formData.address.trim();
         formData.church = formData.church.trim();
 
-        control.addNewStudent(formData, SessionManager.getSearchWord('Students')); // Call addNewStudent to save the new student
+        await control.addNewStudentSync(formData, SessionManager.getSearchWord('Students')); // Call addNewStudent to save the new student
 
         onAddStudent(formData); // Close the dialog
     };

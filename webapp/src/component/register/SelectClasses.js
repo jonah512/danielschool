@@ -7,7 +7,6 @@ import Defines from '../Defines';
 import dayjs from 'dayjs';
 import ClassesCtrl from '../../control/ClassesCtrl';
 import EnrollmentCtrl from '../../control/EnrollmentCtrl';
-import TeachersCtrl from '../../control/TeachersCtrl';
 
 
 export default function SelectClasses({ onNext, onPrev }) {
@@ -31,11 +30,6 @@ export default function SelectClasses({ onNext, onPrev }) {
         EventPublisher.addEventListener(EventDef.onSelectedStudentChanged, MODULE, onSelectedStudentChanged);
         EventPublisher.addEventListener(EventDef.onTeacherListChange, MODULE, onTeacherListChange);
 
-        const class_control = new ClassesCtrl(window.APIURL);
-        class_control.getClasses(null, RegisterCtrl.year, RegisterCtrl.term);
-        const teacher_control = new TeachersCtrl(window.APIURL);
-        teacher_control.getTeachers();
-
         return () => {
             EventPublisher.removeEventListener(EventDef.onClassListChange, MODULE);
             EventPublisher.removeEventListener(EventDef.onSelectedStudentChanged, MODULE);
@@ -51,19 +45,17 @@ export default function SelectClasses({ onNext, onPrev }) {
     };
 
     const onClassListChange = (classes) => {
-        console.log('onClassListChange classes:', classes);
         RegisterCtrl.classes = classes;
         onClassListEnrollmentChange(classes);
     };
 
     const onTeacherListChange = (teachers) => {
         RegisterCtrl.teachers = teachers;
-        console.log('onTeacherListChange teachers:', teachers);
     }
 
     const onClassListEnrollmentChange = (classes) => {
-        if (!classes ) return;
-        if (classes.length == 0 ) return;
+        if (!classes) return;
+        if (classes.length == 0) return;
 
         const student = RegisterCtrl.selected_student;
 
@@ -82,21 +74,21 @@ export default function SelectClasses({ onNext, onPrev }) {
         // find out classes that are already enrolled by student for each period
         const enrolledClasses = RegisterCtrl.enrollments.filter(e => e.student_id === student.id);
         const enrolledClassPeriod1 = enrolledClasses.find(e => e.class_id && period1.some(c => c.id === e.class_id));
-        const enrolledClassPeriod2 = enrolledClasses.find(e => e.class_id && period2.some(c => c.id === e.class_id));   
+        const enrolledClassPeriod2 = enrolledClasses.find(e => e.class_id && period2.some(c => c.id === e.class_id));
         const enrolledClassPeriod3 = enrolledClasses.find(e => e.class_id && period3.some(c => c.id === e.class_id));
         console.log('onClassListEnrollmentChange enrolledClassPeriod1:', enrolledClassPeriod1);
         console.log('onClassListEnrollmentChange enrolledClassPeriod2:', enrolledClassPeriod2);
         console.log('onClassListEnrollmentChange enrolledClassPeriod3:', enrolledClassPeriod3);
-        if(selectedClassPeriod1 == null || selectedClassPeriod1 == undefined) {
+        if (RegisterCtrl.selectedClassPeriod1 == null || RegisterCtrl.selectedClassPeriod1 == undefined) {
             setSelectedClassPeriod1(enrolledClassPeriod1 ? enrolledClassPeriod1.class_id : null);
         }
-        if(selectedClassPeriod2 == null || selectedClassPeriod2 == undefined) {
+        if (RegisterCtrl.selectedClassPeriod2 == null || RegisterCtrl.selectedClassPeriod2 == undefined) {
             setSelectedClassPeriod2(enrolledClassPeriod2 ? enrolledClassPeriod2.class_id : null);
         }
-        if(selectedClassPeriod3 == null || selectedClassPeriod3 == undefined) {
+        if (RegisterCtrl.selectedClassPeriod3 == null || RegisterCtrl.selectedClassPeriod3 == undefined) {
             setSelectedClassPeriod3(enrolledClassPeriod3 ? enrolledClassPeriod3.class_id : null);
         }
-        
+
     };
 
     const handleClassSelection = (period, classId) => {
@@ -109,17 +101,20 @@ export default function SelectClasses({ onNext, onPrev }) {
             const sameClasses = RegisterCtrl.classes.filter(c => String(c.name) === String(selected_class.name));
             console.log('handleClassSelection sameClasses:', sameClasses);
             sameClasses.forEach(sameClass => {
-                if (sameClass.period === 1) setSelectedClassPeriod1(sameClass.id);
-                if (sameClass.period === 2) setSelectedClassPeriod2(sameClass.id);
-                if (sameClass.period === 3) setSelectedClassPeriod3(sameClass.id);
+                if (sameClass.period === 1) { setSelectedClassPeriod1(sameClass.id); RegisterCtrl.selectedClassPeriod1 = sameClass.id; }
+                if (sameClass.period === 2) { setSelectedClassPeriod2(sameClass.id); RegisterCtrl.selectedClassPeriod2 = sameClass.id; }
+                if (sameClass.period === 3) { setSelectedClassPeriod3(sameClass.id); RegisterCtrl.selectedClassPeriod3 = sameClass.id; }
             });
 
         }
         else { // other classes
-            console.log('handleClassSelection classId:', classId);
-            if (period === 1) setSelectedClassPeriod1(classId);
-            if (period === 2) setSelectedClassPeriod2(classId);
-            if (period === 3) setSelectedClassPeriod3(classId);
+            console.log('handleClassSelection classId:', classId, period);
+            if (period === 1) {
+                setSelectedClassPeriod1(classId);
+                RegisterCtrl.selectedClassPeriod1 = classId;
+            }
+            if (period === 2) { setSelectedClassPeriod2(classId); RegisterCtrl.selectedClassPeriod2 = classId; }
+            if (period === 3) { setSelectedClassPeriod3(classId); RegisterCtrl.selectedClassPeriod3 = classId; }
         }
     };
 
@@ -149,13 +144,37 @@ export default function SelectClasses({ onNext, onPrev }) {
             return;
         }
 
+
+        const previousEnrollments = RegisterCtrl.enrollments.filter(
+            (enrollment) => enrollment.student_id === RegisterCtrl.selected_student.id
+        );
+
+        const prevClassPeriod1 = previousEnrollments.find(e => e.class_id && classes_period_1.some(c => c.id === e.class_id));
+        const prevClassPeriod2 = previousEnrollments.find(e => e.class_id && classes_period_2.some(c => c.id === e.class_id));
+        const prevClassPeriod3 = previousEnrollments.find(e => e.class_id && classes_period_3.some(c => c.id === e.class_id));
+
+        if (prevClassPeriod1 && prevClassPeriod1.class_id == selectedClassPeriod1) {
+            // remove previous enrollment for period 1
+            previousEnrollments.splice(previousEnrollments.indexOf(prevClassPeriod1), 1);
+        }
+        if (prevClassPeriod2 && prevClassPeriod2.class_id == selectedClassPeriod2) {
+            // remove previous enrollment for period 2
+            previousEnrollments.splice(previousEnrollments.indexOf(prevClassPeriod2), 1);
+        }
+        if (prevClassPeriod3 && prevClassPeriod3.class_id == selectedClassPeriod3) {
+            // remove previous enrollment for period 3
+            previousEnrollments.splice(previousEnrollments.indexOf(prevClassPeriod3), 1);
+        }
+
+
         // Create enrollment for each selected class
         const selectedClasses = [
-            Number(selectedClassPeriod1),
-            Number(selectedClassPeriod2),
-            Number(selectedClassPeriod3)
+            prevClassPeriod1 && prevClassPeriod1.class_id == selectedClassPeriod1 ? null : selectedClassPeriod1,
+            prevClassPeriod2 && prevClassPeriod2.class_id == selectedClassPeriod2 ? null : selectedClassPeriod2,
+            prevClassPeriod3 && prevClassPeriod3.class_id == selectedClassPeriod3 ? null : selectedClassPeriod3,
         ].filter(id => id); // Filter out empty selections
 
+        console.log('onSumit selectedClasses:', selectedClasses);
         const enrollments = selectedClasses.map(classId => ({
             student_id: RegisterCtrl.selected_student.id,
             class_id: classId,
@@ -167,9 +186,7 @@ export default function SelectClasses({ onNext, onPrev }) {
 
         console.log('onSumit enrollments:', enrollments);
         const enrollment_control = new EnrollmentCtrl(window.APIURL);
-        const previousEnrollments = RegisterCtrl.enrollments.filter(
-            (enrollment) => enrollment.student_id === RegisterCtrl.selected_student.id
-        );
+
 
         try {
 
@@ -184,18 +201,18 @@ export default function SelectClasses({ onNext, onPrev }) {
                 }
             } catch (error) {
                 console.error('Error during enrollment removal:', error);
-                alert('An error occurred while removing previous enrollments. Please try again.');
+
             }
 
             enrollment_control.getEnrollment(RegisterCtrl.year, RegisterCtrl.term);
             onNext();
 
-    } catch (error) {
+        } catch (error) {
             console.error('Error during enrollment submission:', error);
             alert('An error occurred while submitting enrollments. Please try again.');
-            
+
             for (const enrollment of enrollments) {
-                try{
+                try {
                     await enrollment_control.deleteEnrollmentSync(enrollment.id);
                 }
                 catch (error) {

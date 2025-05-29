@@ -15,10 +15,9 @@ import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
 import Confirmation from './Confirmation';
 import AlertDialog from '../common/AlertDialog';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import { Box } from '@mui/material';
-import UserMenu from '../user_menu/UserMenu';
+import ClassesCtrl from '../../control/ClassesCtrl';
+import EnrollmentCtrl from '../../control/EnrollmentCtrl';
+import TeachersCtrl from '../../control/TeachersCtrl';
 
 export default function EnrollmentRegister() {
 
@@ -29,11 +28,45 @@ export default function EnrollmentRegister() {
 
   useEffect(() => {
     EventPublisher.addEventListener(EventDef.onSelectedStudentChanged, MODULE, onSelectedStudentChanged);
+    EventPublisher.addEventListener(EventDef.onClassListChange, MODULE, onClassListChange);
+    EventPublisher.addEventListener(EventDef.onTeacherListChange, MODULE, onTeacherListChange);
+    EventPublisher.addEventListener(EventDef.onEnrollmentListChange, MODULE, onEnrollmentListChange);
+
+    const fetchData = () => {
+      const class_control = new ClassesCtrl(window.APIURL);
+      class_control.getClasses(null, RegisterCtrl.year, RegisterCtrl.term);
+      const teacher_control = new TeachersCtrl(window.APIURL);
+      teacher_control.getTeachers();
+      const enrollment_control = new EnrollmentCtrl(window.APIURL);
+      enrollment_control.getEnrollment(RegisterCtrl.year, RegisterCtrl.term);
+    };
+
+    fetchData(); // Initial call
+
+    const intervalId = setInterval(fetchData, 5000); // Call every 60 seconds
+
     return () => {
+      clearInterval(intervalId); // Clear interval on cleanup
       EventPublisher.removeEventListener(EventDef.onSelectedStudentChanged, MODULE);
+      EventPublisher.removeEventListener(EventDef.onClassListChange, MODULE);
+      EventPublisher.removeEventListener(EventDef.onTeacherListChange, MODULE);
+      EventPublisher.removeEventListener(EventDef.onEnrollmentListChange, MODULE);
     };
 
   }, []);
+
+  const onEnrollmentListChange = (enrollments) => {
+    RegisterCtrl.enrollments = enrollments;
+  };
+  
+  const onClassListChange = (classes) => {
+    RegisterCtrl.classes = classes;
+};
+
+const onTeacherListChange = (teachers) => {
+    RegisterCtrl.teachers = teachers;
+}
+
 
   const onSelectedStudentChanged = (student) => {
     console.log('onSelectedStudentChanged student : ', student);
@@ -130,7 +163,7 @@ export default function EnrollmentRegister() {
         onClose={() => setShowConfirmation(false)}
         Title="등록 확인"
         Content="등록을 완료하시겠습니까?"
-        onNo={() => setShowConfirmation(false)}
+        onNo={() => {setShowConfirmation(false);}}
         onYes={() => {
           setShowConfirmation(false);
           RegisterCtrl.selected_student = null; // Clear selected student

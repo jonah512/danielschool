@@ -124,7 +124,11 @@ export default function StudentsTable({ search }) {
     const columns = [
         { field: 'id', headerName: Resource.get('students.id'), width: 90 },
         { field: 'name', headerName: Resource.get('students.name'), width: 150 },
-        { field: 'birth_date', headerName: Resource.get('students.birthdate'), width: 150 },
+        { field: 'birth_date', headerName: Resource.get('students.birthdate'), width: 150,
+            renderCell: (params) => {
+            return dayjs(params.value).format('YYYY-MM-DD');
+            }
+         },
         { field: 'grade', headerName: Resource.get('students.grade'), width: 150, 
             renderCell: (params) => {
                 const grade = Defines.gradeOptions.find(grade => grade.value === params.value);

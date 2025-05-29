@@ -4,7 +4,7 @@ import Logger from "../framework/logger/Logger";
 
 import EventPublisher from '../framework/event/EventPublisher';
 import { EventDef } from '../framework/event/EventDef';
-
+import SchedulesCtrl from '../control/SchedulesCtrl'; // Import SchedulesCtrl
 
 class RegisterCtrlObj {
   parent_email = '';
@@ -13,13 +13,21 @@ class RegisterCtrlObj {
   classes = [];
   enrollments = [];
   teachers = []
-  year = 2025;
-  term = 'spring';
+  year = 0;
+  term = '';
   sessionCheckInterval = null;
   waitingPosition = 0;
-
+  selectedClassPeriod1 = null;
+  selectedClassPeriod2 = null;
+  selectedClassPeriod3 = null;
+  scheduleCheckInterval = null;
+  latestSchedule = null;
+  currentDateTime = new Date();
+  openingDate = new Date();
+  closingDate = new Date();
+  timeGap = 0;
   constructor() {
-    this.parent_email = localStorage.getItem('parent_email');
+    this.parent_email = localStorage.getItem('parent_email');   
   }
 
   findEmail(email, onSuccess, onError) {
@@ -110,6 +118,9 @@ class RegisterCtrlObj {
     localStorage.removeItem('session_key');
     this.parent_email = null;
     this.selected_student = null;
+    this.selectedClassPeriod1 = null;
+    this.selectedClassPeriod2 = null;
+    this.selectedClassPeriod3 = null;
 
   }
 
@@ -135,6 +146,21 @@ class RegisterCtrlObj {
       .catch(error => Logger.error("Error updating student:", error));
   }
 
+  startScheduleCheck() {
+    console.log('Starting schedule check...');
+    const schedule_control = new SchedulesCtrl(window.APIURL);
+    this.scheduleCheckInterval = setInterval(() => {
+      schedule_control.getSchedules();
+    }, 10 * 1000); // 10 seconds
+  }
+
+  stopScheduleCheck() {
+    if (this.scheduleCheckInterval) {
+      clearInterval(this.scheduleCheckInterval);
+      this.scheduleCheckInterval = null;
+      console.log('Schedule check stopped.');
+    }
+  }
 
 }
 

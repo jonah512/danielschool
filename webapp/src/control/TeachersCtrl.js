@@ -16,7 +16,6 @@ export default class TeacherCtrl {
     axios
       .get(this.#url + "/teachers", { params: { name: search } })
       .then(response => {
-        console.log("Fetched Teachers:", response.data);
         EventPublisher.publish(EventDef.onTeacherListChange, response.data);
       })
       .catch(error => Logger.error("Error fetching teachers:", error));

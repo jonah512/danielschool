@@ -33,6 +33,7 @@ import Teachers from './component/teachers/Teachers';
 import Classes from './component/classes/Classes';
 import EnrollmentStudent from './component/enrollment_student/EnrollmentStudent';
 import ClassroomManager from './component/classroom_manage/ClassroomManager';
+import Schedules from './component/schedule/Schedules';
 
 const drawerWidth = 240;
 
@@ -147,8 +148,10 @@ export default function DanielAdminApp() {
         return (<Classes />);
       case 'EnrollmentStudent':
         return (<EnrollmentStudent />);
-        case 'ClassroomManager':
-          return (<ClassroomManager />);
+      case 'ClassroomManager':
+        return (<ClassroomManager />);
+      case 'Schedules':
+        return (<Schedules />);
       default:
         return (selectedMenu);
     }
@@ -202,7 +205,7 @@ export default function DanielAdminApp() {
             <Divider sx={{ my: 1 }} />
             <LeftMenuRelations onMenuChanged={onMenuChanged} SelectedMenu={selectedMenu} />
             <Divider sx={{ my: 1 }} />
-            
+
           </List>
         </Drawer>
         <Box

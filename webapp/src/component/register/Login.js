@@ -78,7 +78,7 @@ export default function Login(props) {
 
     }, (error) => {
       Logger.error('Error finding email:', error);
-      alert('이메일을 찾을 수가 없습니다. 다시 시도해 주세요.');
+      alert(Resource.get('register.cannot_find_email'));
     });
   };
 
@@ -95,15 +95,9 @@ export default function Login(props) {
 
     }, (error) => {
       Logger.error('Error finding email:', error);
-      alert('이메일을 찾을 수가 없습니다. 다시 시도해 주세요.');
+      alert(Resource.get('register.cannot_find_email'));
     });
   };
-
-  const handleLanguageChange = (value) => {
-    Logger.debug('handleLanguageChange:', Resource.getLanguages()[value]);
-    Resource.setLanguage(Resource.getLanguages()[value]);
-    setLanguage(value);
-  }
 
   return (
 
@@ -111,26 +105,17 @@ export default function Login(props) {
       direction="column"
       justifyContent="center"
       alignItems="center"
-      sx={{ width: '500px' }}
+      sx={{ width: '560px' }}
     >
 
       <Box sx={{ height: 50 }} />
-      {/* <Box sx={{ marginTop: 2, mt: 1 }}>
-          {Resource.getLanguages().length > 0 ?
-            <Select
-              fullWidth
-              List={Resource.getLanguages()}
-              Value={language} Title={Resource.get("usermenu.language")}
-              onValueChanged={handleLanguageChange}
-            /> : ''}
-        </Box>
-      <Box sx={{ height: 20 }} /> */}
+
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, width: '100%' }}>
         <Typography textAlign={'left'} >
-          {'지난 2025년 봄학기 등록되었던 학생이면, 아래에서 등록시 사용되었던 부모님의 Email 주소를 입력해 주세요.'}
+          {Resource.get('register.guide_korean')}
         </Typography>
         <Typography textAlign={'left'} >
-          {'If you child was a student of previous term(spring term of year 2025), please enter the email address.'}
+        {Resource.get('register.guide_english')}
         </Typography>
 
         <TextField
@@ -138,7 +123,7 @@ export default function Login(props) {
           required
           fullWidth
           id="id"
-          label={"Find Parent's Email or phone numer : "}
+          label={Resource.get('register.find_email')}
           name="id"
           autoFocus
           onChange={(e) => {
@@ -159,11 +144,11 @@ export default function Login(props) {
           disabled={!foundEmail}
           onClick={onSearchEmail}
         >
-          {'2025년 가을학기 수강신청청 시작하기'}
+        {Resource.get('register.start_registration', RegisterCtrl.year, RegisterCtrl.term)}
         </Button>
         <Box sx={{ height: 30 }} />
         <Typography textAlign={'center'} >
-          {'Or register from scratch if your child is new to the school.'}
+          {Resource.get('register.guide2')}
         </Typography>
         <Button
           type="submit"
@@ -173,7 +158,7 @@ export default function Login(props) {
           startIcon={<LoginIcon />}
           onClick={startNewRegistration}
         >
-          {'신규 학생으로 2025년 가을학기 수강신청 시작하기'}
+        {Resource.get('register.create_new_student', RegisterCtrl.year, RegisterCtrl.term)}
         </Button>
 
         {false ? (

@@ -26,7 +26,6 @@ export default function App(props) {
     })();
 
     return () => {
-      clearInterval(SessionManager.connectionTimer);
     }
   }, [props, window.APIURL]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -69,11 +68,9 @@ export default function App(props) {
   return (
     <div>
       {
-
-          window.location.pathname === '/manager' ? 
-            (isLoggedIn ? <DanielAdminApp /> : <Login onLogin={handleLogin} />) : 
-            (<Register />)
-
+        new URLSearchParams(window.location.search).get('manager') === 'yes' ? 
+          (isLoggedIn ? <DanielAdminApp /> : <Login onLogin={handleLogin} />) : 
+          (<Register />)
       }
       <div>
         {loginFail &&

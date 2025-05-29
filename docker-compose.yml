@@ -12,7 +12,8 @@ services:
       dockerfile: Dockerfile  
     container_name: daniel-service
     ports:
-      - "8080:8080"
+      - "8080:8080"  # Map Uvicorn port
+      - "80:80"      # Map Apache port
     volumes:
       - daniel_data:/home/data
     environment:

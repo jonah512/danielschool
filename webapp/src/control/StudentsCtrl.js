@@ -33,14 +33,15 @@ export default class StudentCtrl {
     }
   }
 
-  addNewStudent(studentData, search = '') {
+  async addNewStudentSync(studentData, search = '') {
     console.log('Adding new student:', studentData);
-    axios
-      .post(this.#url + "/students", studentData)
-      .then(response => {
-        this.getStudents(search);
-      })
-      .catch(error => Logger.error("Error adding student:", error));
+    try {
+      const response = await axios.post(this.#url + "/students", studentData);
+      console.log("Student added successfully:", response.data);
+      this.getStudents(search);
+    } catch (error) {
+      Logger.error("Error adding student:", error);
+    }
   }
 
   updateStudent(studentId, studentData, search = '') {

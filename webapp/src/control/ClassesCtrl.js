@@ -21,7 +21,6 @@ export default class ClassesCtrl {
     axios
       .get(this.#url + "/classes", { params: { name: search, year: year, term: term } })
       .then(response => {
-        console.log("Fetche classes:", response.data);
         EventPublisher.publish(EventDef.onClassListChange, response.data);
       })
       .catch(error => Logger.error("Error fetching classes:", error));

@@ -15,7 +15,7 @@ def get_db():
     finally:
         db.close()
 
-router = APIRouter(prefix="/session", tags=["session"])
+router = APIRouter()
 session_control = SessionControl(get_db)
 
 @router.get("/GetServerStatus")

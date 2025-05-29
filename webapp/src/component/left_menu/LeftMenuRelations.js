@@ -11,6 +11,7 @@ import Resource from '../../framework/resource/Resource';
 import UserRole from '../../framework/user_role/UserRole';
 import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
 import RoomPreferencesIcon from '@mui/icons-material/RoomPreferences';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 export default function LeftMenuRelations(props) {
 
@@ -67,6 +68,25 @@ export default function LeftMenuRelations(props) {
           <ListItemText primary={Resource.get('menu.classroommanager')} sx={{ color: selectedMenu === 'ClassroomManager' ? "#FFFFFF" : "inherit" }} />
         </ListItemButton>
       </List>
+      <List>
+        <ListItemButton
+          sx={{
+            "&.Mui-selected": {
+              backgroundColor: "#641c71",
+              color: "#000000",
+              ":hover": { backgroundColor: "#D4A8DC" }
+            },
+            ":hover": { backgroundColor: "#D4A8DC" }
+          }}
+          selected={selectedMenu === 'Schedules'}
+          onClick={(event) => handleListItemClick(event, 'Schedules')}>
+          <ListItemIcon sx={{ color: selectedMenu === 'Schedules' ? "#FFFFFF" : "inherit" }}>
+            <CalendarMonthIcon />
+          </ListItemIcon>
+          <ListItemText primary={Resource.get('menu.schedule')} sx={{ color: selectedMenu === 'Schedules' ? "#FFFFFF" : "inherit" }} />
+        </ListItemButton>
+      </List>
+      
     </React.Fragment>
   );
 };

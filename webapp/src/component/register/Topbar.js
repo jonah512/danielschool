@@ -5,6 +5,7 @@ import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
 import Defines from '../Defines';
 import UserMenu from '../user_menu/UserMenu';
+import Resource from '../../framework/resource/Resource';
 
 function Topbar() {
 
@@ -20,7 +21,7 @@ function Topbar() {
     }, []);
 
     const onSelectedStudentChanged = (student) => {
-        console.log('onSelectedStudentChanged student : ' + student);
+        console.log('onSelectedStudentChanged student : ', student);
         setSelectedStudent(student);
     };
 
@@ -40,15 +41,15 @@ function Topbar() {
             <img src="daniel_logo.png" width='70' alt='Daniel School Register Web'></img>
 
             <Typography variant="h4" sx={{ color: '#333', textAlign: 'center' }}>
-                2025년 가을학기 수강신청
+                {Resource.get("topbar.title", RegisterCtrl.year, Resource.get('topbar.' + RegisterCtrl.term))}
             </Typography>
             {selectedStudent && (
                 <Box>
                     <Typography variant="body1" sx={{ fontSize: '18px', color: '#555', textAlign: 'center' }}>
-                        이름: <strong>{selectedStudent.name}</strong>
+                        {Resource.get('topbar.name')} <strong>{selectedStudent.name}</strong>
                     </Typography>
                     <Typography variant="body1" sx={{ fontSize: '18px', color: '#555', textAlign: 'center' }}>
-                        학년: <strong>{Defines.gradeOptions.find(option => option.value === selectedStudent.grade).label}</strong>
+                        {Resource.get('topbar.grade')} <strong>{Defines.gradeOptions.find(option => option.value === selectedStudent.grade)?.label}</strong>
                     </Typography>
                 </Box>
             )}

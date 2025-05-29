@@ -70,6 +70,8 @@ class SessionControl:
 
     def remove_disconnected(self):
         """Remove sessions that have not been accessed in the last 30 minutes."""
+        if len(self.session_queue) == 0:
+            return True
         current_time = datetime.now()
         self.session_queue = [
             session for session in self.session_queue

@@ -102,3 +102,17 @@ class Enrollment(EnrollmentBase):
     class Config:
         orm_mode = True
 
+class ScheduleBase(BaseModel):
+    year: int
+    term: str
+    opening_time: datetime
+    closing_time: datetime
+
+class ScheduleCreate(ScheduleBase):
+    pass
+
+class Schedule(ScheduleBase):
+    id: int
+    class Config:
+        orm_mode = True
+

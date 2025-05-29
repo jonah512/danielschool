@@ -55,14 +55,12 @@ export default function WaitingRoom({ onNext, onPrev }) {
     };
 
     const onClassListChange = (classes) => {
-        console.log('onClassListChange classes:', classes);
         RegisterCtrl.classes = classes;
         onClassListEnrollmentChange(classes);
     };
 
     const onTeacherListChange = (teachers) => {
         RegisterCtrl.teachers = teachers;
-        console.log('onTeacherListChange teachers:', teachers);
     }
 
     const onClassListEnrollmentChange = (classes) => {

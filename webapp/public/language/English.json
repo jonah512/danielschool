@@ -44,7 +44,8 @@
     "teachers": "Teachers",
     "classes": "Classes",
     "enrollment": "Enrollment",
-    "classroommanager": "Classroom Manager"
+    "classroommanager": "Class Room Manager",
+    "schedule": "Enrollment Schedule"
   },
   "users": {
     "id": "ID",
@@ -80,7 +81,6 @@
     "grade": "Grade",
     "bulk_upload": "Bulk Upload"
   },
-
   "teachers": {
     "id":"ID",
     "title": "Add A New Teacher",
@@ -129,5 +129,42 @@
     "add_student": "Add Student",
     "remove_student_tilte": "Remove Student",
     "remove_student_content": "Are you sure you want to remove this student, '{0}'?"
-   }
+   },
+   "schedules": {
+    "id":"ID",
+    "title": "Add A New Schedule",
+    "year": "Year",
+    "term": "Term",
+    "opening_time": "Opening Time",
+    "closing_time": "Closing Time",
+    "deletetitle": "Delete Schedule",
+    "deletecontent": "Are you sure you want to delete this schedules?",
+    "edit_title": "Edit Schedule"
+  },
+  "topbar":{
+    "title": "Year {0}, {1} Enrollment",
+    "name": "Student Name:",
+    "grade": "Grade:",
+    "spring": "Spring Term",
+    "fall": "Fall Term"
+  },
+  "student_selection": {
+    "year": "Year",
+    "term": "Term",
+    "class_name": "Class Name",
+    "updated_at": "Updated",
+    "delete_title": "Delete Student Selection",
+    "delete_content": "Are you sure you want to delete this student?",
+    "select_class": "Enrollment Selection",
+    "logout": "Log out"
+  },
+  "register": {
+    "guide_korean": "지난 학기 등록되었던 학생이면, 아래에서 등록시 사용되었던 부모님의 Email 주소를 입력해 주세요.",
+    "guide_english": "If you have registered in the past, please enter the parent's email address used for registration below.",
+    "start_registration": "Start Registration. {0}년 {1}학기 수강신청 시작하기",
+    "guide2": "Or register from scratch if your child is new to the school.",
+    "create_new_student": "New Student. 신규 학생으로 {0}년 {1}학기 수강신청 시작하기",
+    "cannot_find_email": "Cannot find the email address. Please check the email address and try again.",
+    "find_email": "Find Parent's Email or phone numer : "
+  }
 }

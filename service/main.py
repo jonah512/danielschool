@@ -6,6 +6,7 @@ from .routers.teacher_router import router as teacher_router
 from .routers.user_router import router as user_router
 from .routers.session_router import router as session_router
 from .routers.enrollment_router import router as enrollment_router
+from .routers.schedule_router import router as schedule_router
 app = FastAPI()
 
 app.add_middleware(
@@ -22,3 +23,4 @@ app.include_router(teacher_router, tags=["Teacher"])
 app.include_router(user_router, tags=["User"])
 app.include_router(session_router, tags=["Session"])
 app.include_router(enrollment_router, tags=["Enrollment"])
+app.include_router(schedule_router, tags=["Schedule"])

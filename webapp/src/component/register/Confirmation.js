@@ -34,6 +34,7 @@ export default function Confirmation({ onNext, student }) {
     const onEnrollmentListChange = (enrollments) => {
         RegisterCtrl.enrollments = enrollments;
         const studentEnrollments = RegisterCtrl.enrollments.filter(e => e.student_id === student.id);
+        console.log('onEnrollmentListChange studentEnrollments:', studentEnrollments);
         const classes = studentEnrollments.map(e => {
             const classInfo = RegisterCtrl.classes.find(c => c.id === e.class_id);
             return {

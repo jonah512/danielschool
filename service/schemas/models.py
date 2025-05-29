@@ -80,3 +80,14 @@ class Enrollment(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+
+class Schedule(Base):
+    __tablename__ = "Schedule"
+    __table_args__ = {"sqlite_autoincrement": True}  # Ensure IDs are not reused in SQLite
+    
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    year = Column(Integer)
+    term = Column(String)  # spring, or fall
+    opening_time = Column(DateTime)
+    closing_time = Column(DateTime)
+
