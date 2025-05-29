@@ -23,7 +23,7 @@ class ResourceObj {
   #testingMode = false;
 
   #load() {
-    this.language = localStorage.getItem('selectedLanguage') || 'English';
+    this.language = localStorage.getItem('selectedLanguage') || 'Korean';
     if (this.languageObjects[this.language]) {
       this.#resource = this.languageObjects[this.language].getResource();
       console.log('this.#resource:', this.#resource);
