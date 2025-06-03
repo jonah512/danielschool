@@ -19,6 +19,8 @@ import Blocked from './Blocked';
 import ScheduleCtrl from '../../control/SchedulesCtrl';
 import EnrollmentCtrl from '../../control/EnrollmentCtrl';
 import ClassesCtrl from '../../control/ClassesCtrl';
+import ConfirmConsent from './ConfirmConsent';
+
 const drawerWidth = 240;
 
 const defaultTheme = createTheme({
@@ -36,7 +38,7 @@ const defaultTheme = createTheme({
 });
 
 export default function Register() {
-  const [selectedMenu, setSelectedMenu] = React.useState('Login');
+  const [selectedMenu, setSelectedMenu] = React.useState('ConfirmConsent');
   const [language, setLanguage] = React.useState(Resource.language);
   const languageMap = {};
   const MODULE = 'Register';
@@ -49,6 +51,7 @@ export default function Register() {
     EventPublisher.addEventListener(EventDef.onClassListChange, MODULE, (classes) => {
       RegisterCtrl.classes = classes;
     });
+
 
     EventPublisher.addEventListener(EventDef.onEnrollmentListChange, MODULE, (enrollments) => { RegisterCtrl.enrollments = enrollments; });
     RegisterCtrl.startScheduleCheck(); // Start schedule checking on initialization
@@ -87,7 +90,7 @@ export default function Register() {
     const closingTime = lastSchedule.closing_time;
     RegisterCtrl.currentDateTime = currentDateTime;
     RegisterCtrl.timeGap = Date.now() - new Date(currentDateTime).getTime();
-    
+
     console.log('Current Time Gap:', RegisterCtrl.timeGap);
     const currentDate = new Date(currentDateTime);
     const openingDate = new Date(openingTime);
@@ -97,7 +100,7 @@ export default function Register() {
     console.log('Opening Time:', openingDate);
     console.log('Closing Time:', closingDate);
 
-    if(RegisterCtrl.year != lastSchedule.year || RegisterCtrl.term != lastSchedule.term) {
+    if (RegisterCtrl.year != lastSchedule.year || RegisterCtrl.term != lastSchedule.term) {
       const enroll_control = new EnrollmentCtrl(window.APIURL);
       enroll_control.getEnrollment(lastSchedule.year, lastSchedule.term);
     }
@@ -109,8 +112,8 @@ export default function Register() {
 
     if (currentDate >= openingDate && currentDate <= closingDate) {
       if (selectedMenu === 'Blocked') {
-      Logger.info('Register is open');
-      setSelectedMenu('Login');
+        Logger.info('Register is open');
+        setSelectedMenu('Login');
       }
     } else {
       Logger.info('Register is closed');
@@ -140,6 +143,8 @@ export default function Register() {
         return (<WaitingRoom />);
       case 'Blocked':
         return (<Blocked />);
+      case 'ConfirmConsent':
+        return (<ConfirmConsent consentList={RegisterCtrl.consents}/>);
       default:
         return (selectedMenu);
     }
@@ -162,7 +167,7 @@ export default function Register() {
           }}
         >
           <Container maxWidth='2200' className='main_content' sx={{ width: '100%' }} spacing={3}>
-            <Stack direction='column' spacing={2} alignItems='center' justifyContent='center' sx={{ height: '100%' }}>
+            <Stack direction='column' spacing={2} alignItems='center' justifyContent='center' sx={{ }}>
 
               <Tobbar />
 

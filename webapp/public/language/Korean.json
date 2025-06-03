@@ -45,7 +45,8 @@
     "classes": "수업",
     "enrollment": "수강신청",
     "classroommanager": "교실 관리자",
-    "schedule": "수강신청 일정"
+    "schedule": "수강신청 일정",
+    "consents": "동의서"
   },
   "users": {
     "id": "아이디",
@@ -140,6 +141,19 @@
     "deletetitle": "일정 삭제",
     "deletecontent": "이 일정을 삭제하시겠습니까?",
     "edit_title": "일정 수정"
+  },
+  "consents": {
+    "id":"아이디",
+    "title": "새 동의서 추가",
+    "name": "이름",
+    "content": "내용(한국어)",
+    "content_eng": "내용(영어)",
+    "deletetitle": "동의서 삭제",
+    "deletecontent": "이 동의서를 삭제하시겠습니까?",
+    "edit_title": "동의서 수정",
+    "consent_title": "동의서 작성",
+    "agree": "동의합니다.",
+    "start_enrollment": "수강신청 시작하기"
   },
   "topbar": {
     "title": "{0}년 {1} 수강신청",

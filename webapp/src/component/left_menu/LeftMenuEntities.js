@@ -17,6 +17,8 @@ import HighlightAltIcon from '@mui/icons-material/HighlightAlt';
 import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import SensorDoorIcon from '@mui/icons-material/SensorDoor';
+import SummarizeIcon from '@mui/icons-material/Summarize';
+
 export default function LeftMenuEntities(props) {
 
   const [selectedMenu, SetSelectedMenu] = React.useState(props.SelectedMenu);
@@ -90,6 +92,24 @@ export default function LeftMenuEntities(props) {
           <ListItemText primary={Resource.get('menu.classes')} sx={{ color: selectedMenu === 'Classes' ? "#FFFFFF" : "inherit" }} />
         </ListItemButton>
       </List>
+      <List>
+        <ListItemButton
+          sx={{
+            "&.Mui-selected": {
+              backgroundColor: "#641c71",
+              color: "#000000",
+              ":hover": { backgroundColor: "#D4A8DC" }
+            },
+            ":hover": { backgroundColor: "#D4A8DC" }
+          }}
+          selected={selectedMenu === 'Consents'}
+          onClick={(event) => handleListItemClick(event, 'Consents')}>
+          <ListItemIcon sx={{ color: selectedMenu === 'Consents' ? "#FFFFFF" : "inherit" }}>
+            <SummarizeIcon />
+          </ListItemIcon>
+          <ListItemText primary={Resource.get('menu.consents')} sx={{ color: selectedMenu === 'Consents' ? "#FFFFFF" : "inherit" }} />
+        </ListItemButton>
+      </List>   
     </React.Fragment>
   );
 };

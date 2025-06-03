@@ -14,5 +14,6 @@ export const EventDef = {
   onMenuChanged: 'onMenuChanged',
   onStudentSelected: 'onStudentSelected',
   onWaitingPosition: 'onWaitingPosition',
-  onScheduleListChange: 'onScheduleListChange'
+  onScheduleListChange: 'onScheduleListChange',
+  onConsentListChange: 'onConsentListChange'
 };

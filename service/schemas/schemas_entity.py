@@ -116,3 +116,17 @@ class Schedule(ScheduleBase):
     class Config:
         orm_mode = True
 
+
+class ConsentBase(BaseModel):
+    title: str
+    content: str
+    content_eng: str
+
+class ConsentCreate(ConsentBase):
+    pass
+
+class Consent(ConsentBase):
+    id: int
+    class Config:
+        orm_mode = True
+

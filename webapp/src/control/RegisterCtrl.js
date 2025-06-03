@@ -12,7 +12,8 @@ class RegisterCtrlObj {
   selected_student = null;
   classes = [];
   enrollments = [];
-  teachers = []
+  teachers = [];
+  consents = [];
   year = 0;
   term = '';
   sessionCheckInterval = null;

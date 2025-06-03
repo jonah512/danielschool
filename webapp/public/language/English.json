@@ -45,7 +45,8 @@
     "classes": "Classes",
     "enrollment": "Enrollment",
     "classroommanager": "Class Room Manager",
-    "schedule": "Enrollment Schedule"
+    "schedule": "Enrollment Schedule",
+    "consents": "Consents"
   },
   "users": {
     "id": "ID",
@@ -140,6 +141,19 @@
     "deletetitle": "Delete Schedule",
     "deletecontent": "Are you sure you want to delete this schedules?",
     "edit_title": "Edit Schedule"
+  },
+  "consents": {
+    "id":"ID",
+    "title": "Add A New Consent",
+    "name": "Title",
+    "content": "Content in Korean",
+    "content_eng": "Content in English",
+    "deletetitle": "Delete Consent",
+    "deletecontent": "Are you sure you want to delete this consents?",
+    "edit_title": "Edit Consent",
+    "consent_title": "Consent Forms",
+    "agree": "I Agree",
+    "start_enrollment": "Start Enrollment"
   },
   "topbar":{
     "title": "Year {0}, {1} Enrollment",

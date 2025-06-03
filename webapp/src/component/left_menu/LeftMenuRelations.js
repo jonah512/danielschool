@@ -85,8 +85,7 @@ export default function LeftMenuRelations(props) {
           </ListItemIcon>
           <ListItemText primary={Resource.get('menu.schedule')} sx={{ color: selectedMenu === 'Schedules' ? "#FFFFFF" : "inherit" }} />
         </ListItemButton>
-      </List>
-      
+      </List>   
     </React.Fragment>
   );
 };

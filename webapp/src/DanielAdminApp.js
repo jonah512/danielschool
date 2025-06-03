@@ -34,6 +34,7 @@ import Classes from './component/classes/Classes';
 import EnrollmentStudent from './component/enrollment_student/EnrollmentStudent';
 import ClassroomManager from './component/classroom_manage/ClassroomManager';
 import Schedules from './component/schedule/Schedules';
+import Consents from './component/consents/Consents';
 
 const drawerWidth = 240;
 
@@ -152,6 +153,8 @@ export default function DanielAdminApp() {
         return (<ClassroomManager />);
       case 'Schedules':
         return (<Schedules />);
+      case 'Consents':
+        return (<Consents />);
       default:
         return (selectedMenu);
     }

@@ -1,6 +1,6 @@
 ﻿# Copyright (c) 2025 Milal Daniel Korean School.
 
-from sqlalchemy import Column, Integer, String, DateTime, Float, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, Float, ForeignKey, TEXT  # Updated import
 from sqlalchemy.orm import relationship
 from ..db_config import Base
 from datetime import datetime
@@ -90,4 +90,18 @@ class Schedule(Base):
     term = Column(String)  # spring, or fall
     opening_time = Column(DateTime)
     closing_time = Column(DateTime)
+
+
+
+class Consent(Base):
+    __tablename__ = "Consent"
+    __table_args__ = {"sqlite_autoincrement": True}  # Ensure IDs are not reused in SQLite
+    
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    title = Column(String)
+    content = Column(TEXT)  # Changed to TEXT
+    content_eng = Column(TEXT)  # Changed to TEXT
+
+
+
 
