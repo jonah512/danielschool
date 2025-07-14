@@ -27,8 +27,10 @@ export default function AddNewClass({ open, onClose }) {
         min_grade: 1,
         max_grade: 5,
         max_students: 10,
+        min_korean_level: 1,
+        max_korean_level: 12,
         period: 1,
-        mendatory: 'no',
+        mendatory: 'no',        
         fee: 100.1
     });
     const [teachers, setTeachers] = useState([]);
@@ -114,7 +116,7 @@ export default function AddNewClass({ open, onClose }) {
                         fullWidth
                         SelectProps={{
                             native: true,
-                          }}
+                        }}
                         variant="outlined"
                     >
                         {years.map((year) => (
@@ -175,6 +177,34 @@ export default function AddNewClass({ open, onClose }) {
                     >
                         {Defines.gradeOptions.map(option => (
                             <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                    <TextField
+                        select
+                        label={Resource.get('classes.min_korean_level')}
+                        name="min_korean_level"
+                        value={formData.min_korean_level}
+                        onChange={handleChange}
+                        fullWidth
+                    >
+                        {Defines.koreanLevelOptions.map((option) => (
+                            <MenuItem key={option.label} value={option.level}>
+                                {option.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                    <TextField
+                        select
+                        label={Resource.get('classes.max_korean_level')}
+                        name="max_korean_level"
+                        value={formData.max_korean_level}
+                        onChange={handleChange}
+                        fullWidth
+                    >
+                        {Defines.koreanLevelOptions.map((option) => (
+                            <MenuItem key={option.label} value={option.level}>
                                 {option.label}
                             </MenuItem>
                         ))}

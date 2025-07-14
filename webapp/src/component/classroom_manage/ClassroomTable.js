@@ -63,12 +63,12 @@ export default function ClassroomTable({ search, year, term }) {
         const intervalId = setInterval(() => {
             student_control.getStudents(search);
             enrollment_control.getEnrollment(year, term);
-            class_control.getClasses(search, year, term);
+            class_control.getClasses(null, year, term);
         }, 3000);
 
         student_control.getStudents(search);
         enrollment_control.getEnrollment(year, term);
-        class_control.getClasses(search, year, term);
+        class_control.getClasses(null, year, term);
 
         EventPublisher.addEventListener(EventDef.onStudentListChange, MODULE, onStudentListChange);
         EventPublisher.addEventListener(EventDef.onEnrollmentListChange, MODULE, onEnrollmentListChange);

@@ -8,7 +8,7 @@ import Resource from '../../framework/resource/Resource';
 import SessionManager from '../../control/SessionManager';
 
 export default function ClassroomManager() {
-  const [searchWord, setSearchWord] = React.useState(SessionManager.getSearchWord('Enrollment'));
+  const [searchWord, setSearchWord] = React.useState(SessionManager.getSearchWord('ClassroomManager'));
   const [selectedYear, setSelectedYear] = useState(SessionManager.getSearchWord('Enrollment_Year') || '2025');
   const [selectedTerm, setSelectedTerm] = useState(SessionManager.getSearchWord('Enrollment_Term') || 'spring');
 
@@ -76,7 +76,7 @@ export default function ClassroomManager() {
           ))}
         </TextField>
         <TextField
-          label="Search"
+          label={Resource.get("common.search")}
           variant="outlined"
           value={searchWord}
           onChange={handleSearchChange}

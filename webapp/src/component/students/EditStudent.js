@@ -156,11 +156,11 @@ export default function EditStudent({ open, onClose, student }) {
                         onChange={handleChange}
                         fullWidth
                     >
-                        {Array.from({ length: 14 }, (_, i) => i + 1).map((level) => (
-                            <MenuItem key={level} value={level}>
-                                {level}
-                            </MenuItem>
-                        ))}
+                    {Defines.koreanLevelOptions.map((option) => (
+                        <MenuItem key={option.label} value={option.level}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
                     </TextField>
 
                 </Stack>

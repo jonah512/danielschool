@@ -146,6 +146,7 @@ function SelectStudent() {
             spacing={2}
             alignItems="center"
             justifyContent="center"
+            sx={{width:'100%'}}
         >
             <Box component="h2" textAlign="center">수강생 선택</Box>
 

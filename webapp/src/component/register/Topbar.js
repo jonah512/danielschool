@@ -35,12 +35,13 @@ function Topbar({year, term}) {
                 borderBottom: '2px solid #ccc',
                 height: '150px', // Full viewport height
                 alignItems: 'center', // Center horizontally
-                justifyContent: 'center' // Center vertically
+                justifyContent: 'space-between', // Spread items across full width
+                width: '100%' // Use full width
             }}
         >
             <img src="daniel_logo.png" width='70' alt='Daniel School Register Web'></img>
 
-            <Typography variant="h4" sx={{ color: '#333', textAlign: 'center' }}>
+            <Typography variant="h4" sx={{ color: '#333', textAlign: 'center', flexGrow: 1 }}>
                 {Resource.get("topbar.title", year, Resource.get('topbar.' + term))}
             </Typography>
             {selectedStudent && (

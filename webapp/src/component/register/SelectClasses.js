@@ -60,7 +60,10 @@ export default function SelectClasses({ onNext, onPrev }) {
         const student = RegisterCtrl.selected_student;
 
         const filteredClasses = classes.filter(c =>
-            student.grade >= c.min_grade && student.grade <= c.max_grade
+            student.grade >= c.min_grade 
+            && student.grade <= c.max_grade 
+            && student.korean_level >= c.min_korean_level
+            && student.korean_level <= c.max_korean_level
         );
 
         const period1 = filteredClasses.filter(c => c.period === 1);

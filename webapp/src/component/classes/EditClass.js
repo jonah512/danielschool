@@ -33,6 +33,8 @@ export default function EditClass({ open, onClose, class_ }) {
         fee: class_.fee || 0,
         teacher_id: class_.teacher_id || 0,
         id: class_.id || 0,
+        min_korean_level: class_.min_korean_level || 1,
+        max_korean_level: class_.max_korean_level || 12,
     });
 
     const [emailError, setEmailError] = useState(''); // State for email error
@@ -171,6 +173,34 @@ export default function EditClass({ open, onClose, class_ }) {
                                 {option.label}
                             </MenuItem>
                         ))}
+                    </TextField>
+                    <TextField
+                        select
+                        label={Resource.get('classes.min_korean_level')}
+                        name="min_korean_level"
+                        value={formData.min_korean_level}
+                        onChange={handleChange}
+                        fullWidth
+                    >
+                    {Defines.koreanLevelOptions.map((option) => (
+                        <MenuItem key={option.label} value={option.level}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                    </TextField>
+                    <TextField
+                        select
+                        label={Resource.get('classes.max_korean_level')}
+                        name="max_korean_level"
+                        value={formData.max_korean_level}
+                        onChange={handleChange}
+                        fullWidth
+                    >
+                    {Defines.koreanLevelOptions.map((option) => (
+                        <MenuItem key={option.label} value={option.level}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
                     </TextField>
                     <TextField
                         label={Resource.get('classes.max_students')}

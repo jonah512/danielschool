@@ -57,6 +57,8 @@ class ClassBase(BaseModel):
     fee: float
     mendatory: bool
     enrolled_number: Optional[int] = 0 
+    min_korean_level: int
+    max_korean_level: int
     
 class ClassCreate(ClassBase):
     pass

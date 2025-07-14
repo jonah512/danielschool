@@ -70,7 +70,7 @@ export default function EnrollmentStudent() {
           ))}
         </TextField>
         <TextField
-          label="Search"
+          label={Resource.get("common.search")}
           variant="outlined"
           value={searchWord}
           onChange={handleSearchChange}

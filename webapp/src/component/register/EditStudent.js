@@ -49,9 +49,12 @@ export default function EditStudent({onPrev, onNext, student }) {
     };
 
     return (
-
-        <Box>
-            <Stack spacing={2}>
+        <Box 
+            sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }} 
+            id='EditStudent' 
+            spacing={4}
+        >
+            <Stack spacing={2} alignItems={'center'} justifyContent={'center'}> {/* Center alignment */}
                 <div style={{ marginBottom: '10px' }}></div>
                 <TextField
                     label={Resource.get('students.name')}
@@ -141,6 +144,7 @@ export default function EditStudent({onPrev, onNext, student }) {
                     onChange={handleChange}
                     fullWidth
                 />
+                {/*  do not show korean level to user
                 <TextField
                     select
                     label={Resource.get('students.korean_level')}
@@ -149,27 +153,26 @@ export default function EditStudent({onPrev, onNext, student }) {
                     onChange={handleChange}
                     fullWidth
                 >
-                    {Array.from({ length: 14 }, (_, i) => i + 1).map((level) => (
-                        <MenuItem key={level} value={level}>
-                            {level}
+                    {Defines.koreanLevelOptions.map((option) => (
+                        <MenuItem key={option.label} value={option.level}>
+                            {option.label}
                         </MenuItem>
                     ))}
-                </TextField>
+                </TextField> */}
                 <Stack spacing={2} direction="row" justifyContent="center" style={{ marginTop: '20px' }}>
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={onPrev}
-                    fullWidth
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={onPrev}
+                        fullWidth
                     >Prev(학생선택 단계로 이동)</Button>
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleSubmit}
-                    fullWidth
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={handleSubmit}
+                        fullWidth
                     >Next (과목선택 단계로로 이동)</Button>
-
-                    </Stack>
+                </Stack>
             </Stack>
         </Box>
     );

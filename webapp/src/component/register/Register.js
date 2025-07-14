@@ -156,9 +156,7 @@ export default function Register() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Box sx={{ display: 'flex' }}>
         <Box
-          maxWidth='2200'
           sx={{
             backgroundColor: (theme) =>
               theme.palette.mode === 'light'
@@ -167,23 +165,17 @@ export default function Register() {
             flexGrow: 1,
             height: '100vh',
             overflow: 'auto',
-            width: '100%'
+            width: '100%' // Use full width
           }}
         >
-          <Container maxWidth='2200' className='main_content' sx={{ width: '100%' }} spacing={3}>
-            <Stack direction='column' spacing={2} alignItems='center' justifyContent='center' sx={{ }}>
-
-              <Topbar year={year} term={term}/>
-
+          <Container maxWidth={false} className='main_content' sx={{ width: '90%' }} spacing={3}> {/* Increased width */}
+            <Stack direction='column' spacing={2} alignItems='center' justifyContent='center'>
+              <Topbar year={year} term={term} />
               {displayContent()}
-
               <Copyright style={{ marginTop: '50px', width: '100%', textAlign: 'center', paddingTop: '4px' }} />
-
             </Stack>
           </Container>
         </Box>
-      </Box>
-
     </ThemeProvider>
   );
 }

@@ -18,6 +18,8 @@ import AlertDialog from '../common/AlertDialog';
 import ClassesCtrl from '../../control/ClassesCtrl';
 import EnrollmentCtrl from '../../control/EnrollmentCtrl';
 import TeachersCtrl from '../../control/TeachersCtrl';
+import { Box } from '@mui/material';
+import Resource from '../../framework/resource/Resource';
 
 export default function EnrollmentRegister() {
 
@@ -97,33 +99,33 @@ const onTeacherListChange = (teachers) => {
   }
 
   return (
-    <div>
-
-      <Accordion disabled={stage !== 0} expanded={stage === 0}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}> {/* Column direction */}
+      <Accordion disabled={stage !== 0} expanded={stage === 0} sx={{ width: '100%' }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1-content"
           id="panel1-header"
 
         >
-          <Typography component="span">기본정보확인</Typography>
+          <Typography component="span">{Resource.get('register.basic_info')}</Typography>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails sx={{ width: '100%' }}>
           <EditStudent
             onPrev={() => EventPublisher.publish(EventDef.onMenuChanged, 'SelectStudent')} // Close dialog
             onNext={handleMoveNextFromStudenEdit} // Close dialog
             student={selectedStudent} // Pass selected student data
+            sx={{ width: '100%' }}
           />
         </AccordionDetails>
 
       </Accordion>
-      <Accordion disabled={stage !== 1} expanded={stage === 1}>
+      <Accordion disabled={stage !== 1} expanded={stage === 1} sx={{ width: '100%' }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2-content"
           id="panel2-header"
         >
-          <Typography component="span">과목선택</Typography>
+          <Typography component="span">{Resource.get('register.select_class')}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <SelectClasses
@@ -132,13 +134,13 @@ const onTeacherListChange = (teachers) => {
           />
         </AccordionDetails>
       </Accordion>
-      <Accordion disabled={stage !== 2} expanded={stage === 2}>
+      <Accordion disabled={stage !== 2} expanded={stage === 2} sx={{ width: '100%' }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel3-content"
           id="panel3-header"
         >
-          <Typography component="span">최종확인</Typography>
+          <Typography component="span">{Resource.get('register.final_confirm')}</Typography>
         </AccordionSummary>
         <AccordionDetails>
 
@@ -170,6 +172,6 @@ const onTeacherListChange = (teachers) => {
           EventPublisher.publish(EventDef.onSelectedStudentChanged, null); // Notify that the selected student has changed
           EventPublisher.publish(EventDef.onMenuChanged, 'SelectStudent'); // Go back to student selection
         }}/>)}
-    </div>
+    </Box>
   );
 }

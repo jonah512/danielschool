@@ -141,6 +141,24 @@ export default function ClassesTable({search, year, term}) {
                 return grade ? grade.label : params.value;
             }
         },
+        { 
+            field: 'min_korean_level', 
+            headerName: Resource.get('classes.min_korean_level'), 
+            width: 150,
+            renderCell: (params) => {
+                const grade = Defines.koreanLevelOptions.find(option => option.level === params.value);
+                return grade ? grade.label : params.value;
+            }
+        },
+        { 
+            field: 'max_korean_level', 
+            headerName: Resource.get('classes.max_korean_level'), 
+            width: 150,
+            renderCell: (params) => {
+                const grade = Defines.koreanLevelOptions.find(option => option.level === params.value);
+                return grade ? grade.label : params.value;
+            }
+        },
         { field: 'max_students', headerName: Resource.get('classes.max_students'), width: 150 },
         { field: 'period', headerName: Resource.get('classes.period'), width: 100 },
     ];

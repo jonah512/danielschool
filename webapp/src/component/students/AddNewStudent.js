@@ -161,11 +161,11 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
                         onChange={handleChange}
                         fullWidth
                     >
-                        {Defines.koreanLevelOptions.map((level) => (
-                            <MenuItem key={level} value={level}>
-                                {level}
-                            </MenuItem>
-                        ))}
+                    {Defines.koreanLevelOptions.map((option) => (
+                        <MenuItem key={option.label} value={option.level}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
                     </TextField>
                 </Stack>
             </DialogContent>

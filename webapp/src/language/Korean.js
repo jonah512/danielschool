@@ -20,7 +20,7 @@ const Korean = {
         selectall: "전체 선택",
         download: "다운로드",
         rowsperpage: "페이지당 행 수",
-        copyright: "Copyright © {0} 밀알 다니엘 한국어 학교. 모든 권리 보유.",
+        copyright: "Copyright © {0} Milal Daniel Korean School. All rights reserved.",
         uploadimages: "이미지 업로드",
         incompleteimageupload: "{1}개 중 {0}개의 이미지가 성공적으로 업로드되었습니다.",
         search: "검색"
@@ -110,7 +110,9 @@ const Korean = {
         validation_error: "유효성 오류",
         year_error: "년도는 2000년에서 2100년 사이여야 합니다.",
         mendatory: "필수",
-        fee: "수업료"
+        fee: "수업료",
+        min_korean_level: "최소 한국어 수준",
+        max_korean_level: "최대 한국어 수준"
     },
     enrollment: {
         id: "아이디",
@@ -182,6 +184,9 @@ const Korean = {
         find_email: "부모님의 이메일: ",
         find_email_by_name: "학생이름으로 Email 찾기",
         student_name: "학생 이름",
+        basic_info: "기본정보확인",
+        select_class: "과목선택",
+        final_confirm: "최종확인"
     }
 };
 

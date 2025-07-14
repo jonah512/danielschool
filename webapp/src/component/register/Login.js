@@ -2,19 +2,24 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Copyright from '../etc/Copyright';
 import SessionManager from '../../control/SessionManager';
 import Logger from '../../framework/logger/Logger';
 import LoginIcon from '@mui/icons-material/Login';
 import Resource from '../../framework/resource/Resource'
 import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
+import Select from '../common/Select';
 import { Stack } from '@mui/material';
 import RegisterCtrl from '../../control/RegisterCtrl';
 import AddNewStudent from '../students/AddNewStudent';
+import Register from './Register';
 import Grid from '@mui/material/Grid';
 import FindEmail from './FindEmail';
 
@@ -32,8 +37,8 @@ export default function Login(props) {
   const [foundEmail, setFoundEmail] = React.useState(false);
   const [searchEmail, setSearchEmail] = React.useState(RegisterCtrl.parent_email);
   const [showNewRegistration, setShowNewRegistration] = React.useState(false);
+  const [showFindEmail, setShowFindEmail] = React.useState(false);
   const [apiUrl, setApiUrl] = React.useState(localStorage.getItem('apiUrl') || window.APIURL);
-  const [showEmailSearchPopupWnd, setShowEmailSearchPopupWnd] = React.useState(false);
   const MODULE = 'Login';
   const languageMap = {};
 
@@ -97,9 +102,8 @@ export default function Login(props) {
     });
   };
 
-  const showEmailSearchPopup = () => {
-    console.log('setShowEmailSearchPopupWnd');
-    setShowEmailSearchPopupWnd(true);
+  const onCloseFindEmail = () =>{
+    setShowFindEmail(false);
   }
 
   return (
@@ -121,7 +125,7 @@ export default function Login(props) {
         {Resource.get('register.guide_english')}
         </Typography>
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={6}> {/* 50% width for TextField */}
+          <Grid item xs={6}> {/* Full width for TextField */}
             <TextField
               margin="normal"
               required
@@ -140,8 +144,8 @@ export default function Login(props) {
               }}
             />
           </Grid>
-          <Grid item xs={6}>
-            <Button fullWidth variant="contained" onClick={showEmailSearchPopup}>{Resource.get('register.find_email_by_name')}</Button>
+          <Grid item xs={6}> {/* Full width for Button */}
+            <Button fullWidth variant="contained" onClick={()=>setShowFindEmail(true)}>{Resource.get('register.find_email_by_name')}</Button>
           </Grid>
         </Grid>
         <Button
@@ -185,9 +189,9 @@ export default function Login(props) {
         {showNewRegistration && (
           <AddNewStudent open={showNewRegistration} onAddStudent={handleCloseAddStudentDialog} onClose={()=>setShowNewRegistration(false)}/>
         )}
-        {showEmailSearchPopupWnd && 
-        <FindEmail funcConfirm={()=>setShowEmailSearchPopupWnd(false)}/>
-        }
+
+        {showFindEmail && <FindEmail funcConfirm={onCloseFindEmail}/>}
+
       </Box>
     </Stack>
 

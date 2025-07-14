@@ -110,7 +110,9 @@ const English = {
         validation_error: "Validation Error",
         year_error: "Year must be a number between 2000 and 2100.",
         mendatory: "Mendatory",
-        fee: "Fee"
+        fee: "Fee",
+        min_korean_level: "Required Minimum Korean Level",
+        max_korean_level: "Required Maximum Korean Level"
     },
     enrollment: {
         id: "ID",
@@ -182,6 +184,9 @@ const English = {
         find_email: "Parent's Email: ",
         find_email_by_name: "Search Parent's Email by Student Name",
         student_name: "Student Name",
+        basic_info: "Confirm Student Profile",
+        select_class: "Select Class",
+        final_confirm: "Final Confirmation"
     }
 };
 

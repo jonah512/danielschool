@@ -96,7 +96,7 @@ export default function FindStudentDialog({ classId, onClose, onAddStudent }) {
               {Resource.get('classroom.add_student')}
             </Typography>
             <TextField
-              label="Search"
+              label={Resource.get("common.search")}
               variant="outlined"
               value={search}
               onChange={handleSearchChange}

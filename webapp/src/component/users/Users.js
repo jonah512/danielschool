@@ -27,7 +27,7 @@ export default function Users(props) {
       <div style={{ marginBottom: '10px' }}></div>
       <Stack direction="row" spacing={1} justifyContent="flex-end">
         <TextField 
-          label="Search" 
+          label={Resource.get("common.search")} 
           variant="outlined" 
           value={searchWord}
           onChange={handleSearchChange} 
