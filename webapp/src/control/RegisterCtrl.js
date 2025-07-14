@@ -54,6 +54,24 @@ class RegisterCtrlObj {
       );
   }
 
+  searchEmail(student_name, onSuccess) {
+    console.log('searchEmail', student_name);
+    axios
+    .get(window.APIURL + "/students", { params: { name: student_name } })
+    .then(response => {
+      console.log("Fetched Students:", response.data);
+      if (response.data && response.data.length > 0) {
+        onSuccess(response.data);
+      } else {
+        console.log("No students found with the given name.");
+      }
+    })
+    .catch(error => {
+      Logger.error("Error fetching students:", error);      
+    }
+    );
+  }
+
   startSession(email) {
     // call /session/StartSession API
     console.log('Starting session', email);

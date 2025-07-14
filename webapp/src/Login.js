@@ -73,25 +73,12 @@ export default function Login(props) {
     setLanguage(value);
   };
 
-  let virtekImageClickCount = 0;
   let cameraImageClickCount = 0;
   const onCameraImageClick = (event) => {
     cameraImageClickCount++;
-    console.log(cameraImageClickCount, virtekImageClickCount);
-    if (cameraImageClickCount !== virtekImageClickCount) {
-      cameraImageClickCount = virtekImageClickCount = 0;
-    }
-    if (virtekImageClickCount === 5) {
-      Resource.setTestingMode(true);
-      Resource.setLanguage('fo-fo');
-      EventPublisher.publish(EventDef.onLanguageChange, Resource.language);
-    }
   }
   const onVirtekImageClick = (event) => {
-    virtekImageClickCount++;
-    if (virtekImageClickCount > cameraImageClickCount + 1) {
-      cameraImageClickCount = virtekImageClickCount = 0;
-    }
+
   }
 
   return (

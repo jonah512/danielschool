@@ -52,7 +52,6 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
         formData.email = formData.email.trim();
         formData.phone = formData.phone.trim();
         formData.parent_name = formData.parent_name.trim();
-        formData.address = formData.address.trim();
         formData.church = formData.church.trim();
 
         await control.addNewStudentSync(formData, SessionManager.getSearchWord('Students')); // Call addNewStudent to save the new student
@@ -116,13 +115,6 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
                         label={Resource.get('students.parent_name')}
                         name="parent_name"
                         value={formData.parent_name}
-                        onChange={handleChange}
-                        fullWidth
-                    />
-                    <TextField
-                        label={Resource.get('students.address')}
-                        name="address"
-                        value={formData.address}
                         onChange={handleChange}
                         fullWidth
                     />

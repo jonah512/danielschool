@@ -2,24 +2,21 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Copyright from '../etc/Copyright';
 import SessionManager from '../../control/SessionManager';
 import Logger from '../../framework/logger/Logger';
 import LoginIcon from '@mui/icons-material/Login';
 import Resource from '../../framework/resource/Resource'
 import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
-import Select from '../common/Select';
 import { Stack } from '@mui/material';
 import RegisterCtrl from '../../control/RegisterCtrl';
 import AddNewStudent from '../students/AddNewStudent';
-import Register from './Register';
+import Grid from '@mui/material/Grid';
+import FindEmail from './FindEmail';
 
 const defaultTheme = createTheme({
   palette: {
@@ -36,6 +33,7 @@ export default function Login(props) {
   const [searchEmail, setSearchEmail] = React.useState(RegisterCtrl.parent_email);
   const [showNewRegistration, setShowNewRegistration] = React.useState(false);
   const [apiUrl, setApiUrl] = React.useState(localStorage.getItem('apiUrl') || window.APIURL);
+  const [showEmailSearchPopupWnd, setShowEmailSearchPopupWnd] = React.useState(false);
   const MODULE = 'Login';
   const languageMap = {};
 
@@ -99,6 +97,11 @@ export default function Login(props) {
     });
   };
 
+  const showEmailSearchPopup = () => {
+    console.log('setShowEmailSearchPopupWnd');
+    setShowEmailSearchPopupWnd(true);
+  }
+
   return (
 
     <Stack
@@ -117,24 +120,30 @@ export default function Login(props) {
         <Typography textAlign={'left'} >
         {Resource.get('register.guide_english')}
         </Typography>
-
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          id="id"
-          label={Resource.get('register.find_email')}
-          name="id"
-          autoFocus
-          onChange={(e) => {
-            const value = e.target.value;
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (emailRegex.test(value)) {
-              setFoundEmail(true);
-            }
-            setSearchEmail(value);
-          }}
-        />
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={6}> {/* 50% width for TextField */}
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="id"
+              label={Resource.get('register.find_email')}
+              name="id"
+              autoFocus
+              onChange={(e) => {
+                const value = e.target.value;
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (emailRegex.test(value)) {
+                  setFoundEmail(true);
+                }
+                setSearchEmail(value);
+              }}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Button fullWidth variant="contained" onClick={showEmailSearchPopup}>{Resource.get('register.find_email_by_name')}</Button>
+          </Grid>
+        </Grid>
         <Button
           type="submit"
           fullWidth
@@ -144,7 +153,7 @@ export default function Login(props) {
           disabled={!foundEmail}
           onClick={onSearchEmail}
         >
-        {Resource.get('register.start_registration', RegisterCtrl.year, RegisterCtrl.term)}
+        {Resource.get('register.start_registration', RegisterCtrl.year, Resource.get('topbar.' + RegisterCtrl.term))}
         </Button>
         <Box sx={{ height: 30 }} />
         <Typography textAlign={'center'} >
@@ -158,7 +167,7 @@ export default function Login(props) {
           startIcon={<LoginIcon />}
           onClick={startNewRegistration}
         >
-        {Resource.get('register.create_new_student', RegisterCtrl.year, RegisterCtrl.term)}
+        {Resource.get('register.create_new_student', RegisterCtrl.year, Resource.get('topbar.' + RegisterCtrl.term))}
         </Button>
 
         {false ? (
@@ -176,7 +185,9 @@ export default function Login(props) {
         {showNewRegistration && (
           <AddNewStudent open={showNewRegistration} onAddStudent={handleCloseAddStudentDialog} onClose={()=>setShowNewRegistration(false)}/>
         )}
-
+        {showEmailSearchPopupWnd && 
+        <FindEmail funcConfirm={()=>setShowEmailSearchPopupWnd(false)}/>
+        }
       </Box>
     </Stack>
 

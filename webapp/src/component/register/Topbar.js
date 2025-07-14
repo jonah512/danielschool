@@ -7,7 +7,7 @@ import Defines from '../Defines';
 import UserMenu from '../user_menu/UserMenu';
 import Resource from '../../framework/resource/Resource';
 
-function Topbar() {
+function Topbar({year, term}) {
 
     const MODULE = 'Topbar';
     const [selectedStudent, setSelectedStudent] = useState(RegisterCtrl.selected_student);
@@ -41,7 +41,7 @@ function Topbar() {
             <img src="daniel_logo.png" width='70' alt='Daniel School Register Web'></img>
 
             <Typography variant="h4" sx={{ color: '#333', textAlign: 'center' }}>
-                {Resource.get("topbar.title", RegisterCtrl.year, Resource.get('topbar.' + RegisterCtrl.term))}
+                {Resource.get("topbar.title", year, Resource.get('topbar.' + term))}
             </Typography>
             {selectedStudent && (
                 <Box>

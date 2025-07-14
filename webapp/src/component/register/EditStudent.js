@@ -107,13 +107,6 @@ export default function EditStudent({onPrev, onNext, student }) {
                     fullWidth
                 />
                 <TextField
-                    label={Resource.get('students.address')}
-                    name="address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    fullWidth
-                />
-                <TextField
                     select
                     label={Resource.get('students.gender')}
                     name="gender"

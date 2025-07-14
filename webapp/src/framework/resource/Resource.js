@@ -2,9 +2,9 @@
 import Logger from "../logger/Logger";
 import EventPublisher from "../event/EventPublisher";
 import { EventDef } from '../event/EventDef';
-import LanguageContainer from "../language/LanguageContainer";
 import Guid from "../random/Guid";
-
+import English from "../../language/English";
+import Korean from "../../language/Korean";
 
 class ResourceObj {
   static #instance = null;
@@ -16,43 +16,29 @@ class ResourceObj {
     this.#load();
   }
 
-  language = '한국어';
+  language = 'Korean';
   #resource = null;
-  #languages = [];
+  #languages = ['Korean', 'Enlish'];
   languageObjects = {};
-  #testingMode = false;
+
 
   #load() {
-    this.language = localStorage.getItem('selectedLanguage') || 'Korean';
-    if (this.languageObjects[this.language]) {
-      this.#resource = this.languageObjects[this.language].getResource();
-      console.log('this.#resource:', this.#resource);
-    }
+    if(this.language === 'Korean') this.#resource = Korean;
+    else this.#resource = English;
   }
 
   getLanguages() {
-    if (!this.#testingMode) {
-      let ret = [];
-      this.#languages.map((item, index) => (item !== 'fo-fo' ? ret.push(item) : Logger.debug('skip fo-fo')));
-      return ret;
-    }
-    else {
       return this.#languages;
-    }
   }
 
   setTestingMode(mode) {
-    this.#testingMode = mode;
+
   }
 
   setLanguage(lang) {
-    console.log('languageObjects:', this.languageObjects);
-    if (this.languageObjects[lang] == null) {
-      Logger.error('cannot find language:' + lang);
-    }
-    localStorage.setItem('selectedLanguage', lang);
     this.language = lang;
     this.#load();
+    EventPublisher.publish(EventDef.onLanguageChange, this.language);
   }
 
   get(key, ...args) {
@@ -85,39 +71,7 @@ class ResourceObj {
       str = str.replace(new RegExp(`\\{${index}\\}`, 'g'), arg);
     });
     return str;
-  }
-
-  loadLanguageList = async () => {
-    if (this.#languages.length > 0) {
-      return;
-    }
-    try {
-      const response = await fetch('/language/languages.json?index=' + Guid.generate16());
-      if (!response.ok) {
-        throw new Error('Failed to fetch resource');
-      }
-      const resourceData = await response.json();
-      this.#languages = resourceData.languages.map(lang => lang.replace('.json', ''));
-      await this.loadLanguageClasses();
-    } catch (error) {
-      Logger.error('Error fetching resource:', error);
-    }
-    console.log('this.#languages:', this.#languages, this.language);
-  };
-
-  loadLanguageClasses = async () => {
-    this.#languages.forEach(async (lang) => {
-      const response = await fetch('/language/' + lang + '.json?index=' + Guid.generate16());
-      if (!response.ok) {
-        Logger.error('Failed to fetch resource');
-      }
-      let resourceData = await response.json();
-      this.#resource = new LanguageContainer(resourceData);
-      this.languageObjects[lang] = this.#resource;
-      this.#load();
-      EventPublisher.publish(EventDef.onLanguageChange, this.language);
-    });
-  };
+  }  
 }
 
 let Resource = new ResourceObj();

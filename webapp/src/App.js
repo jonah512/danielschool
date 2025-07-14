@@ -21,9 +21,6 @@ export default function App(props) {
   const MODULE = 'App';
   
   useEffect(() => {
-    (async () => {
-      await Resource.loadLanguageList();
-    })();
 
     return () => {
     }

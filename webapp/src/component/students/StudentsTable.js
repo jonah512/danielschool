@@ -139,7 +139,6 @@ export default function StudentsTable({ search }) {
         { field: 'email', headerName: Resource.get('students.email'), width: 250 },
         { field: 'phone', headerName: Resource.get('students.phone'), width: 150 },
         { field: 'parent_name', headerName: Resource.get('students.parent_name'), width: 150 },
-        { field: 'address', headerName: Resource.get('students.address'), width: 250 },
         { field: 'religion', headerName: Resource.get('students.religion'), width: 150,
             renderCell: (params) => {
                 return Resource.get('students.' + params.value);
@@ -213,7 +212,7 @@ export default function StudentsTable({ search }) {
                 <AddNewStudent
                     open={openAddStudentDialog}
                     onAddStudent={handleCloseAddStudentDialog} // Close dialog
-                    onClose={()=>openAddStudentDialog(false)} // Close dialog
+                    onClose={()=>setOpenAddStudentDialog(false)} // Close dialog
                 />
             )}
             {openEditStudentDialog && (

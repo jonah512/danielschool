@@ -11,7 +11,7 @@ import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
 import Resource from '../..//framework/resource/Resource';
 import Login from './Login'
-import Tobbar from './Topbar'
+import Topbar from './Topbar'
 import SelectStudent from './SelectStudent';
 import EnrollmentRegister from './EnrollmentRegister';
 import WaitingRoom from './WaitingRoom';
@@ -40,6 +40,8 @@ const defaultTheme = createTheme({
 export default function Register() {
   const [selectedMenu, setSelectedMenu] = React.useState('ConfirmConsent');
   const [language, setLanguage] = React.useState(Resource.language);
+  const [year, setYear] = React.useState('2024');
+  const [term, setTerm] = React.useState('spring');
   const languageMap = {};
   const MODULE = 'Register';
 
@@ -107,6 +109,8 @@ export default function Register() {
 
     RegisterCtrl.year = lastSchedule.year;
     RegisterCtrl.term = lastSchedule.term;
+    setYear(lastSchedule.year);
+    setTerm(lastSchedule.term);
     RegisterCtrl.openingDate = openingDate;
     RegisterCtrl.closingDate = closingDate;
 
@@ -169,7 +173,7 @@ export default function Register() {
           <Container maxWidth='2200' className='main_content' sx={{ width: '100%' }} spacing={3}>
             <Stack direction='column' spacing={2} alignItems='center' justifyContent='center' sx={{ }}>
 
-              <Tobbar />
+              <Topbar year={year} term={term}/>
 
               {displayContent()}
 
