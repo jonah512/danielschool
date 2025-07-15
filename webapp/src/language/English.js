@@ -187,7 +187,13 @@ const English = {
         student_name: "Student Name",
         basic_info: "Confirm Student Profile",
         select_class: "Select Class",
-        final_confirm: "Final Confirmation"
+        final_confirm: "Final Confirmation",
+        class_description: "Class Description",
+        class_selection_guide_kr: "필수과목은 파란색으로 표시됩니다. 적어도 1개 이상의 필수과목을 선택하십시오.",
+        class_selection_guide_en: "Mendatory classes are marked in blue. Please select at least one mandatory class.",
+        class_selection_description: "[Click here to open class details]",
+        class_tooltip: "Teacher {0}, Grade {1} ~ {2}",
+        enroll_status: "{0} Register {1}/Total {2}"
     }
 };
 

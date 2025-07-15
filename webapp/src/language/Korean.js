@@ -187,7 +187,14 @@ const Korean = {
         student_name: "학생 이름",
         basic_info: "기본정보확인",
         select_class: "과목선택",
-        final_confirm: "최종확인"
+        final_confirm: "최종확인",
+        class_description: "과목 설명",
+        class_selection_guide_kr: "필수과목은 파란색으로 표시됩니다. 적어도 1개 이상의 필수과목을 선택하십시오.",
+        class_selection_guide_en: "Mendatory classes are marked in blue. Please select at least one mandatory class.",
+        class_selection_description: "[과목 상세 설명 보기(클릭)]",
+        class_tooltip: "{0} 선생님, Grade {1} ~ {2}",
+        enroll_status: "{0} 신청{1}명/정원{2}명"
+        
     }
 };
 

@@ -7,20 +7,20 @@ import Defines from '../Defines';
 import dayjs from 'dayjs';
 import ClassesCtrl from '../../control/ClassesCtrl';
 import EnrollmentCtrl from '../../control/EnrollmentCtrl';
-
+import Resource from '../../framework/resource/Resource';
+import ClassDescription from './ClassDescription';
+import SummarizeIcon from '@mui/icons-material/Summarize';
 
 export default function SelectClasses({ onNext, onPrev }) {
 
     const [selectedStudent, setSelectedStudent] = useState(RegisterCtrl.selected_student);
-
     const [classes_period_1, setClasses_period_1] = useState([]);
     const [classes_period_2, setClasses_period_2] = useState([]);
     const [classes_period_3, setClasses_period_3] = useState([]);
-
-
     const [selectedClassPeriod1, setSelectedClassPeriod1] = useState(null);
     const [selectedClassPeriod2, setSelectedClassPeriod2] = useState(null);
     const [selectedClassPeriod3, setSelectedClassPeriod3] = useState(null);
+    const [showClassDescription, setShowClassDescription] = useState(false);
 
     const MODULE = 'SelectClasses';
 
@@ -60,8 +60,8 @@ export default function SelectClasses({ onNext, onPrev }) {
         const student = RegisterCtrl.selected_student;
 
         const filteredClasses = classes.filter(c =>
-            student.grade >= c.min_grade 
-            && student.grade <= c.max_grade 
+            student.grade >= c.min_grade
+            && student.grade <= c.max_grade
             && student.korean_level >= c.min_korean_level
             && student.korean_level <= c.max_korean_level
         );
@@ -238,15 +238,19 @@ export default function SelectClasses({ onNext, onPrev }) {
             spacing={1}
         >
             <Typography variant="h8" textAlign="center">
-                필수과목은 파란색으로 표시됩니다. 적어도 1개 이상의 필수과목을 선택하십시오.
+                {Resource.get('register.class_selection_guide_kr')}
             </Typography>
             <Typography variant="h8" textAlign="center">
-                Mendatory classes are marked in blue. Please select at least one mandatory class.
+                {Resource.get('register.class_selection_guide_en')}
+            </Typography>
+            <Typography variant="h8" textAlign="center" onClick={() => setShowClassDescription(true)}
+                sx={{ color: 'blue', cursor: 'pointer' }} >
+                {Resource.get('register.class_selection_description')}
             </Typography>
             <div style={{ height: '20px' }}></div>
             <Stack direction="row" spacing={2} justifyContent="center">
                 <Stack direction="column" spacing={1} flex={1}>
-                    <Typography variant="h6" textAlign="left">1교시(Period 1)</Typography>
+                    <Typography variant="h6" textAlign="left">{Resource.get('enrollment.period_1')}</Typography>
                     <RadioGroup
                         value={selectedClassPeriod1}
                         onChange={(e) => handleClassSelection(1, e.target.value)}
@@ -259,13 +263,13 @@ export default function SelectClasses({ onNext, onPrev }) {
                                 disabled={classItem.enrolled_number >= classItem.max_students}
                                 label={
                                     <Tooltip
-                                        title={`${getTeacherName(classItem)} 선생님,  Grade ${classItem.min_grade} ~ ${classItem.max_grade}`}
+                                        title={Resource.get('register.class_tooltip', getTeacherName(classItem), classItem.min_grade, classItem.max_grade)}
                                         arrow
                                     >
                                         <Typography
                                             sx={{ color: classItem.mendatory ? 'blue' : 'inherit' }}
                                         >
-                                            {`${classItem.name} (${classItem.enrolled_number}명/${classItem.max_students}명)`}
+                                            {Resource.get('register.enroll_status', classItem.name, classItem.enrolled_number, classItem.max_students)}
                                         </Typography>
                                     </Tooltip>
                                 }
@@ -274,7 +278,7 @@ export default function SelectClasses({ onNext, onPrev }) {
                     </RadioGroup>
                 </Stack>
                 <Stack direction="column" spacing={1} flex={1}>
-                    <Typography variant="h6" textAlign="left">2교시(Period 2)</Typography>
+                    <Typography variant="h6" textAlign="left">{Resource.get('enrollment.period_2')}</Typography>
                     <RadioGroup
                         value={selectedClassPeriod2}
                         onChange={(e) => handleClassSelection(2, e.target.value)}
@@ -287,13 +291,13 @@ export default function SelectClasses({ onNext, onPrev }) {
                                 disabled={classItem.enrolled_number >= classItem.max_students}
                                 label={
                                     <Tooltip
-                                        title={`${getTeacherName(classItem)} 선생님,  Grade ${classItem.min_grade} ~ ${classItem.max_grade}`}
+                                        title={Resource.get('register.class_tooltip', getTeacherName(classItem), classItem.min_grade, classItem.max_grade)}
                                         arrow
                                     >
                                         <Typography
                                             sx={{ color: classItem.mendatory ? 'blue' : 'inherit' }}
                                         >
-                                            {`${classItem.name} (${classItem.enrolled_number}명/${classItem.max_students}명)`}
+                                            {Resource.get('register.enroll_status', classItem.name, classItem.enrolled_number, classItem.max_students)}
                                         </Typography>
                                     </Tooltip>
                                 }
@@ -302,7 +306,7 @@ export default function SelectClasses({ onNext, onPrev }) {
                     </RadioGroup>
                 </Stack>
                 <Stack direction="column" spacing={1} flex={1}>
-                    <Typography variant="h6" textAlign="left">3교시(Period 3)</Typography>
+                    <Typography variant="h6" textAlign="left">{Resource.get('enrollment.period_3')}</Typography>
                     <RadioGroup
                         value={selectedClassPeriod3}
                         onChange={(e) => handleClassSelection(3, e.target.value)}
@@ -315,13 +319,13 @@ export default function SelectClasses({ onNext, onPrev }) {
                                 disabled={classItem.enrolled_number >= classItem.max_students}
                                 label={
                                     <Tooltip
-                                        title={`${getTeacherName(classItem)} 선생님, Grade ${classItem.min_grade} ~ ${classItem.max_grade}`}
+                                        title={Resource.get('register.class_tooltip', getTeacherName(classItem), classItem.min_grade, classItem.max_grade)}
                                         arrow
                                     >
                                         <Typography
                                             sx={{ color: classItem.mendatory ? 'blue' : 'inherit' }}
                                         >
-                                            {`${classItem.name} (${classItem.enrolled_number}명/${classItem.max_students}명)`}
+                                            {Resource.get('register.enroll_status', classItem.name, classItem.enrolled_number, classItem.max_students)}
                                         </Typography>
                                     </Tooltip>
                                 }
@@ -339,6 +343,7 @@ export default function SelectClasses({ onNext, onPrev }) {
                     Next (최종확인 단계로 이동)
                 </Button>
             </Stack>
+            {showClassDescription && <ClassDescription funcConfirm={() => setShowClassDescription(false)} />}
         </Stack>
     );
 }
