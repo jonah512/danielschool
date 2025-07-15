@@ -23,6 +23,7 @@ TODO)
 >> done : 18. 부모는 한국어 수준을 보여주지 말아야 함. 
 >> done : 19. 한글 수준에 대해서 최저~ 최고 를 지정
 20. 과목 하단에 한글 수준 표시(한글반만)
+21. 출석부
 
 docker-compose -p daniel up --build -d
 docker save -o daniel-service.tar daniel-daniel-service
