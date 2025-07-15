@@ -80,7 +80,8 @@ const Korean = {
         other: "기타",
         no: "없음",
         grade: "학년",
-        bulk_upload: "일괄 업로드"
+        bulk_upload: "일괄 업로드",
+        missing: "'{0}'이(가) 누락되었습니다."
     },
     teachers: {
         id: "아이디",

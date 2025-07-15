@@ -54,6 +54,16 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
         formData.parent_name = formData.parent_name.trim();
         formData.church = formData.church.trim();
 
+        // check if anything missing
+        const requiredFields = ['name', 'email', 'phone', 'parent_name', 'gender', 'grade'];
+        for (const field of requiredFields) {
+            if (!formData[field]) {
+                const msg = Resource.get(`students.${field}`);
+                alert(Resource.get('students.missing', msg));
+            return;
+            }
+        }
+
         await control.addNewStudentSync(formData, SessionManager.getSearchWord('Students')); // Call addNewStudent to save the new student
 
         onAddStudent(formData); // Close the dialog
