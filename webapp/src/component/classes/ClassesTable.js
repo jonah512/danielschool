@@ -54,7 +54,7 @@ export default function ClassesTable({search, year, term}) {
 
     const onClassListChange = (data) => {
         console.log(data);
-        setUserList(data); // Update user list state
+        setUserList(data); 
     }
     const handleSelectionChange = (newSelection) => {
         setSelectionClass(newSelection);

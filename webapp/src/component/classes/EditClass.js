@@ -75,7 +75,7 @@ export default function EditClass({ open, onClose, class_ }) {
             return;
         }
         const control = new ClassesCtrl(window.APIURL);
-        control.updateClass(formData.id, formData); // Update class details
+        control.updateClass(formData.id, formData, SessionManager.getSearchWord('Classes')); // Update class details
         onClose(); // Close the dialog
     };
     const years = Array.from({ length: 2050 - 2025 + 1 }, (_, i) => 2025 + i);
