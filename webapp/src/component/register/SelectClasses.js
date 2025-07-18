@@ -366,9 +366,12 @@ export default function SelectClasses({ onNext, onPrev }) {
                             />
                         ))}
                     </RadioGroup>
+                    
                 </Stack>
             </Stack>
-
+            <Typography variant="h8" textAlign="center">
+                {evaluationCheck !== 'success' && evaluationCheck}
+            </Typography>
             <Stack direction="row" spacing={2}>
                 <Button variant="contained" color="secondary" fullWidth onClick={onPrev}>
                     {Resource.get('register.prev_select_basic_info')}
