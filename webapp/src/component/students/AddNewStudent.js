@@ -8,12 +8,14 @@ import {
     Button,
     Stack,
     MenuItem,
+    Box,
 } from '@mui/material';
 import Resource from '../../framework/resource/Resource';
 import StudentsCtrl from '../../control/StudentsCtrl';
 import dayjs from 'dayjs';
 import SessionManager from '../../control/SessionManager';
 import Defines from '../Defines'
+import Typography from '@mui/material/Typography';
 
 export default function AddNewStudent({ open, onClose, onAddStudent }) {
     const [formData, setFormData] = useState({
@@ -172,8 +174,11 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
                         fullWidth
                     >
                     {Defines.koreanLevelOptions.map((option) => (
-                        <MenuItem key={option.label} value={option.level}>
-                            {option.label}
+                        <MenuItem key={option.level} value={option.level}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Typography>{option.level}. {option.label}</Typography>
+                            {option.example !== '' &&<Typography> [예: {option.example}]</Typography>}
+                            </Box>
                         </MenuItem>
                     ))}
                     </TextField>
