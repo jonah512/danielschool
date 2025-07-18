@@ -54,8 +54,19 @@ export default function ClassesTable({search, year, term}) {
 
     const onClassListChange = (data) => {
         console.log(data);
-        setUserList(data); 
+        // Sort data by mendatory -> name -> period
+        const sortedData = data.sort((a, b) => {
+            if (b.mendatory !== a.mendatory) {
+                return b.mendatory - a.mendatory; // Sort mendatory descending
+            }
+            if (a.name !== b.name) {
+                return b.name.localeCompare(a.name); // Sort name descending
+            }
+            return a.period - b.period; // Sort period ascending
+        });
+        setUserList(sortedData); // Update user list with sorted data
     }
+
     const handleSelectionChange = (newSelection) => {
         setSelectionClass(newSelection);
         setSelectedIds(newSelection);
@@ -101,8 +112,8 @@ export default function ClassesTable({search, year, term}) {
     }
     
     const columns = [
-        { field: 'id', headerName: Resource.get('classes.id'), width: 90 },
         { field: 'name', headerName: Resource.get('classes.name'), width: 150 },
+        { field: 'period', headerName: Resource.get('classes.period'), width: 100 },
         { field: 'description', headerName: Resource.get('classes.description'), width: 250 },
         { field: 'year', headerName: Resource.get('classes.year'), width: 100 },
         { field: 'term', headerName: Resource.get('classes.term'), width: 100 },
@@ -160,7 +171,7 @@ export default function ClassesTable({search, year, term}) {
             }
         },
         { field: 'max_students', headerName: Resource.get('classes.max_students'), width: 150 },
-        { field: 'period', headerName: Resource.get('classes.period'), width: 100 },
+        { field: 'fee', headerName: Resource.get('classes.fee'), width:150 },
     ];
 
     return (
@@ -171,15 +182,16 @@ export default function ClassesTable({search, year, term}) {
                     columns={columns}
                     initialState={{
                         pagination: {
-                            paginationModel: { page: 0, pageSize: 10 },
+                            paginationModel: { page: 0, pageSize: 50 },
                         },
                     }}
-                    pageSizeOptions={[10, 50]}
+                    pageSizeOptions={[20, 50, 100]}
                     checkboxSelection
                     disableRowSelectionOnClick // Prevent row selection on click
                     rowSelectionModel={selectionClass}
                     onRowSelectionModelChange={handleSelectionChange}
                     onRowDoubleClick={handleRowDoubleClick} // Handle double-click event
+                    disableColumnMenu // Disable column menu to prevent user sorting
                     localeText={{
                         MuiTablePagination: {
                             labelRowsPerPage: Resource.get('common.rowsperpage'),

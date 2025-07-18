@@ -227,6 +227,13 @@ export default function EditClass({ open, onClose, class_ }) {
                         <MenuItem value={true}>Yes</MenuItem>
                         <MenuItem value={false}>No</MenuItem>
                     </TextField>
+                    <TextField
+                        label={Resource.get('classes.fee')}
+                        name="fee"
+                        value={formData.fee}
+                        onChange={handleChange}
+                        fullWidth
+                    />
                 </Stack>
             </DialogContent>
             <DialogActions>

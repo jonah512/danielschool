@@ -11,12 +11,12 @@ TODO)
 >> done : 7. 검색이 페이지 옮길때 리셋되도록
 >> done : 8. 교실관리자 화면에서 검색은 학생에 대한 검색이며, 학생 검색시에 수강신청 인원수는 그대로 보이도록
 >> done : 9. 언어가 cache에 없을 때에 한글이 기본
-10. 과목 보여지는 ordering 순서를 관리자가 정할 수 있도록
+>> done : 10. 과목 보여지는 ordering 순서를 관리자가 정할 수 있도록
 11. 한국어 레벨선택에서 상세 팝업을 띄워서 선택할 수 있도록
     (이름, 설명, 예)로 만들것
 >> done : 12. 부모가 학생 이름으로 찾을 수 있도록
 >> done : 13. '학생 > 새학생추가'에서 field 공백 없을 때에 '추가'버튼 활성화
-14. 과목 수정시에 수업료 반영
+>> done : 14. 과목 수정시에 수업료 반영
 >> done : 15. 과목별로 필요 한글 등급 지정하도록
 16. 한글등급에 대한 설명 추가
 >> done : 17. 한글 수준은 신규등록자만 선택.기존은 선생님이 지정
@@ -25,10 +25,10 @@ TODO)
 >> done : 20. 과목 하단에 한글 수준 표시(한글반만)
 21. 출석부
 >> done : 22. 수업 수정후에 검색어 적용 안되고 있음음
-23. 과목 선택 화면에서 alert 메세지들을 resource로 옮길것
-24. Acodian의 이동버튼들 메세지들을 resource로 옮길것 
+>> done : 23. 과목 선택 화면에서 alert 메세지들을 resource로 옮길것
+>> done : 24. Acodian의 이동버튼들 메세지들을 resource로 옮길것 
 >> done : 25. 학생 추가하는 기능 
-26. GMAIL 권장하기기
+>> done : 26. GMAIL 권장하기기
 
 docker-compose -p daniel up --build -d
 docker save -o daniel-service.tar daniel-daniel-service
