@@ -260,7 +260,7 @@ export default function SelectClasses({ onNext, onPrev }) {
                     <Typography variant="h6" textAlign="left">{Resource.get('enrollment.period_1')}</Typography>
                     <RadioGroup
                         value={selectedClassPeriod1}
-                        onChange={(e) => handleClassSelection(1, e.target.value)}
+                        onChange={(e) => handleClassSelection(1, e.target.value)}                        
                     >
                         {classes_period_1.map((classItem) => (
                             <FormControlLabel
@@ -268,6 +268,7 @@ export default function SelectClasses({ onNext, onPrev }) {
                                 value={classItem.id}
                                 control={<Radio />}
                                 disabled={classItem.enrolled_number >= classItem.max_students}
+                                sx={{ marginBottom: 2 }} // Add spacing between items
                                 label={
                                     <div
                                         onMouseEnter={() => setHoveredClass(classItem)}
@@ -304,6 +305,7 @@ export default function SelectClasses({ onNext, onPrev }) {
                                 value={classItem.id}
                                 control={<Radio />}
                                 disabled={classItem.enrolled_number >= classItem.max_students}
+                                sx={{ marginBottom: 2 }} // Add spacing between items
                                 label={
                                     <div
                                         onMouseEnter={() => setHoveredClass(classItem)}
@@ -340,6 +342,7 @@ export default function SelectClasses({ onNext, onPrev }) {
                                 value={classItem.id}
                                 control={<Radio />}
                                 disabled={classItem.enrolled_number >= classItem.max_students}
+                                sx={{ marginBottom: 2 }} // Add spacing between items
                                 label={
                                     <div
                                         onMouseEnter={() => setHoveredClass(classItem)}

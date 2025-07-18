@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Stack, Typography, Box } from '@mui/material';
+import { Stack, Typography, Box, useMediaQuery, useTheme } from '@mui/material'; // Add responsive utilities
 import RegisterCtrl from '../../control/RegisterCtrl';
 import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
@@ -22,6 +22,9 @@ function Topbar({ year, term }) {
 
     const MODULE = 'Topbar';
     const [selectedStudent, setSelectedStudent] = useState(RegisterCtrl.selected_student);
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
 
     useEffect(() => {
         EventPublisher.addEventListener(EventDef.onSelectedStudentChanged, MODULE, onSelectedStudentChanged);
@@ -65,65 +68,78 @@ function Topbar({ year, term }) {
 
     return (
         <Stack
-            direction="row"
-            spacing={4}
+            direction={isMobile ? "column" : "row"} // Stack vertically on mobile
+            spacing={isMobile ? 2 : 4} // Adjust spacing for mobile
             sx={{
                 backgroundColor: '#f4f4f4',
-                padding: '10px 20px',
+                padding: isMobile ? '10px' : '10px 20px', // Adjust padding for mobile
                 borderBottom: '2px solid #ccc',
-                height: '150px', // Full viewport height
-                alignItems: 'center', // Center horizontally
-                justifyContent: 'space-between', // Spread items across full width
-                width: '100%' // Use full width
+                height: isMobile ? 'auto' : '150px', // Adjust height for mobile
+                alignItems: 'center',
+                justifyContent: isMobile ? 'center' : 'space-between', // Center items on mobile
+                width: '100%',
+                textAlign: isMobile ? 'center' : 'left', // Center text on mobile
             }}
         >
-            <img src="daniel_logo.png" width='70' alt='Daniel School Register Web'></img>
-
-            <Typography variant="h4" sx={{ color: '#333', textAlign: 'center', flexGrow: 1 }}>
+            <img src="daniel_logo.png" width={isMobile ? '50' : '70'} alt="Daniel School Register Web" /> {/* Adjust logo size */}
+            <Typography
+                variant={isMobile ? "h6" : "h4"} // Adjust font size for mobile
+                sx={{ color: '#333', flexGrow: 1 }}
+            >
                 {Resource.get("topbar.title", year, Resource.get('topbar.' + term))}
             </Typography>
             {selectedStudent && (
-
-                <Typography variant="body1" sx={{ fontSize: '18px', color: '#555', textAlign: 'center' }}>
+                <Typography
+                    variant="body1"
+                    sx={{
+                        fontSize: isMobile ? '14px' : '18px', // Adjust font size for mobile
+                        color: '#555',
+                    }}
+                >
                     {Resource.get('topbar.name')} <strong>{selectedStudent.name}</strong>
                 </Typography>
             )}
             {selectedStudent && (
-
-                <Typography variant="body1" sx={{ fontSize: '18px', color: '#555', textAlign: 'center' }}>
+                <Typography
+                    variant="body1"
+                    sx={{
+                        fontSize: isMobile ? '14px' : '18px', // Adjust font size for mobile
+                        color: '#555',
+                    }}
+                >
                     {Resource.get('topbar.grade')} <strong>{Defines.gradeOptions.find(option => option.value === selectedStudent.grade)?.label}</strong>
                 </Typography>
-
             )}
-            {selectedStudent && <Stack direction="row" spacing={2} alignItems="center">
-                <Tooltip title={Resource.get('usermenu.language')} arrow>
-                    <IconButton aria-label="language" onClick={handleLanguageClick}>
-                        <LanguageIcon />
-                    </IconButton>
-                </Tooltip>
-                <Menu
-                    id="language-menu"
-                    anchorEl={anchorElSub}
-                    keepMounted
-                    open={Boolean(anchorElSub)}
-                    onClose={handleClose}
-                >
-                    {Resource.getLanguages().map((language, index) => (
-                        <MenuItem key={index}>
-                            <FormControlLabel
-                                control={<Checkbox checked={selectedLanguage === language} onChange={handleLanguageChange} value={language} />}
-                                label={language}
-                            />
-                        </MenuItem>
-                    ))}
-                </Menu>
-                <Tooltip title={Resource.get('login.logout')} arrow>
-                    <IconButton aria-label="logout" onClick={handleLogout}>
-                        <LogoutIcon />
-                    </IconButton>
-                </Tooltip>
-            </Stack>
-            }
+            {selectedStudent && (
+                <Stack direction="row" spacing={2} alignItems="center">
+                    <Tooltip title={Resource.get('usermenu.language')} arrow>
+                        <IconButton aria-label="language" onClick={handleLanguageClick}>
+                            <LanguageIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Menu
+                        id="language-menu"
+                        anchorEl={anchorElSub}
+                        keepMounted
+                        open={Boolean(anchorElSub)}
+                        onClose={handleClose}
+                    >
+                        {Resource.getLanguages().map((language, index) => (
+                            <MenuItem key={index}>
+                                <FormControlLabel
+                                    control={<Checkbox checked={selectedLanguage === language} onChange={handleLanguageChange} value={language} />}
+                                    label={language}
+                                />
+                            </MenuItem>
+                        ))}
+                    </Menu>
+                    <Tooltip title={Resource.get('login.logout')} arrow>
+                        <IconButton aria-label="logout" onClick={handleLogout}>
+                            <LogoutIcon />
+                        </IconButton>
+                    </Tooltip>
+                </Stack>
+            )}
         </Stack>
     );
 }

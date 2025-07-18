@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Stack, Box, Button, IconButton } from '@mui/material';
+import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Stack, Box, Button, IconButton, Container, useMediaQuery, useTheme } from '@mui/material'; // Add responsive utilities
 import DeleteIcon from '@mui/icons-material/Delete';
 import RegisterCtrl from '../../control/RegisterCtrl'; // Import the RegisterCtrl
 import EventPublisher from '../../framework/event/EventPublisher';
@@ -19,6 +19,9 @@ function SelectStudent() {
     const [deleteConfirm, setDeleteConfirm] = useState(false); // State for delete confirmation dialog
     const [selectedStudentId, setSelectedStudentId] = useState(null); // State for selected student ID for deletion
     const [showNewRegistration, setShowNewRegistration] = useState(false);
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
 
     useEffect(() => {
         console.log('SelectStudent students:', students);
@@ -131,13 +134,6 @@ function SelectStudent() {
             <DataGrid
                 rows={enrollments}
                 columns={[
-                    { field: 'year', headerName: Resource.get('student_selection.year'), width: 100 },
-                    {
-                        field: 'term', headerName: Resource.get('student_selection.term'), width: 100,
-                        renderCell: (params) => {
-                            return <span>{Resource.get('topbar.' + params.value)}</span>;
-                        }
-                    },
                     {
                         field: 'class_id', headerName: Resource.get('student_selection.class_name'), width: 150,
                         renderCell: (params) => {
@@ -160,72 +156,98 @@ function SelectStudent() {
     }
 
     return (
-        <Stack
-            spacing={2}
-            alignItems="center"
-            justifyContent="center"
-            sx={{ width: '100%' }}
-        >
-            <Box component="h2" textAlign="center">수강생 선택</Box>
-
-            <FormControl>
-                <FormLabel id="select-student-label"></FormLabel>
-                <RadioGroup
-                    aria-labelledby="select-student-label"
-                    name="selectedStudent"
-                    onChange={(event) => {
-                        console.log('Selected student ID:', event.target.value);
-                        const id = event.target.value;
-                        setSelectedStudent(id);
-                    }}
-                    value={selectedStudent}
-                >
-                    {students.map((student) => (
-                        <Stack direction="row" alignItems="center" key={student.id} spacing={2}>
-                            <FormControlLabel
-                                value={student.id}
-                                control={<Radio />}
-                                label={`${student.name}`}
-                            />
-                            <IconButton
-                                aria-label="delete"
-                                color="error"
-                                onClick={() => handleDelete(student.id)}
-                            >
-
-                                <DeleteIcon />
-                            </IconButton>
-                            {displayHistory(student.id)}
-                        </Stack>
-                    ))}
-                </RadioGroup>
-            </FormControl>
+        <Container maxWidth="md" sx={{ padding: isMobile ? 2 : 4 }}> {/* Add responsive container */}
             <Stack
                 spacing={2}
                 alignItems="center"
                 justifyContent="center"
-                direction={'row'}
+                sx={{ width: '100%' }}
             >
-                <Button variant="contained" onClick={() => setShowNewRegistration(true)}>{Resource.get('register.add_student')}</Button>
-                {students.length > 0 && (
-                    <Button variant="contained" onClick={handleNext}>{Resource.get('student_selection.select_class')}</Button>
+                <Box component="h2" textAlign="center" fontSize={isMobile ? '1.5rem' : '2rem'}> {/* Adjust font size */}
+                    수강생 선택
+                </Box>
+
+                <FormControl>
+                    <FormLabel id="select-student-label"></FormLabel>
+                    <RadioGroup
+                        aria-labelledby="select-student-label"
+                        name="selectedStudent"
+                        onChange={(event) => {
+                            console.log('Selected student ID:', event.target.value);
+                            const id = event.target.value;
+                            setSelectedStudent(id);
+                        }}
+                        value={selectedStudent}
+                    >
+                        {students.map((student) => (
+                            <Stack
+                                direction={isMobile ? "column" : "row"} // Stack vertically on mobile
+                                alignItems="center"
+                                key={student.id}
+                                spacing={2}
+                                sx={{ width: '100%' }}
+                            >
+                                <FormControlLabel
+                                    value={student.id}
+                                    control={<Radio />}
+                                    label={`${student.name}`}
+                                />
+                                <IconButton
+                                    aria-label="delete"
+                                    color="error"
+                                    onClick={() => handleDelete(student.id)}
+                                >
+                                    <DeleteIcon />
+                                </IconButton>
+                                {displayHistory(student.id)}
+                            </Stack>
+                        ))}
+                    </RadioGroup>
+                </FormControl>
+                <Stack
+                    spacing={2}
+                    alignItems="center"
+                    justifyContent="center"
+                    direction={isMobile ? 'column' : 'row'} // Stack buttons vertically on mobile
+                    sx={{ width: '100%' }}
+                >
+                    <Button
+                        variant="contained"
+                        onClick={() => setShowNewRegistration(true)}
+                        fullWidth={isMobile} // Make buttons full width on mobile
+                    >
+                        {Resource.get('register.add_student')}
+                    </Button>
+                    {students.length > 0 && (
+                        <Button
+                            variant="contained"
+                            onClick={handleNext}
+                            fullWidth={isMobile} // Make buttons full width on mobile
+                        >
+                            {Resource.get('student_selection.select_class')}
+                        </Button>
+                    )}
+                    <Button
+                        variant="contained"
+                        onClick={handleExit}
+                        fullWidth={isMobile} // Make buttons full width on mobile
+                    >
+                        {Resource.get('student_selection.logout')}
+                    </Button>
+                </Stack>
+                {showNewRegistration && (
+                    <AddAdditionalStudent open={showNewRegistration} onAddStudent={handleCloseAddStudentDialog} onClose={() => setShowNewRegistration(false)} />
                 )}
-                <Button variant="contained" onClick={handleExit}>{Resource.get('student_selection.logout')}</Button>
-
-
+                {deleteConfirm && (
+                    <AlertDialog
+                        onYes={onConfirm}
+                        onNo={() => setDeleteConfirm(false)}
+                        YesOrNo={true} Open={true}
+                        Title={Resource.get('student_selection.delete_title')}
+                        Content={Resource.get('student_selection.delete_content')} />
+                )}
             </Stack>
-            {showNewRegistration && (
-                <AddAdditionalStudent open={showNewRegistration} onAddStudent={handleCloseAddStudentDialog} onClose={() => setShowNewRegistration(false)} />
-            )}
-            {deleteConfirm && (
-                <AlertDialog
-                    onYes={onConfirm}
-                    onNo={() => setDeleteConfirm(false)}
-                    YesOrNo={true} Open={true}
-                    Title={Resource.get('student_selection.delete_title')}
-                    Content={Resource.get('student_selection.delete_content')} />
-            )}
-        </Stack>
+        </Container>
     );
 }
 

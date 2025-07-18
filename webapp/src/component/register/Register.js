@@ -4,6 +4,7 @@ import { useEffect, Suspense } from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import { Box, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
+import { useMediaQuery, useTheme } from '@mui/material'; // Add responsive utilities
 import Copyright from '../etc/Copyright';
 import RegisterCtrl from '../../control/RegisterCtrl';
 import Logger from '../../framework/logger/Logger';
@@ -44,6 +45,9 @@ export default function Register() {
   const [term, setTerm] = React.useState('spring');
   const languageMap = {};
   const MODULE = 'Register';
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
 
   useEffect(() => {
 
@@ -168,11 +172,30 @@ export default function Register() {
             width: '100%' // Use full width
           }}
         >
-          <Container maxWidth={false} className='main_content' sx={{ width: '90%' }} spacing={3}> {/* Increased width */}
-            <Stack direction='column' spacing={2} alignItems='center' justifyContent='center'>
+          <Container
+            maxWidth={false}
+            className='main_content'
+            sx={{
+              width: isMobile ? '100%' : '90%', // Adjust width for mobile
+              padding: isMobile ? 2 : 3, // Add padding for mobile
+            }}
+          >
+            <Stack
+              direction="column"
+              spacing={isMobile ? 1 : 2} // Adjust spacing for mobile
+              alignItems="center"
+              justifyContent="center"
+            >
               <Topbar year={year} term={term} />
               {displayContent()}
-              <Copyright style={{ marginTop: '50px', width: '100%', textAlign: 'center', paddingTop: '4px' }} />
+              <Copyright
+                style={{
+                  marginTop: isMobile ? '20px' : '50px', // Adjust margin for mobile
+                  width: '100%',
+                  textAlign: 'center',
+                  paddingTop: '4px',
+                }}
+              />
             </Stack>
           </Container>
         </Box>

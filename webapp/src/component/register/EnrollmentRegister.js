@@ -18,7 +18,7 @@ import AlertDialog from '../common/AlertDialog';
 import ClassesCtrl from '../../control/ClassesCtrl';
 import EnrollmentCtrl from '../../control/EnrollmentCtrl';
 import TeachersCtrl from '../../control/TeachersCtrl';
-import { Box } from '@mui/material';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 import Resource from '../../framework/resource/Resource';
 
 export default function EnrollmentRegister() {
@@ -27,6 +27,9 @@ export default function EnrollmentRegister() {
   const [stage, setStage] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const MODULE = 'EnrollmentRegister';
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
 
   useEffect(() => {
     EventPublisher.addEventListener(EventDef.onSelectedStudentChanged, MODULE, onSelectedStudentChanged);
@@ -99,15 +102,27 @@ const onTeacherListChange = (teachers) => {
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}> {/* Column direction */}
-      <Accordion disabled={stage !== 0} expanded={stage === 0} sx={{ width: '100%' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        padding: isMobile ? 2 : 4, // Add padding for mobile
+      }}
+    >
+      <Accordion
+        disabled={stage !== 0}
+        expanded={stage === 0}
+        sx={{ width: '100%', marginBottom: isMobile ? 1 : 2 }} // Adjust spacing for mobile
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1-content"
           id="panel1-header"
-
         >
-          <Typography component="span">{Resource.get('register.basic_info')}</Typography>
+          <Typography component="span" fontSize={isMobile ? '0.9rem' : '1rem'}> {/* Adjust font size */}
+            {Resource.get('register.basic_info')}
+          </Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ width: '100%' }}>
           <EditStudent
@@ -117,15 +132,20 @@ const onTeacherListChange = (teachers) => {
             sx={{ width: '100%' }}
           />
         </AccordionDetails>
-
       </Accordion>
-      <Accordion disabled={stage !== 1} expanded={stage === 1} sx={{ width: '100%' }}>
+      <Accordion
+        disabled={stage !== 1}
+        expanded={stage === 1}
+        sx={{ width: '100%', marginBottom: isMobile ? 1 : 2 }} // Adjust spacing for mobile
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2-content"
           id="panel2-header"
         >
-          <Typography component="span">{Resource.get('register.select_class')}</Typography>
+          <Typography component="span" fontSize={isMobile ? '0.9rem' : '1rem'}> {/* Adjust font size */}
+            {Resource.get('register.select_class')}
+          </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <SelectClasses
@@ -134,30 +154,42 @@ const onTeacherListChange = (teachers) => {
           />
         </AccordionDetails>
       </Accordion>
-      <Accordion disabled={stage !== 2} expanded={stage === 2} sx={{ width: '100%' }}>
+      <Accordion
+        disabled={stage !== 2}
+        expanded={stage === 2}
+        sx={{ width: '100%' }}
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel3-content"
           id="panel3-header"
         >
-          <Typography component="span">{Resource.get('register.final_confirm')}</Typography>
+          <Typography component="span" fontSize={isMobile ? '0.9rem' : '1rem'}> {/* Adjust font size */}
+            {Resource.get('register.final_confirm')}
+          </Typography>
         </AccordionSummary>
         <AccordionDetails>
-
           <Confirmation
             student={selectedStudent}
-            ></Confirmation>
+          ></Confirmation>
         </AccordionDetails>
         <AccordionActions>
           <Button
             variant="contained"
             color="secondary"
-            onClick={handleMovePrevFromFinalCheck}>{Resource.get('register.prev_select_class')}</Button>
+            onClick={handleMovePrevFromFinalCheck}
+            sx={{ fontSize: isMobile ? '0.8rem' : '1rem' }} // Adjust font size
+          >
+            {Resource.get('register.prev_select_class')}
+          </Button>
           <Button
             variant="contained"
             color="secondary"
             onClick={handleSubmit}
-            >{Resource.get('register.submit')}</Button>
+            sx={{ fontSize: isMobile ? '0.8rem' : '1rem' }} // Adjust font size
+          >
+            {Resource.get('register.submit')}
+          </Button>
         </AccordionActions>
       </Accordion>
       {showConfirmation && (<AlertDialog

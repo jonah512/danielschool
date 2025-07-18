@@ -172,7 +172,7 @@ const Korean = {
         updated_at: "수정일",
         delete_title: "학생 선택 삭제",
         delete_content: "이 학생을 삭제하시겠습니까?",
-        select_class: "수강 선택",
+        select_class: "수강 신청",
         logout: "로그아웃"
     },
     register: {

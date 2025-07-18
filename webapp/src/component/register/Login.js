@@ -22,6 +22,7 @@ import AddNewStudent from '../students/AddNewStudent';
 import Register from './Register';
 import Grid from '@mui/material/Grid';
 import FindEmail from './FindEmail';
+import { useMediaQuery, useTheme } from '@mui/material'; // Add responsive utilities
 
 const defaultTheme = createTheme({
   palette: {
@@ -41,6 +42,9 @@ export default function Login(props) {
   const [apiUrl, setApiUrl] = React.useState(localStorage.getItem('apiUrl') || window.APIURL);
   const MODULE = 'Login';
   const languageMap = {};
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
 
   useEffect(() => {
 
@@ -73,6 +77,9 @@ export default function Login(props) {
   };
 
   const onSearchEmail = (event) => {
+    if(searchEmail === null || searchEmail === ''){
+      return;
+    }
 
     RegisterCtrl.findEmail(searchEmail, (data) => {
       console.log('Found email:', data);
@@ -114,20 +121,23 @@ export default function Login(props) {
       direction="column"
       justifyContent="center"
       alignItems="center"
-      sx={{ width: '560px' }}
+      sx={{
+        width: isMobile ? '100%' : '560px', // Adjust width for mobile
+        padding: isMobile ? 2 : 0, // Add padding for mobile
+      }}
     >
 
-      <Box sx={{ height: 50 }} />
+      <Box sx={{ height: isMobile ? 20 : 50 }} /> {/* Adjust spacing for mobile */}
 
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, width: '100%' }}>
-        <Typography textAlign={'left'} >
+      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, width: '100%', padding: isMobile ? 2 : 0 }}>
+        <Typography textAlign="left" fontSize={isMobile ? '0.9rem' : '1rem'}> {/* Adjust font size */}
           {Resource.get('register.guide_korean')}
         </Typography>
-        <Typography textAlign={'left'} >
+        <Typography textAlign="left" fontSize={isMobile ? '0.9rem' : '1rem'}> {/* Adjust font size */}
         {Resource.get('register.guide_english')}
         </Typography>
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={9}> {/* Full width for TextField */}
+          <Grid item xs={12} sm={9}> {/* Full width for TextField on mobile */}
             <TextField
               margin="normal"
               required
@@ -142,34 +152,44 @@ export default function Login(props) {
                 if (emailRegex.test(value)) {
                   setFoundEmail(true);
                 }
+                else {
+                  setFoundEmail(false);
+                }
                 setSearchEmail(value);
               }}
             />
           </Grid>
-          <Grid item xs={3}> {/* Full width for Button */}
-            <Button fullWidth variant='contained' onClick={()=>setShowFindEmail(true)}>{Resource.get('register.find_email_by_name')}</Button>
+          <Grid item xs={12} sm={3}> {/* Full width for Button on mobile */}
+            <Button
+              fullWidth
+              variant="contained"
+              onClick={() => setShowFindEmail(true)}
+              sx={{ fontSize: isMobile ? '0.8rem' : '1rem' }} // Adjust font size
+            >
+              {Resource.get('register.find_email_by_name')}
+            </Button>
           </Grid>
         </Grid>
         <Button
           type="submit"
           fullWidth
           variant="contained"
-          sx={{ mt: 3, mb: 2 }}
+          sx={{ mt: 3, mb: 2, fontSize: isMobile ? '0.9rem' : '1rem' }} // Adjust font size
           startIcon={<LoginIcon />}
           disabled={!foundEmail}
           onClick={onSearchEmail}
         >
         {Resource.get('register.start_registration')}
         </Button>
-        <Box sx={{ height: 30 }} />
-        <Typography textAlign={'center'} >
+        <Box sx={{ height: isMobile ? 20 : 30 }} /> {/* Adjust spacing for mobile */}
+        <Typography textAlign="center" fontSize={isMobile ? '0.9rem' : '1rem'}> {/* Adjust font size */}
           {Resource.get('register.guide2')}
         </Typography>
         <Button
           type="submit"
           fullWidth
           variant="contained"
-          sx={{ mt: 3, mb: 2 }}
+          sx={{ mt: 3, mb: 2, fontSize: isMobile ? '0.9rem' : '1rem' }} // Adjust font size
           startIcon={<LoginIcon />}
           onClick={startNewRegistration}
         >
