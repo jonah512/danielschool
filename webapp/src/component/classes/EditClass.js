@@ -68,14 +68,14 @@ export default function EditClass({ open, onClose, class_ }) {
         }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         // Validate required fields
         if (!formData.name || !formData.year || !formData.term) {
             alert(Resource.get('classes.validation_error')); // Show validation error
             return;
         }
         const control = new ClassesCtrl(window.APIURL);
-        control.updateClass(formData.id, formData, SessionManager.getSearchWord('Classes')); // Update class details
+        await control.updateClassSync(formData.id, formData, SessionManager.getSearchWord('Classes')); // Update class details
         onClose(); // Close the dialog
     };
     const years = Array.from({ length: 2050 - 2025 + 1 }, (_, i) => 2025 + i);

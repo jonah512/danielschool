@@ -39,16 +39,15 @@ export default class ClassesCtrl {
       });
   }
 
-  updateClass(classId, classData, search = '') {
-    axios
-    .put(`${this.#url}/classes/${classId}`, classData) // Ensure trailing slash
-    .then(response => {
+  async updateClassSync(classId, classData) {
+    try {
+      const response = await axios.put(`${this.#url}/classes/${classId}`, classData); // Ensure trailing slash
       console.log("Class updated successfully:", response.data);
-      this.getClasses(search);
-    })
-    .catch(error => {
+      return response.data; // Return the updated class data
+    } catch (error) {
       Logger.error("Error editing class:", error.response?.data || error.message);
-    });
+      throw error; // Re-throw the error to handle it in the calling code
+    }
   }
 
   async deleteClasses(studentIds, search = '') {

@@ -53,7 +53,7 @@ export default function ClassesTable({search, year, term}) {
     }
 
     const onClassListChange = (data) => {
-        console.log(data);
+        console.log('onClassListChange handleCloseEditClassDialog ',data);
         // Sort data by mendatory -> name -> period
         const sortedData = data.sort((a, b) => {
             if (b.mendatory !== a.mendatory) {
@@ -88,9 +88,23 @@ export default function ClassesTable({search, year, term}) {
         setOpenEditClassDialog(true); // Open the edit dialog
     };
 
-    const handleCloseEditClassDialog = () => {
+    const handleCloseEditClassDialog = async () => {
         setOpenEditClassDialog(false);
         setSelectedClass(null); // Clear the selected class data
+
+        const control = new ClassesCtrl(window.APIURL);
+        try {
+            // Call updateClassSync synchronously
+            await control.updateClassSync(selectedClass);
+            console.log('Class updated successfully');
+        } catch (error) {
+            console.error('Error updating class:', error);
+        }
+
+        // Refresh the class list after updating
+        EventPublisher.addEventListener(EventDef.onClassListChange, MODULE, onClassListChange);
+        console.log('handleCloseEditClassDialog', search, year, term);
+        control.getClasses(search = search, year = year, term = term);
     };
 
     const onConfirm = async () => {
