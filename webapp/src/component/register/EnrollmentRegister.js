@@ -20,6 +20,8 @@ import EnrollmentCtrl from '../../control/EnrollmentCtrl';
 import TeachersCtrl from '../../control/TeachersCtrl';
 import { Box, useMediaQuery, useTheme } from '@mui/material';
 import Resource from '../../framework/resource/Resource';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 export default function EnrollmentRegister() {
 
@@ -179,6 +181,7 @@ const onTeacherListChange = (teachers) => {
             color="secondary"
             onClick={handleMovePrevFromFinalCheck}
             sx={{ fontSize: isMobile ? '0.8rem' : '1rem' }} // Adjust font size
+            startIcon={<ArrowBackIosNewIcon/>}
           >
             {Resource.get('register.prev_select_class')}
           </Button>
@@ -187,6 +190,7 @@ const onTeacherListChange = (teachers) => {
             color="secondary"
             onClick={handleSubmit}
             sx={{ fontSize: isMobile ? '0.8rem' : '1rem' }} // Adjust font size
+            endIcon={<ArrowForwardIosIcon/>}
           >
             {Resource.get('register.submit')}
           </Button>

@@ -16,7 +16,8 @@ import SessionManager from '../../control/SessionManager';
 import Defines from '../Defines';
 import { EventDef } from '../../framework/event/EventDef';
 import EventPublisher from '../../framework/event/EventPublisher';
-
+import CancelIcon from '@mui/icons-material/Cancel';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 export default function AddNewClass({ open, onClose }) {
     const [formData, setFormData] = useState({
         name: '',
@@ -247,10 +248,10 @@ export default function AddNewClass({ open, onClose }) {
                 </Stack>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose} color="secondary">
+                <Button onClick={onClose} color="secondary" startIcon={<CancelIcon />}>
                     {Resource.get('common.dialog.cancel')}
                 </Button>
-                <Button onClick={handleSubmit} color="secondary">
+                <Button onClick={handleSubmit} color="secondary" startIcon={<ArrowUpwardIcon/>}>
                     {Resource.get('common.dialog.submit')}
                 </Button>
             </DialogActions>

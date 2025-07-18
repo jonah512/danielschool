@@ -1,8 +1,7 @@
 // Copyright (c) 2025 Milal Daniel Korean School.
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { Stack, TextField, Button } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import { Stack, TextField } from '@mui/material';
 import ClassesTable from './ClassesTable';
 import Resource from '../../framework/resource/Resource';
 import SessionManager from '../../control/SessionManager';

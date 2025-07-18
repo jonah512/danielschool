@@ -15,6 +15,8 @@ import dayjs from 'dayjs';
 import SessionManager from '../../control/SessionManager';
 import Defines from '../Defines'
 import RegisterCtrl from '../../control/RegisterCtrl';
+import CancelIcon from '@mui/icons-material/Cancel';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
     const [formData, setFormData] = useState({
@@ -165,10 +167,10 @@ export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
                 </Stack>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose} color="secondary">
+                <Button onClick={onClose} color="secondary" startIcon={<CancelIcon/>}>
                     {Resource.get('common.dialog.cancel')}
                 </Button>
-                <Button onClick={handleSubmit} color="secondary">
+                <Button onClick={handleSubmit} color="secondary" startIcon={<ArrowUpwardIcon/>}>
                     {Resource.get('common.dialog.submit')}
                 </Button>
             </DialogActions>

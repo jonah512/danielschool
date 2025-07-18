@@ -3,14 +3,13 @@ import { Stack, Typography, RadioGroup, FormControlLabel, Radio, Button } from '
 import RegisterCtrl from '../../control/RegisterCtrl';
 import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
-import Defines from '../Defines';
-import dayjs from 'dayjs';
 import ClassesCtrl from '../../control/ClassesCtrl';
 import EnrollmentCtrl from '../../control/EnrollmentCtrl';
 import Resource from '../../framework/resource/Resource';
 import ClassDescription from './ClassDescription';
-import SummarizeIcon from '@mui/icons-material/Summarize';
 import ClassDetailPopup from './ClassDetailPopup'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 export default function SelectClasses({ onNext, onPrev }) {
 
@@ -246,7 +245,7 @@ export default function SelectClasses({ onNext, onPrev }) {
             direction="column"
             spacing={1}
         >
-            <Typography variant="h8" textAlign="center">
+            <Typography variant="body1" textAlign="center" sx={{color:'red'}}>
                 {evaluationCheck !== 'success' && evaluationCheck}
             </Typography>
 
@@ -369,16 +368,16 @@ export default function SelectClasses({ onNext, onPrev }) {
                     
                 </Stack>
             </Stack>
-            <Typography variant="h8" textAlign="center">
+            <Typography variant="h8" textAlign="center" sx={{color:'red'}}>
                 {evaluationCheck !== 'success' && evaluationCheck}
             </Typography>
             <Stack direction="row" spacing={2}>
-                <Button variant="contained" color="secondary" fullWidth onClick={onPrev}>
+                <Button variant="contained" color="secondary" fullWidth onClick={onPrev} startIcon={<ArrowBackIosNewIcon/>}>
                     {Resource.get('register.prev_select_basic_info')}
                 </Button>
                 
                 <Button variant="contained" color="secondary" fullWidth onClick={onSumit}
-                    disabled={evaluationCheck !== 'success'}>
+                    disabled={evaluationCheck !== 'success'} endIcon={<ArrowForwardIosIcon/>}>
                     {Resource.get('register.next_confirm')}
                 </Button>
             </Stack>

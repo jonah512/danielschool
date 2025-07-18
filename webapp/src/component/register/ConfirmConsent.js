@@ -6,6 +6,7 @@ import { EventDef } from '../../framework/event/EventDef';
 import Resource from '../../framework/resource/Resource';
 import ConsentCtrl from '../../control/ConsentsCtrl';
 import Cookies from 'js-cookie'; // Import js-cookie library
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 
 function ConfirmConsent({ consentList }) {
     const [consents, setConsents] = useState(consentList); // List of consents
@@ -98,6 +99,7 @@ function ConfirmConsent({ consentList }) {
                     color="primary"
                     onClick={handleStartEnrollment}
                     disabled={agreements == {} || !Object.values(agreements).every(v => v !== false)}
+                    startIcon={<DoneAllIcon/>}
                 >{Resource.get('consents.start_enrollment')}</Button>
             </Stack>
         </Box>

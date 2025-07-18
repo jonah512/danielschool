@@ -29,6 +29,8 @@ TODO)
 >> done : 24. Acodian의 이동버튼들 메세지들을 resource로 옮길것 
 >> done : 25. 학생 추가하는 기능 
 >> done : 26. GMAIL 권장하기기
+>> done : 27. 버튼들에 아이콘 넣기.
+>> done : 28. 과목 선택창에 경고문구는 red color.
 
 docker-compose -p daniel up --build -d
 docker save -o daniel-service.tar daniel-daniel-service

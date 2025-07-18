@@ -23,6 +23,7 @@ import Register from './Register';
 import Grid from '@mui/material/Grid';
 import FindEmail from './FindEmail';
 import { useMediaQuery, useTheme } from '@mui/material'; // Add responsive utilities
+import SearchIcon from '@mui/icons-material/Search';
 
 const defaultTheme = createTheme({
   palette: {
@@ -165,6 +166,7 @@ export default function Login(props) {
               variant="contained"
               onClick={() => setShowFindEmail(true)}
               sx={{ fontSize: isMobile ? '0.8rem' : '1rem' }} // Adjust font size
+              startIcon={<SearchIcon/>}
             >
               {Resource.get('register.find_email_by_name')}
             </Button>

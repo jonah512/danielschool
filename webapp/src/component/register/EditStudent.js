@@ -11,6 +11,8 @@ import dayjs from 'dayjs';
 import SessionManager from '../../control/SessionManager';
 import Defines from '../Defines';
 import RegisterCtrl from '../../control/RegisterCtrl';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 export default function EditStudent({onPrev, onNext, student }) {
     const [formData, setFormData] = useState({
@@ -150,12 +152,14 @@ export default function EditStudent({onPrev, onNext, student }) {
                         color="secondary"
                         onClick={onPrev}
                         fullWidth
+                        startIcon={<ArrowBackIosNewIcon/>}
                     >{Resource.get('register.prev_select_student')}</Button>
                     <Button
                         variant="contained"
                         color="secondary"
                         onClick={handleSubmit}
                         fullWidth
+                        endIcon={<ArrowForwardIosIcon/>}
                     >{Resource.get('register.next_select_class')}</Button>
                 </Stack>
             </Stack>

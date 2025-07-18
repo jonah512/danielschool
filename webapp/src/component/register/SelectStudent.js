@@ -12,6 +12,9 @@ import AlertDialog from '../common/AlertDialog';
 import AddAdditionalStudent from './AddAdditionalStudent';
 import Logger from '../../framework/logger/Logger';
 import SessionManager from '../../control/SessionManager';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 function SelectStudent() {
     const [students, setStudents] = useState(RegisterCtrl.students); // List of students
@@ -215,6 +218,7 @@ function SelectStudent() {
                         variant="contained"
                         onClick={() => setShowNewRegistration(true)}
                         fullWidth={isMobile} // Make buttons full width on mobile
+                        startIcon={<PersonAddAltIcon/>}
                     >
                         {Resource.get('register.add_student')}
                     </Button>
@@ -223,6 +227,7 @@ function SelectStudent() {
                             variant="contained"
                             onClick={handleNext}
                             fullWidth={isMobile} // Make buttons full width on mobile
+                            startIcon={<LibraryBooksIcon/>}
                         >
                             {Resource.get('student_selection.select_class')}
                         </Button>
@@ -231,6 +236,7 @@ function SelectStudent() {
                         variant="contained"
                         onClick={handleExit}
                         fullWidth={isMobile} // Make buttons full width on mobile
+                        startIcon={<LogoutIcon/>}
                     >
                         {Resource.get('student_selection.logout')}
                     </Button>
