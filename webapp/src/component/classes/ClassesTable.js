@@ -172,7 +172,7 @@ export default function ClassesTable({search, year, term}) {
             width: 150,
             renderCell: (params) => {
                 const grade = Defines.koreanLevelOptions.find(option => option.level === params.value);
-                return grade ? grade.label : params.value;
+                return grade ? grade.level + '. ' + grade.label : params.value;
             }
         },
         { 
@@ -181,7 +181,7 @@ export default function ClassesTable({search, year, term}) {
             width: 150,
             renderCell: (params) => {
                 const grade = Defines.koreanLevelOptions.find(option => option.level === params.value);
-                return grade ? grade.label : params.value;
+                return grade ? grade.level + '. ' + grade.label : params.value;
             }
         },
         { field: 'max_students', headerName: Resource.get('classes.max_students'), width: 150 },

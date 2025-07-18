@@ -191,7 +191,7 @@ export default function AddNewClass({ open, onClose }) {
                     >
                         {Defines.koreanLevelOptions.map((option) => (
                             <MenuItem key={option.label} value={option.level}>
-                                {option.label}
+                                { option.level + '. ' + option.label}
                             </MenuItem>
                         ))}
                     </TextField>
@@ -205,7 +205,7 @@ export default function AddNewClass({ open, onClose }) {
                     >
                         {Defines.koreanLevelOptions.map((option) => (
                             <MenuItem key={option.label} value={option.level}>
-                                {option.label}
+                                { option.level + '. ' + option.label}
                             </MenuItem>
                         ))}
                     </TextField>
