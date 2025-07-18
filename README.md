@@ -27,8 +27,8 @@ TODO)
 >> done : 22. 수업 수정후에 검색어 적용 안되고 있음음
 23. 과목 선택 화면에서 alert 메세지들을 resource로 옮길것
 24. Acodian의 이동버튼들 메세지들을 resource로 옮길것 
-25. 학생 추가하는 기능 
-26. 
+>> done : 25. 학생 추가하는 기능 
+26. GMAIL 권장하기기
 
 docker-compose -p daniel up --build -d
 docker save -o daniel-service.tar daniel-daniel-service

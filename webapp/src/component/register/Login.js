@@ -127,7 +127,7 @@ export default function Login(props) {
         {Resource.get('register.guide_english')}
         </Typography>
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={6}> {/* Full width for TextField */}
+          <Grid item xs={9}> {/* Full width for TextField */}
             <TextField
               margin="normal"
               required
@@ -146,8 +146,8 @@ export default function Login(props) {
               }}
             />
           </Grid>
-          <Grid item xs={6}> {/* Full width for Button */}
-            <Button fullWidth variant="contained" onClick={()=>setShowFindEmail(true)}>{Resource.get('register.find_email_by_name')}</Button>
+          <Grid item xs={3}> {/* Full width for Button */}
+            <Button fullWidth variant='contained' onClick={()=>setShowFindEmail(true)}>{Resource.get('register.find_email_by_name')}</Button>
           </Grid>
         </Grid>
         <Button
@@ -159,7 +159,7 @@ export default function Login(props) {
           disabled={!foundEmail}
           onClick={onSearchEmail}
         >
-        {Resource.get('register.start_registration', RegisterCtrl.year, Resource.get('topbar.' + RegisterCtrl.term))}
+        {Resource.get('register.start_registration')}
         </Button>
         <Box sx={{ height: 30 }} />
         <Typography textAlign={'center'} >
@@ -173,7 +173,7 @@ export default function Login(props) {
           startIcon={<LoginIcon />}
           onClick={startNewRegistration}
         >
-        {Resource.get('register.create_new_student', RegisterCtrl.year, Resource.get('topbar.' + RegisterCtrl.term))}
+        {Resource.get('register.create_new_student')}
         </Button>
 
         {false ? (

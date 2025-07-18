@@ -34,7 +34,7 @@ export default function ClassDetailPopup({ classItem }) {
                 {
                     classItem.min_korean_level > 1 || classItem.max_korean_level < 12 ? (
                         <Box>
-                            {Resource.get('register.detail_korean_level', classItem.min_korean_level,classItem.max_korean_level.max_grade)}
+                            {Resource.get('register.detail_korean_level', classItem.min_korean_level)}
                         </Box>
                     ) : null
                 }

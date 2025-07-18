@@ -23,15 +23,16 @@ export default function SelectClasses({ onNext, onPrev }) {
     const [selectedClassPeriod3, setSelectedClassPeriod3] = useState(null);
     const [showClassDescription, setShowClassDescription] = useState(false);
     const [hoveredClass, setHoveredClass] = useState(null);
+    const [evaluationCheck, setEvaluationCheck] = useState('');
 
     const MODULE = 'SelectClasses';
 
 
     useEffect(() => {
+        RegisterCtrl.selectedClassPeriod1 = RegisterCtrl.selectedClassPeriod2 = RegisterCtrl.selectedClassPeriod3 = null;
         EventPublisher.addEventListener(EventDef.onClassListChange, MODULE, onClassListChange);
         EventPublisher.addEventListener(EventDef.onSelectedStudentChanged, MODULE, onSelectedStudentChanged);
         EventPublisher.addEventListener(EventDef.onTeacherListChange, MODULE, onTeacherListChange);
-
         return () => {
             EventPublisher.removeEventListener(EventDef.onClassListChange, MODULE);
             EventPublisher.removeEventListener(EventDef.onSelectedStudentChanged, MODULE);
@@ -106,9 +107,9 @@ export default function SelectClasses({ onNext, onPrev }) {
             const sameClasses = RegisterCtrl.classes.filter(c => String(c.name) === String(selected_class.name));
             console.log('handleClassSelection sameClasses:', sameClasses);
             sameClasses.forEach(sameClass => {
-                if (sameClass.period === 1) { setSelectedClassPeriod1(sameClass.id); RegisterCtrl.selectedClassPeriod1 = sameClass.id; }
-                if (sameClass.period === 2) { setSelectedClassPeriod2(sameClass.id); RegisterCtrl.selectedClassPeriod2 = sameClass.id; }
-                if (sameClass.period === 3) { setSelectedClassPeriod3(sameClass.id); RegisterCtrl.selectedClassPeriod3 = sameClass.id; }
+                if (sameClass.period === 1) { setSelectedClassPeriod1(sameClass.id); RegisterCtrl.selectedClassPeriod1 = sameClass.id; setEvaluationCheck('success');}
+                if (sameClass.period === 2) { setSelectedClassPeriod2(sameClass.id); RegisterCtrl.selectedClassPeriod2 = sameClass.id;  setEvaluationCheck('success');}
+                if (sameClass.period === 3) { setSelectedClassPeriod3(sameClass.id); RegisterCtrl.selectedClassPeriod3 = sameClass.id;  setEvaluationCheck('success');}                
             });
 
         }
@@ -117,18 +118,24 @@ export default function SelectClasses({ onNext, onPrev }) {
             if (period === 1) {
                 setSelectedClassPeriod1(classId);
                 RegisterCtrl.selectedClassPeriod1 = classId;
+                setEvaluationCheck(evaluateMandatoryClasses(classId, selectedClassPeriod2, selectedClassPeriod3));
             }
-            if (period === 2) { setSelectedClassPeriod2(classId); RegisterCtrl.selectedClassPeriod2 = classId; }
-            if (period === 3) { setSelectedClassPeriod3(classId); RegisterCtrl.selectedClassPeriod3 = classId; }
+            if (period === 2) { setSelectedClassPeriod2(classId); RegisterCtrl.selectedClassPeriod2 = classId; 
+                setEvaluationCheck(evaluateMandatoryClasses(selectedClassPeriod1, classId, selectedClassPeriod3));
+            }
+            if (period === 3) { setSelectedClassPeriod3(classId); RegisterCtrl.selectedClassPeriod3 = classId; 
+                setEvaluationCheck(evaluateMandatoryClasses(selectedClassPeriod1, selectedClassPeriod2, classId));
+            }
         }
+        
     };
 
-    const evaluateMandatoryClasses = () => {
+    const evaluateMandatoryClasses = (period1, period2, period3) => {
 
         const selectedClasses = [
-            Number(selectedClassPeriod1),
-            Number(selectedClassPeriod2),
-            Number(selectedClassPeriod3)
+            Number(period1),
+            Number(period2),
+            Number(period3)
         ];
 
         console.log('evaluateMandatoryClasses selectedClasses:', selectedClasses);
@@ -137,18 +144,18 @@ export default function SelectClasses({ onNext, onPrev }) {
         console.log('evaluateMandatoryClasses mandatoryClasses:', mandatoryClasses);
         const selectedMandatoryClasses = mandatoryClasses.filter(c => selectedClasses.includes(c.id));
         if (selectedMandatoryClasses.length === 0) {
-            alert('필수과목(파란색)을 하나 이상 선택해야 합니다. Please select at least one mandatory class.');
-            return false;
+            return Resource.get('register.class_selection_guide_kr') + ' ' + Resource.get('register.class_selection_guide_en');
         }
 
-        return true;
+        console.log('selected class number', selectedClasses.length);
+        if (selectedClasses.length !== 3 || selectedClasses.includes(0)) {
+            return '총 3과목을 선택해야 합니다.';
+        }
+
+        return 'success';
     };
 
     const onSumit = async () => {
-        if (!evaluateMandatoryClasses()) {
-            return;
-        }
-
 
         const previousEnrollments = RegisterCtrl.enrollments.filter(
             (enrollment) => enrollment.student_id === RegisterCtrl.selected_student.id
@@ -240,11 +247,9 @@ export default function SelectClasses({ onNext, onPrev }) {
             spacing={1}
         >
             <Typography variant="h8" textAlign="center">
-                {Resource.get('register.class_selection_guide_kr')}
+                {evaluationCheck !== 'success' && evaluationCheck}
             </Typography>
-            <Typography variant="h8" textAlign="center">
-                {Resource.get('register.class_selection_guide_en')}
-            </Typography>
+
             <Typography variant="h8" textAlign="center" onClick={() => setShowClassDescription(true)}
                 sx={{ color: 'blue', cursor: 'pointer' }} >
                 {Resource.get('register.class_selection_description')}
@@ -365,7 +370,9 @@ export default function SelectClasses({ onNext, onPrev }) {
                 <Button variant="contained" color="secondary" fullWidth onClick={onPrev}>
                     {Resource.get('register.prev_select_basic_info')}
                 </Button>
-                <Button variant="contained" color="secondary" fullWidth onClick={onSumit}>
+                
+                <Button variant="contained" color="secondary" fullWidth onClick={onSumit}
+                    disabled={evaluationCheck !== 'success'}>
                     {Resource.get('register.next_confirm')}
                 </Button>
             </Stack>

@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { FormControl, FormLabel, FormControlLabel, Checkbox, Stack, Box, Paper, Typography, Button } from '@mui/material';
-import RegisterCtrl from '../../control/RegisterCtrl'; // Import the RegisterCtrl
+import { FormControlLabel, Checkbox, Stack, Box, Paper, Typography, Button } from '@mui/material';
+import RegisterCtrl from '../../control/RegisterCtrl';
 import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
 import Resource from '../../framework/resource/Resource';
 import ConsentCtrl from '../../control/ConsentsCtrl';
-import Register from './Register';
+import Cookies from 'js-cookie'; // Import js-cookie library
 
 function ConfirmConsent({ consentList }) {
     const [consents, setConsents] = useState(consentList); // List of consents
     const [agreements, setAgreements] = useState({}); // Track agreement for each consent
 
     useEffect(() => {
-
-        console.log('consents agree:', localStorage.getItem('consents' + RegisterCtrl.year + RegisterCtrl.term));
-        if (localStorage.getItem('consents' + RegisterCtrl.year + RegisterCtrl.term) === 'agreed') {
+        const consentKey = `consents_${RegisterCtrl.year}_${RegisterCtrl.term}`;
+        const storedConsentStatus = Cookies.get(consentKey); // Retrieve consent status from cookies
+        console.log('consent status', consentKey, storedConsentStatus);
+        if (storedConsentStatus === 'agreed') {
             EventPublisher.publish(EventDef.onMenuChanged, 'Login');
             return;
-        }
-        else {
+        } else {
             // Fetch consents from RegisterCtrl or API
             const fetchConsents = async () => {
                 const consent_control = new ConsentCtrl(window.APIURL);
@@ -35,13 +35,20 @@ function ConfirmConsent({ consentList }) {
 
             fetchConsents();
         }
-    }, []);
+    }, [RegisterCtrl.year, RegisterCtrl.term]);
 
     const handleAgreementChange = (consentId) => {
         setAgreements((prev) => ({
             ...prev,
             [consentId]: !prev[consentId], // Toggle agreement state
         }));
+    };
+
+    const handleStartEnrollment = () => {
+        const consentKey = `consents_${RegisterCtrl.year}_${RegisterCtrl.term}`;
+        Cookies.set(consentKey, 'agreed', { expires: 365 }); // Store consent status in cookies for 1 year
+        console.log('consent saved', consentKey);
+        EventPublisher.publish(EventDef.onMenuChanged, 'Login');
     };
 
     return (
@@ -56,18 +63,17 @@ function ConfirmConsent({ consentList }) {
                     {Resource.get('consents.consent_title')}</Typography>
 
                 {consents?.map((consent) => (
-                    <div>
+                    <div key={consent.id}>
                         <Typography variant="h6" sx={{ color: '#333', textAlign: 'left' }}>
                             [{consent.title}]
                         </Typography>
                         <Paper style={{
                             padding: 16,
-                            maxHeight: 500,  // Adjusted for potential header space
+                            maxHeight: 500,
                             maxWidth: 900,
                             overflowY: 'auto',
-                            backgroundColor: 'white',  // Background to black for the whole component
+                            backgroundColor: 'white',
                         }}>
-
                             <Typography component="pre" style={{
                                 whiteSpace: 'pre-wrap',
                                 color: 'black',
@@ -75,10 +81,8 @@ function ConfirmConsent({ consentList }) {
                             }}>
                                 {consent.content + consent.content_eng}
                             </Typography>
-
                         </Paper>
                         <FormControlLabel
-                            key={consent.id}
                             control={
                                 <Checkbox
                                     checked={agreements[consent.id] || false}
@@ -92,11 +96,8 @@ function ConfirmConsent({ consentList }) {
                 <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => {
-                        EventPublisher.publish(EventDef.onMenuChanged, 'Login');
-                        localStorage.setItem('consents' + RegisterCtrl.year + RegisterCtrl.term, 'agreed');
-                    }}
-                    disabled={agreements == {} || !Object.values(agreements).every(v => v != false)}
+                    onClick={handleStartEnrollment}
+                    disabled={agreements == {} || !Object.values(agreements).every(v => v !== false)}
                 >{Resource.get('consents.start_enrollment')}</Button>
             </Stack>
         </Box>

@@ -102,7 +102,7 @@ export default function WaitingRoom({ onNext, onPrev }) {
         console.log('onWaitingPositionChange position:', position);
         setWaitingPosition(position);
         
-        if( position < Defines.MAX_WAITING_POSITION) {
+        if( position <= Defines.MAX_WAITING_POSITION) {
             setShowPopup(false);
             EventPublisher.publish(EventDef.onMenuChanged, "EnrollmentRegister");
         } else {

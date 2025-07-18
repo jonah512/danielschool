@@ -12,7 +12,7 @@ import LanguageIcon from '@mui/icons-material/Language';
 import SessionManager from '../../control/SessionManager';
 import LogoutIcon from '@mui/icons-material/Logout';
 import UserRole from '../../framework/user_role/UserRole';
-
+import RegisterCtrl from '../../control/RegisterCtrl';
 
 export default function UserMenu(props) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -49,8 +49,10 @@ export default function UserMenu(props) {
   };
 
   const handleLogout = () => {
-    SessionManager.setLoginStatus(false);
-    window.location.reload(true);
+    RegisterCtrl.cleanUpSession();
+    SessionManager.setLoginStatus(false);    
+    EventPublisher.publish(EventDef.onSelectedStudentChanged, null);
+    EventPublisher.publish(EventDef.onMenuChanged, "Login");
   };
 
 

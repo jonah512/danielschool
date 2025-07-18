@@ -11,6 +11,7 @@ import Resource from '../../framework/resource/Resource'
 import AlertDialog from '../common/AlertDialog';
 import AddAdditionalStudent from './AddAdditionalStudent';
 import Logger from '../../framework/logger/Logger';
+import SessionManager from '../../control/SessionManager';
 
 function SelectStudent() {
     const [students, setStudents] = useState(RegisterCtrl.students); // List of students
@@ -41,7 +42,8 @@ function SelectStudent() {
     }
 
     const handleExit = () => {
-        RegisterCtrl.selected_student = null; // Clear the selected student
+        RegisterCtrl.cleanUpSession();
+        SessionManager.setLoginStatus(false);  
         EventPublisher.publish(EventDef.onSelectedStudentChanged, null);
         EventPublisher.publish(EventDef.onMenuChanged, "Login");
     }

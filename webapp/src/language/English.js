@@ -178,7 +178,7 @@ const English = {
     register: {
         guide_korean: "지난 학기 등록되었던 학생이면, 아래에서 등록시 사용되었던 부모님의 Email 주소를 입력해 주세요.",
         guide_english: "If you have registered in the past, please enter the parent's email address used for registration below.",
-        start_registration: "Start Registration. {0}년 {1}학기 수강신청 시작하기",
+        start_registration: "Start Registration. 수강신청 시작하기",
         guide2: "Or register from scratch if your child is new to the school.",
         create_new_student: "New Student. 신규 학생으로 {0}년 {1}학기 수강신청 시작하기",
         cannot_find_email: "Cannot find the email address. Please check the email address and try again.",

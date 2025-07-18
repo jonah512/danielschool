@@ -26,7 +26,7 @@ const Defines = {
     { value: 'no', label: 'No' },
   ],
   enrollmentStatus: ['enrolled', 'waiting', 'not-enrolled'],
-  MAX_WAITING_POSITION: 5,
+  MAX_WAITING_POSITION: 7,
 };
 
 export default Defines;
