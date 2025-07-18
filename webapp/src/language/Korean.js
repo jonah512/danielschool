@@ -32,7 +32,7 @@ const Korean = {
     login: {
         id: "아이디",
         password: "비밀번호",
-        "sign-in": "로그인",
+        sign_in: "로그인",
         logout: "로그아웃",
         loginfailtitle: "로그인 실패",
         loginforbiddencontent: "이 IP 주소에서는 로그인이 금지되어 있습니다.",
@@ -166,6 +166,7 @@ const Korean = {
         fall: "가을 학기"
     },
     student_selection: {
+        title: "학생 선택",
         year: "년도",
         term: "학기",
         class_name: "수업명",
@@ -195,7 +196,6 @@ const Korean = {
         class_tooltip: "{0} 선생님, Grade {1} ~ {2}",
         enroll_status: "{0} (신청{1}명/정원{2}명)",
         selected_class: "신청한 과목(Enrolled Classes)",
-        basic_info: "기본 정보",
         prev_select_class : " (이전) 과목선택 단계로 이동",
         confirm_title: "등록 확인",
         confirm_content: "등록을 완료하시겠습니까?",
@@ -212,6 +212,13 @@ const Korean = {
         occupied_status:"{0} 신청마감(정원{1}명}",
         enrollment_fail: "'{0}' 과목은 신청이 불가합니다. 다른 과목으로 변경후 재신청 바랍니다.",
         add_student: "학생추가하기"        
+    },
+    blocked:{
+        opening_time: "시작: {0}",
+        closing_time: "종료: {0}",
+        remaining_time: " 잔여 대기시간: {0}",
+        automatic_refresh: "자동으로 수강신청 화면으로 전환됩니다.",
+        closed_enrollment: "수강신청이 마감되었습니다.",
     }
 };
 

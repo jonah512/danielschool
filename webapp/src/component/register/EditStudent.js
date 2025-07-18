@@ -144,21 +144,6 @@ export default function EditStudent({onPrev, onNext, student }) {
                     onChange={handleChange}
                     fullWidth
                 />
-                {/*  do not show korean level to user
-                <TextField
-                    select
-                    label={Resource.get('students.korean_level')}
-                    name="korean_level"
-                    value={formData.korean_level}
-                    onChange={handleChange}
-                    fullWidth
-                >
-                    {Defines.koreanLevelOptions.map((option) => (
-                        <MenuItem key={option.label} value={option.level}>
-                            {option.label}
-                        </MenuItem>
-                    ))}
-                </TextField> */}
                 <Stack spacing={2} direction="row" justifyContent="center" style={{ marginTop: '20px' }}>
                     <Button
                         variant="contained"

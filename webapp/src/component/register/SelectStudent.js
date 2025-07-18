@@ -164,7 +164,7 @@ function SelectStudent() {
                 sx={{ width: '100%' }}
             >
                 <Box component="h2" textAlign="center" fontSize={isMobile ? '1.5rem' : '2rem'}> {/* Adjust font size */}
-                    수강생 선택
+                    {Resource.get('student_selection.title')}
                 </Box>
 
                 <FormControl>

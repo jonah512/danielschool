@@ -145,7 +145,7 @@ export default function Login(props) {
               sx={{ mt: 3, mb: 2 }}
               startIcon={<LoginIcon />}
             >
-              {Resource.get('login.sign-in')}
+              {Resource.get('login.sign_in')}
             </Button>
           </Box>
         </Stack>

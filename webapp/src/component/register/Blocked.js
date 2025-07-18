@@ -74,14 +74,14 @@ export default function Blocked() {
             {(openingTime - currentTime >= 0) && <div>
 
                 <Typography variant="h6" component="div">
-                    시작: {openingTime ? openingTime.toLocaleDateString() + ' ' + openingTime.toTimeString().slice(0, 8) : 'Not Set'}
+                    {Resource.get('blocked.opening_time', openingTime ? openingTime.toLocaleDateString() + ' ' + openingTime.toTimeString().slice(0, 8) : 'Not Set')}
                 </Typography>
                 <Typography variant="h6" component="div">
-                    종료: {closingTime ? closingTime.toLocaleDateString() + ' ' + closingTime.toTimeString().slice(0, 8) : 'Not Set'}
+                    {Resource.get('blocked.closing_time',closingTime ? closingTime.toLocaleDateString() + ' ' + closingTime.toTimeString().slice(0, 8) : 'Not Set')}
                 </Typography>
                 <Box sx={{ height: 50 }} />
                 <Typography variant="h4" component="div" sx={{ color: 'blue' }}>
-                    잔여 대기시간 {openingTime ? (() => {
+                    {Resource.get('blocked.remaining_time', openingTime ? (() => {
                         const diff = openingTime - currentTime;
                         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
                         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -91,18 +91,18 @@ export default function Blocked() {
                         else if (hours > 0) return `${hours}:${minutes}:${seconds} sec`;
                         else if (minutes > 0) return `${minutes}:${seconds} sec`;
                         else return `${seconds} sec`;
-                    })() : 'Not Set'}
+                    })() : 'Not Set')}
                 </Typography>
                 <Box sx={{ height: 15 }} />
                 <Typography variant="h6" component="div">
-                    자동으로 수강신청 화면으로 전환됩니다.
+                    {Resource.get('blocked.automatic_refresh')}
                 </Typography>
             </div>
             }
             {
                 (closingTime-currentTime < 0) && <div>
                 <Typography variant="h6" component="div">
-                    수강신청이 종료되었습니다. ({closingTime ? closingTime.toLocaleDateString() + ' ' + closingTime.toTimeString().slice(0, 8) : 'Not Set'})
+                    {Resource.get('blocked.closed_enrollment')} ({closingTime ? closingTime.toLocaleDateString() + ' ' + closingTime.toTimeString().slice(0, 8) : 'Not Set'})
                 </Typography>
                 </div>
             }

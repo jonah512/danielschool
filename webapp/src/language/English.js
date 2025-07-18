@@ -32,7 +32,7 @@ const English = {
     login: {
         id: "ID",
         password: "Password",
-        "sign-in": "Sign In",
+        sign_in: "Sign In",
         logout: "Log out",
         loginfailtitle: "Log In Failed",
         loginforbiddencontent: "Logging in is forbidden from this IP address.",
@@ -166,6 +166,7 @@ const English = {
         fall: "Fall Term"
     },
     student_selection: {
+        title: "Select Student",
         year: "Year",
         term: "Term",
         class_name: "Class Name",
@@ -211,6 +212,13 @@ const English = {
         occupied_status: "{0} Registration Closed (Capacity {1})",
         enrollment_fail: "Registration for '{0}' is not available. Please select a different class and try again.",
         add_student: "Add Student"
+    },
+    blocked: {
+        opening_time: "Opening: {0}",
+        closing_time: "Closing: {0}",
+        remaining_time: "Remaining Wait Time: {0}",
+        automatic_refresh: "The enrollment screen will automatically refresh.",
+        closed_enrollment: "Enrollment is closed."
     }
 };
 
