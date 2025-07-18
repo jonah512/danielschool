@@ -100,7 +100,7 @@ class SessionManagerObj {
 
   checkDeviceConnection() {
     axios
-      .get(window.APIURL + "/session/GetServerStatus")
+      .get(window.APIURL + "/GetServerStatus")
       .then(response => {
         let changed = self.deviceConnectionStatus === false;
         self.deviceConnectionStatus = true;

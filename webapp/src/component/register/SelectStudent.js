@@ -9,12 +9,15 @@ import StudentsCtrl from '../../control/StudentsCtrl'; // Import the StudentCtrl
 import { DataGrid } from '@mui/x-data-grid';
 import Resource from '../../framework/resource/Resource'
 import AlertDialog from '../common/AlertDialog';
+import AddAdditionalStudent from './AddAdditionalStudent';
+import Logger from '../../framework/logger/Logger';
 
 function SelectStudent() {
     const [students, setStudents] = useState(RegisterCtrl.students); // List of students
     const [selectedStudent, setSelectedStudent] = useState(RegisterCtrl.students[0].id);
     const [deleteConfirm, setDeleteConfirm] = useState(false); // State for delete confirmation dialog
     const [selectedStudentId, setSelectedStudentId] = useState(null); // State for selected student ID for deletion
+    const [showNewRegistration, setShowNewRegistration] = useState(false);
 
     useEffect(() => {
         console.log('SelectStudent students:', students);
@@ -105,6 +108,19 @@ function SelectStudent() {
         return classData ? classData.name : 'Unknown Class';
     }
 
+
+    const handleCloseAddStudentDialog = (student) => {
+        setShowNewRegistration(false);
+        RegisterCtrl.findEmail(student.email, (data) => {
+            console.log('Found email:', data);
+            RegisterCtrl.students = data;
+            setStudents(data);
+        }, (error) => {
+            Logger.error('Error finding email:', error);
+            alert(Resource.get('register.cannot_find_email'));
+        });
+    };
+
     const displayHistory = (studentId) => {
         const enrollments = RegisterCtrl.enrollments.filter(enrollment => enrollment.student_id === studentId);
         if (enrollments.length === 0) return '';
@@ -146,7 +162,7 @@ function SelectStudent() {
             spacing={2}
             alignItems="center"
             justifyContent="center"
-            sx={{width:'100%'}}
+            sx={{ width: '100%' }}
         >
             <Box component="h2" textAlign="center">수강생 선택</Box>
 
@@ -188,11 +204,17 @@ function SelectStudent() {
                 justifyContent="center"
                 direction={'row'}
             >
-                <Button variant="contained" onClick={handleExit}>{Resource.get('student_selection.logout')}</Button>
+                <Button variant="contained" onClick={() => setShowNewRegistration(true)}>{Resource.get('register.add_student')}</Button>
                 {students.length > 0 && (
                     <Button variant="contained" onClick={handleNext}>{Resource.get('student_selection.select_class')}</Button>
                 )}
+                <Button variant="contained" onClick={handleExit}>{Resource.get('student_selection.logout')}</Button>
+
+
             </Stack>
+            {showNewRegistration && (
+                <AddAdditionalStudent open={showNewRegistration} onAddStudent={handleCloseAddStudentDialog} onClose={() => setShowNewRegistration(false)} />
+            )}
             {deleteConfirm && (
                 <AlertDialog
                     onYes={onConfirm}

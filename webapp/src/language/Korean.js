@@ -193,8 +193,25 @@ const Korean = {
         class_selection_guide_en: "Mendatory classes are marked in blue. Please select at least one mandatory class.",
         class_selection_description: "[과목 상세 설명 보기(클릭)]",
         class_tooltip: "{0} 선생님, Grade {1} ~ {2}",
-        enroll_status: "{0} 신청{1}명/정원{2}명"
-        
+        enroll_status: "{0} (신청{1}명/정원{2}명)",
+        selected_class: "신청한 과목(Enrolled Classes)",
+        basic_info: "기본 정보",
+        prev_select_class : " (이전) 과목선택 단계로 이동",
+        confirm_title: "등록 확인",
+        confirm_content: "등록을 완료하시겠습니까?",
+        submit: "Submit(제출하기)",
+        prev_select_basic_info: "Prev(기본정보확인 단계로 이동)",
+        next_confirm: "Next (최종확인 단계로 이동)",
+        prev_select_student: "Prev(학생선택 단계로 이동)",
+        next_select_class: "Next (과목선택 단계로로 이동)",
+        detail_title: "과목명: {0}",
+        detail_teacher: "선생님: {0}",
+        detail_grade: "학년: {0} ~ {1}",
+        detail_korean_level: "한국어 수준: {0} ~ {1}",
+        detail_description: "설명:",
+        occupied_status:"{0} 신청마감(정원{1}명}",
+        enrollment_fail: "'{0}' 과목은 신청이 불가합니다. 다른 과목으로 변경후 재신청 바랍니다.",
+        add_student: "학생추가하기"        
     }
 };
 

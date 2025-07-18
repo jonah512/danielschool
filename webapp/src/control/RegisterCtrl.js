@@ -76,7 +76,7 @@ class RegisterCtrlObj {
     // call /session/StartSession API
     console.log('Starting session', email);
     axios
-      .post(window.APIURL + "/session/StartSession?email=" + email) // Fix: Pass email as a query parameter
+      .post(window.APIURL + "/StartSession?email=" + email) // Fix: Pass email as a query parameter
       .then(response => {
         console.log("Session started successfully:", response.data);
         localStorage.setItem('session_key', response.data.session_key);
@@ -93,7 +93,7 @@ class RegisterCtrlObj {
             clearInterval(this.sessionCheckInterval);
             return;
           }
-          axios.post(window.APIURL + "/session/CheckSession?email=" + localStorage.getItem('parent_email') + "&session_key=" + localStorage.getItem('session_key'))
+          axios.post(window.APIURL + "/CheckSession?email=" + localStorage.getItem('parent_email') + "&session_key=" + localStorage.getItem('session_key'))
             .then(response => {
               console.log("Session status checked:", response.data, this.waitingPosition);
               if (this.waitingPosition != response.data.position) {
@@ -119,7 +119,7 @@ class RegisterCtrlObj {
     console.log('Cleaning up session');
     // call /session/EndSession API
     if (localStorage.getItem('parent_email') != null && localStorage.getItem('session_key') != null) {
-      axios.post(window.APIURL + "/session/EndSession?email=" + localStorage.getItem('parent_email') + "&session_key=" + localStorage.getItem('session_key'))
+      axios.post(window.APIURL + "/EndSession?email=" + localStorage.getItem('parent_email') + "&session_key=" + localStorage.getItem('session_key'))
         .then(response => {
           console.log("Session ended successfully:", response.data);
         })

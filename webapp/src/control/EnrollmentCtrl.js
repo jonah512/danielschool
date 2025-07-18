@@ -53,9 +53,13 @@ export default class EnrollmentCtrl {
   
   async conditionAddEnrollmentSync(enrollmentData) {
     console.log('Adding new enrollment:', enrollmentData);
-    const response = await axios.post(`${this.#url}/enrollment_condition/`, enrollmentData); // Ensure trailing slash
-    console.log("Enrollment added successfully:", response.data);
-    this.getEnrollment(enrollmentData.year, enrollmentData.term);
+    try{
+      const response = await axios.post(`${this.#url}/enrollment_condition/`, enrollmentData); // Ensure trailing slash
+      console.log("Enrollment added successfully:", response.data);
+      this.getEnrollment(enrollmentData.year, enrollmentData.term);
+    } catch (error) {
+      throw enrollmentData;
+    }
   }
 
   async updateEnrollmentSync(enrollmentId, enrollmentData) {

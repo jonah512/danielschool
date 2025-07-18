@@ -77,6 +77,8 @@ export default function Login(props) {
     RegisterCtrl.findEmail(searchEmail, (data) => {
       console.log('Found email:', data);
       RegisterCtrl.students = data;
+      RegisterCtrl.parent_email = searchEmail;
+      RegisterCtrl.parent_name = data[0].parent_name || '';
       EventPublisher.publish(EventDef.onMenuChanged, 'SelectStudent');
 
     }, (error) => {

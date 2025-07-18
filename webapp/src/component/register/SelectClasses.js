@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Stack, Typography, RadioGroup, FormControlLabel, Radio, Button, Tooltip } from '@mui/material';
+import { Stack, Typography, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
 import RegisterCtrl from '../../control/RegisterCtrl';
 import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
@@ -10,6 +10,7 @@ import EnrollmentCtrl from '../../control/EnrollmentCtrl';
 import Resource from '../../framework/resource/Resource';
 import ClassDescription from './ClassDescription';
 import SummarizeIcon from '@mui/icons-material/Summarize';
+import ClassDetailPopup from './ClassDetailPopup'
 
 export default function SelectClasses({ onNext, onPrev }) {
 
@@ -21,6 +22,7 @@ export default function SelectClasses({ onNext, onPrev }) {
     const [selectedClassPeriod2, setSelectedClassPeriod2] = useState(null);
     const [selectedClassPeriod3, setSelectedClassPeriod3] = useState(null);
     const [showClassDescription, setShowClassDescription] = useState(false);
+    const [hoveredClass, setHoveredClass] = useState(null);
 
     const MODULE = 'SelectClasses';
 
@@ -190,7 +192,6 @@ export default function SelectClasses({ onNext, onPrev }) {
         console.log('onSumit enrollments:', enrollments);
         const enrollment_control = new EnrollmentCtrl(window.APIURL);
 
-
         try {
 
             for (const enrollment of enrollments) {
@@ -210,9 +211,10 @@ export default function SelectClasses({ onNext, onPrev }) {
             enrollment_control.getEnrollment(RegisterCtrl.year, RegisterCtrl.term);
             onNext();
 
-        } catch (error) {
-            console.error('Error during enrollment submission:', error);
-            alert('An error occurred while submitting enrollments. Please try again.');
+        } catch (enrollmentData) {
+            console.error('Error during enrollment submission:', enrollmentData);
+            const className = RegisterCtrl.classes.find(c => Number(c.id) === Number(enrollmentData.class_id))?.name || 'Unknown';
+            alert(Resource.get('register.enrollment_fail', className));
 
             for (const enrollment of enrollments) {
                 try {
@@ -262,16 +264,24 @@ export default function SelectClasses({ onNext, onPrev }) {
                                 control={<Radio />}
                                 disabled={classItem.enrolled_number >= classItem.max_students}
                                 label={
-                                    <Tooltip
-                                        title={Resource.get('register.class_tooltip', getTeacherName(classItem), classItem.min_grade, classItem.max_grade)}
-                                        arrow
+                                    <div
+                                        onMouseEnter={() => setHoveredClass(classItem)}
+                                        onMouseLeave={() => setHoveredClass(null)}
                                     >
-                                        <Typography
-                                            sx={{ color: classItem.mendatory ? 'blue' : 'inherit' }}
-                                        >
-                                            {Resource.get('register.enroll_status', classItem.name, classItem.enrolled_number, classItem.max_students)}
-                                        </Typography>
-                                    </Tooltip>
+                                        {classItem.enrolled_number < classItem.max_students ?
+                                            <Typography
+                                                sx={{ color: classItem.mendatory ? 'blue' : 'inherit' }}
+                                            >
+                                                {Resource.get('register.enroll_status', classItem.name, classItem.enrolled_number, classItem.max_students)}
+                                            </Typography> :
+                                            <Typography
+                                                sx={{ color: 'inherit' }}
+                                            >
+                                                {Resource.get('register.occupied_status', classItem.name, classItem.max_students)}
+                                            </Typography>
+                                        }
+                                        {hoveredClass === classItem && <ClassDetailPopup classItem={classItem} />}
+                                    </div>
                                 }
                             />
                         ))}
@@ -290,16 +300,24 @@ export default function SelectClasses({ onNext, onPrev }) {
                                 control={<Radio />}
                                 disabled={classItem.enrolled_number >= classItem.max_students}
                                 label={
-                                    <Tooltip
-                                        title={Resource.get('register.class_tooltip', getTeacherName(classItem), classItem.min_grade, classItem.max_grade)}
-                                        arrow
+                                    <div
+                                        onMouseEnter={() => setHoveredClass(classItem)}
+                                        onMouseLeave={() => setHoveredClass(null)}
                                     >
-                                        <Typography
-                                            sx={{ color: classItem.mendatory ? 'blue' : 'inherit' }}
-                                        >
-                                            {Resource.get('register.enroll_status', classItem.name, classItem.enrolled_number, classItem.max_students)}
-                                        </Typography>
-                                    </Tooltip>
+                                        {classItem.enrolled_number < classItem.max_students ?
+                                            <Typography
+                                                sx={{ color: classItem.mendatory ? 'blue' : 'inherit' }}
+                                            >
+                                                {Resource.get('register.enroll_status', classItem.name, classItem.enrolled_number, classItem.max_students)}
+                                            </Typography> :
+                                            <Typography
+                                                sx={{ color: 'inherit' }}
+                                            >
+                                                {Resource.get('register.occupied_status', classItem.name, classItem.max_students)}
+                                            </Typography>
+                                        }
+                                        {hoveredClass === classItem && <ClassDetailPopup classItem={classItem} />}
+                                    </div>
                                 }
                             />
                         ))}
@@ -318,16 +336,24 @@ export default function SelectClasses({ onNext, onPrev }) {
                                 control={<Radio />}
                                 disabled={classItem.enrolled_number >= classItem.max_students}
                                 label={
-                                    <Tooltip
-                                        title={Resource.get('register.class_tooltip', getTeacherName(classItem), classItem.min_grade, classItem.max_grade)}
-                                        arrow
+                                    <div
+                                        onMouseEnter={() => setHoveredClass(classItem)}
+                                        onMouseLeave={() => setHoveredClass(null)}
                                     >
-                                        <Typography
-                                            sx={{ color: classItem.mendatory ? 'blue' : 'inherit' }}
-                                        >
-                                            {Resource.get('register.enroll_status', classItem.name, classItem.enrolled_number, classItem.max_students)}
-                                        </Typography>
-                                    </Tooltip>
+                                        {classItem.enrolled_number < classItem.max_students ?
+                                            <Typography
+                                                sx={{ color: classItem.mendatory ? 'blue' : 'inherit' }}
+                                            >
+                                                {Resource.get('register.enroll_status', classItem.name, classItem.enrolled_number, classItem.max_students)}
+                                            </Typography> :
+                                            <Typography
+                                                sx={{ color: 'inherit' }}
+                                            >
+                                                {Resource.get('register.occupied_status', classItem.name, classItem.max_students)}
+                                            </Typography>
+                                        }
+                                        {hoveredClass === classItem && <ClassDetailPopup classItem={classItem} />}
+                                    </div>
                                 }
                             />
                         ))}
@@ -337,10 +363,10 @@ export default function SelectClasses({ onNext, onPrev }) {
 
             <Stack direction="row" spacing={2}>
                 <Button variant="contained" color="secondary" fullWidth onClick={onPrev}>
-                    Prev(기본정보확인 단계로 이동)
+                    {Resource.get('register.prev_select_basic_info')}
                 </Button>
                 <Button variant="contained" color="secondary" fullWidth onClick={onSumit}>
-                    Next (최종확인 단계로 이동)
+                    {Resource.get('register.next_confirm')}
                 </Button>
             </Stack>
             {showClassDescription && <ClassDescription funcConfirm={() => setShowClassDescription(false)} />}

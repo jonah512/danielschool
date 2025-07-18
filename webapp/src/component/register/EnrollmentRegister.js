@@ -152,19 +152,19 @@ const onTeacherListChange = (teachers) => {
           <Button
             variant="contained"
             color="secondary"
-            onClick={handleMovePrevFromFinalCheck}>Prev(과목선택 단계로 이동)</Button>
+            onClick={handleMovePrevFromFinalCheck}>{Resource.get('register.prev_select_class')}</Button>
           <Button
             variant="contained"
             color="secondary"
             onClick={handleSubmit}
-            >Submit(제출하기)</Button>
+            >{Resource.get('register.submit')}</Button>
         </AccordionActions>
       </Accordion>
       {showConfirmation && (<AlertDialog
         YesOrNo={true} Open={true}
         onClose={() => setShowConfirmation(false)}
-        Title="등록 확인"
-        Content="등록을 완료하시겠습니까?"
+        Title={Resource.get('register.confirm_title')}
+        Content={Resource.get('register.confirm_content')}
         onNo={() => {setShowConfirmation(false);}}
         onYes={() => {
           setShowConfirmation(false);

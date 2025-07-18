@@ -34,7 +34,10 @@ export default function ClassDescription({funcConfirm}) {
           {Resource.get('register.class_description')}
         </DialogTitle>
         <DialogContent>
-          <img src='class_description_01.png' alt='Class Description' style={{ width: '100%' }} />
+          <Stack direction='column'>
+            <img src='class_description_01.png' alt='Class Description' style={{ width: '100%' }} />
+            <img src='class_description_02.png' alt='Class Description' style={{ width: '100%' }} />
+          </Stack>
         </DialogContent>
         <DialogActions>
             <Button

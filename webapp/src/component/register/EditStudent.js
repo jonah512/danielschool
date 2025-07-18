@@ -165,13 +165,13 @@ export default function EditStudent({onPrev, onNext, student }) {
                         color="secondary"
                         onClick={onPrev}
                         fullWidth
-                    >Prev(학생선택 단계로 이동)</Button>
+                    >{Resource.get('register.prev_select_student')}</Button>
                     <Button
                         variant="contained"
                         color="secondary"
                         onClick={handleSubmit}
                         fullWidth
-                    >Next (과목선택 단계로로 이동)</Button>
+                    >{Resource.get('register.next_select_class')}</Button>
                 </Stack>
             </Stack>
         </Box>

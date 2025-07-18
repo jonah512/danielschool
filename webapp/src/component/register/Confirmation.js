@@ -49,7 +49,7 @@ export default function Confirmation({ onNext, student }) {
         <Box>
             <Stack spacing={2}>
                 <Typography variant="h6" textAlign="center">
-                    기본 정보
+                    {Resource.get('register.basic_info')}
                 </Typography>
                 <Box sx={{ textAlign: 'left', marginBottom: '20px', backgroundColor: '#f9f9f9', padding: '10px', borderRadius: '5px' }}>
                     <Typography>
@@ -70,9 +70,7 @@ export default function Confirmation({ onNext, student }) {
                     <Typography>
                         {Resource.get('students.parent_name')}: {formData.parent_name}
                     </Typography>
-                    <Typography>
-                        {Resource.get('students.address')}: {formData.address}
-                    </Typography>
+
                     <Typography>
                         {Resource.get('students.gender')}: {formData.gender}
                     </Typography>
@@ -88,7 +86,7 @@ export default function Confirmation({ onNext, student }) {
                 </Box>
 
                 <Typography variant="h6" textAlign="center">
-                    신청한 과목(Enrolled Classes)
+                    {Resource.get('register.selected_class')}
                 </Typography>
                 <Box sx={{ textAlign: 'left', marginBottom: '20px', backgroundColor: '#f9f9f9', padding: '10px', borderRadius: '5px' }}>
                     {enrolledClasses.map((enrolledClass, index) => (
