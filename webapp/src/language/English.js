@@ -81,7 +81,8 @@ const English = {
         no: "No",
         grade: "Grade",
         bulk_upload: "Bulk Upload",
-        missing: "'{0}' is missing."
+        missing: "'{0}' is missing.",
+        select_korean_level_title: "Select Korean Level"
     },
     teachers: {
         id: "ID",

@@ -157,8 +157,8 @@ export default function EditStudent({ open, onClose, student }) {
                         fullWidth
                     >
                     {Defines.koreanLevelOptions.map((option) => (
-                        <MenuItem key={option.label} value={option.level}>
-                            {option.label}
+                        <MenuItem key={option.level} value={option.level}>
+                            {option.level}. {option.label}
                         </MenuItem>
                     ))}
                     </TextField>

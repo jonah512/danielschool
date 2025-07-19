@@ -16,6 +16,7 @@ import dayjs from 'dayjs';
 import SessionManager from '../../control/SessionManager';
 import Defines from '../Defines'
 import Typography from '@mui/material/Typography';
+import SelectKoreanLevel from './SelectKoreanLevel';
 
 export default function AddNewStudent({ open, onClose, onAddStudent }) {
     const [formData, setFormData] = useState({
@@ -33,6 +34,7 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
     });
 
     const [emailError, setEmailError] = useState(''); // State for email error
+    const [showSelectKoreanLevel, setShowSelectKoreanLevel] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -69,6 +71,11 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
         await control.addNewStudentSync(formData, SessionManager.getSearchWord('Students')); // Call addNewStudent to save the new student
 
         onAddStudent(formData); // Close the dialog
+    };
+
+    const handleSelectKoreanLevel = (level) => {
+        setFormData({ ...formData, korean_level: level });
+        setShowSelectKoreanLevel(false);
     };
 
     return (
@@ -166,22 +173,15 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
                         fullWidth
                     />
                     <TextField
-                        select
                         label={Resource.get('students.korean_level')}
                         name="korean_level"
                         value={formData.korean_level}
                         onChange={handleChange}
+                        onClick={() => setShowSelectKoreanLevel(true)}
                         fullWidth
-                    >
-                    {Defines.koreanLevelOptions.map((option) => (
-                        <MenuItem key={option.level} value={option.level}>
-                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                            <Typography>{option.level}. {option.label}</Typography>
-                            {option.example !== '' &&<Typography> [예: {option.example}]</Typography>}
-                            </Box>
-                        </MenuItem>
-                    ))}
-                    </TextField>
+                        InputProps={{ readOnly: true }}
+                    />
+
                 </Stack>
             </DialogContent>
             <DialogActions>
@@ -192,6 +192,12 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
                     {Resource.get('common.dialog.submit')}
                 </Button>
             </DialogActions>
+            <SelectKoreanLevel
+                open={showSelectKoreanLevel}
+                onClose={() => setShowSelectKoreanLevel(false)}
+                onSelect={handleSelectKoreanLevel}
+                currentLevel={formData.korean_level}
+            />
         </Dialog>
     );
 }

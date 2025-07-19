@@ -31,6 +31,7 @@ TODO)
 >> done : 26. GMAIL 권장하기기
 >> done : 27. 버튼들에 아이콘 넣기.
 >> done : 28. 과목 선택창에 경고문구는 red color.
+>> done : 29. 한글등급선택하는 팝업창 만들기(신규 등록시에에)
 
 docker-compose -p daniel up --build -d
 docker save -o daniel-service.tar daniel-daniel-service

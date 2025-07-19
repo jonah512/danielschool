@@ -81,7 +81,8 @@ const Korean = {
         no: "없음",
         grade: "학년",
         bulk_upload: "일괄 업로드",
-        missing: "'{0}'이(가) 누락되었습니다."
+        missing: "'{0}'이(가) 누락되었습니다.",
+        select_korean_level_title: "한국어 수준 선택"
     },
     teachers: {
         id: "아이디",
@@ -211,7 +212,7 @@ const Korean = {
         detail_description: "설명:",
         occupied_status:"{0} 신청마감(정원{1}명}",
         enrollment_fail: "'{0}' 과목은 신청이 불가합니다. 다른 과목으로 변경후 재신청 바랍니다.",
-        add_student: "학생추가하기"        
+        add_student: "학생추가하기"   
     },
     blocked:{
         opening_time: "시작: {0}",
