@@ -18,6 +18,8 @@ import { EventDef } from '../../framework/event/EventDef';
 import EventPublisher from '../../framework/event/EventPublisher';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import Logger from '../../framework/logger/Logger';
+
 export default function AddNewClass({ open, onClose }) {
     const [formData, setFormData] = useState({
         name: '',
@@ -55,7 +57,7 @@ export default function AddNewClass({ open, onClose }) {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
-        console.log(name, value);
+        Logger.debug(name, value);
     };
 
     const handleSubmit = () => {
@@ -78,7 +80,7 @@ export default function AddNewClass({ open, onClose }) {
             return;
         }
 
-        console.log(formData);
+        Logger.debug(formData);
 
 
         const control = new ClassesCtrl(window.APIURL);

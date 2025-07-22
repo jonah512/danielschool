@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { Stack, Button, Typography } from '@mui/material';
-import UploadFileIcon from '@mui/icons-material/UploadFile';
+import { Stack, Button } from '@mui/material';
 import Resource from '../../framework/resource/Resource';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import axios from 'axios';
+import Logger from '../../framework/logger/Logger';
 
 export default function StudentBulkUpload() {
     const fileInputRef = React.useRef(null);

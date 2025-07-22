@@ -34,7 +34,7 @@ export default function App(props) {
   };
 
   const onLogin = (response) => {
-    console.log(response);
+    Logger.debug(response);
     if (response.success) {
       SessionManager.setLoginStatus(true);
       SessionManager.setUserRole(response.user_role);

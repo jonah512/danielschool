@@ -1,15 +1,9 @@
 // Copyright (c) 2025 Milal Daniel Korean School.
 import dayjs from 'dayjs';
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import { Stack, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import StuidentCtrl from '../../control/StudentsCtrl';
@@ -18,15 +12,12 @@ import ClassesCtrl from '../../control/ClassesCtrl';
 import Resource from '../../framework/resource/Resource';
 import { EventDef } from '../../framework/event/EventDef';
 import EventPublisher from '../../framework/event/EventPublisher';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import { TablePagination } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import SessionManager from '../../control/SessionManager';
 import Defines from '../Defines';
 import ClassroomElement from './ClassroomElement';
 import DownloadIcon from '@mui/icons-material/Download';
 import Divider from '@mui/material/Divider';
+import Logger from '../../framework/logger/Logger';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -83,17 +74,17 @@ export default function ClassroomTable({ search, year, term }) {
     }, [search, year, term, window.APIURL]);
 
     const onEnrollmentListChange = (data) => {
-        console.log('onEnrollmentListChange:');
+        Logger.debug('onEnrollmentListChange:');
         setEnrollmentList(data); // Update enrollment list state 
     }
 
     const onClassListChange = (data) => {
-        console.log('onClassListChange:');
+        Logger.debug('onClassListChange:');
         setClassList(data); // Update class list state
     }
 
     const onStudentListChange = (data) => {
-        console.log('onStudentListChange:');
+        Logger.debug('onStudentListChange:');
         const processedData = data.map((student) => ({
             ...student,
             grade: Defines.gradeOptions.find((grade) => grade.value === student.grade)?.label || student.grade,
@@ -119,7 +110,7 @@ export default function ClassroomTable({ search, year, term }) {
 
         const csvRows = csvContent.split('\n');
         const headerRow = csvRows[0].split(','); // First row is the header
-        console.log('headerRow', headerRow);
+        Logger.debug('headerRow', headerRow);
         // create 2d additional array with same size of csvRows and headerRow
         const additionalData = Array.from({ length: headerRow.length * csvRows.length }, () => []);
 
@@ -139,7 +130,7 @@ export default function ClassroomTable({ search, year, term }) {
             // use additionalData to create rows
             ...additionalData.map(row => row.join(','))
         ].join('\n');
-        console.log('csvContentWithAdditionalData');
+        Logger.debug('csvContentWithAdditionalData');
 
         const blob = new Blob(["\uFEFF" + csvContentWithAdditionalData], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);

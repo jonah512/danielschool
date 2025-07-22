@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import Resource from '../../framework/resource/Resource';
 import SchedulesCtrl from '../../control/SchedulesCtrl';
-import SessionManager from '../../control/SessionManager';
+import Logger from '../../framework/logger/Logger';
 
 export default function EditSchedule({ open, onClose, schedule }) {
     const [formData, setFormData] = useState({ 

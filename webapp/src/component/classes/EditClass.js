@@ -12,7 +12,7 @@ import {
 import Resource from '../../framework/resource/Resource';
 import ClassesCtrl from '../../control/ClassesCtrl';
 import TeachersCtrl from '../../control/TeachersCtrl';
-import dayjs from 'dayjs';
+import Logger from '../../framework/logger/Logger';
 import SessionManager from '../../control/SessionManager';
 import Defines from '../Defines';
 import { EventDef } from '../../framework/event/EventDef';

@@ -12,14 +12,36 @@ export default class UsersCtrl {
   }
 
   updateProfile(search) {
-    console.log('fetchUsers', search);
+    Logger.debug('fetchUsers', search);
     axios
       .get(this.#url + "/users", { params: { name: search } })
       .then(response => {
-        console.log("Fetched Users:", response.data);
+        Logger.debug("Fetched Users:", response.data);
         EventPublisher.publish(EventDef.onUserListChange, response.data);
       })
       .catch(error => Logger.error("Error fetching users:", error));
   }
+
+  async getAccessedUser() {
+    try {
+      const response = await axios.get(this.#url + "/GetSessionQueue");
+      Logger.debug("Accessed User:", response.data);
+      return response.data;
+    } catch (error) {
+      Logger.error("Error fetching accessed user:", error);
+      throw error;
+    }
+  }
+  
+  clearUser(search) {
+    Logger.debug('clearUser', search);
+    axios
+      .get(this.#url + "/ClearSessionQueue")
+      .then(response => {
+        Logger.debug("ClearSessionQueue:", response.data);
+      })
+      .catch(error => Logger.error("Error ClearSessionQueue:", error));
+  }
+
 }
 

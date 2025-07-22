@@ -7,6 +7,7 @@ import Resource from '../../framework/resource/Resource';
 import ConsentCtrl from '../../control/ConsentsCtrl';
 import Cookies from 'js-cookie'; // Import js-cookie library
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import Logger from '../../framework/logger/Logger';
 
 function ConfirmConsent({ consentList }) {
     const [consents, setConsents] = useState(consentList); // List of consents
@@ -15,7 +16,7 @@ function ConfirmConsent({ consentList }) {
     useEffect(() => {
         const consentKey = `consents_${RegisterCtrl.year}_${RegisterCtrl.term}`;
         const storedConsentStatus = Cookies.get(consentKey); // Retrieve consent status from cookies
-        console.log('consent status', consentKey, storedConsentStatus);
+        Logger.debug('consent status', consentKey, storedConsentStatus);
         if (storedConsentStatus === 'agreed') {
             EventPublisher.publish(EventDef.onMenuChanged, 'Login');
             return;
@@ -48,7 +49,7 @@ function ConfirmConsent({ consentList }) {
     const handleStartEnrollment = () => {
         const consentKey = `consents_${RegisterCtrl.year}_${RegisterCtrl.term}`;
         Cookies.set(consentKey, 'agreed', { expires: 365 }); // Store consent status in cookies for 1 year
-        console.log('consent saved', consentKey);
+        Logger.debug('consent saved', consentKey);
         EventPublisher.publish(EventDef.onMenuChanged, 'Login');
     };
 

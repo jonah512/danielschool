@@ -11,6 +11,7 @@ import {
 import Resource from '../../framework/resource/Resource';
 import TeachersCtrl from '../../control/TeachersCtrl';
 import SessionManager from '../../control/SessionManager';
+import Logger from '../../framework/logger/Logger';
 
 export default function EditTeacher({ open, onClose, teacher }) {
     const [formData, setFormData] = useState({ 

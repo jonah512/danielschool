@@ -5,8 +5,7 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Resource from '../../framework/resource/Resource';
-import EventPublisher from '../../framework/event/EventPublisher';
-import { EventDef } from '../../framework/event/EventDef';
+import Logger from '../../framework/logger/Logger';
 
 export default function TopBar(props) {
   const MODULE = 'TopBar';

@@ -1,11 +1,8 @@
 // Copyright (c) 2025 Milal Daniel Korean School.
 import dayjs from 'dayjs';
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import { Stack, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
-import Tooltip from '@mui/material/Tooltip';
-import TextField from '@mui/material/TextField';
 import AlertDialog from '../common/AlertDialog';
 import SchedulesCtrl from '../../control/SchedulesCtrl';
 import Resource from '../../framework/resource/Resource';
@@ -17,6 +14,7 @@ import AddNewSchedule from './AddNewSchedule'; // Import the new component
 import EditSchedule from './EditSchedule'; // Import the EditSchedule component
 import SessionManager from '../../control/SessionManager';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import Logger from '../../framework/logger/Logger';
 
 export default function SchedulesTable() {
     const [userList, setUserList] = useState([]); // State for user list
@@ -40,7 +38,7 @@ export default function SchedulesTable() {
 
     const onScheduleListChange = (data) => {
         const filteredData = data.filter(item => item.id >= 0); // Exclude items with id less than 0
-        console.log(filteredData);
+        Logger.debug(filteredData);
         setUserList(filteredData); // Update user list state
     }
     const handleSelectionChange = (newSelection) => {

@@ -22,6 +22,7 @@ import { Box, useMediaQuery, useTheme } from '@mui/material';
 import Resource from '../../framework/resource/Resource';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import Logger from '../../framework/logger/Logger';
 
 export default function EnrollmentRegister() {
 
@@ -76,7 +77,7 @@ const onTeacherListChange = (teachers) => {
 
 
   const onSelectedStudentChanged = (student) => {
-    console.log('onSelectedStudentChanged student : ', student);
+    Logger.debug('onSelectedStudentChanged student : ', student);
     setSelectedStudent(student);
   };
 
@@ -99,7 +100,7 @@ const onTeacherListChange = (teachers) => {
 
   const handleSubmit = () => {
     // show confirmation dialog
-    console.log('handleSubmit called');
+    Logger.debug('handleSubmit called');
     setShowConfirmation(true);
   }
 

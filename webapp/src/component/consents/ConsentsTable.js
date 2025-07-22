@@ -1,11 +1,7 @@
 // Copyright (c) 2025 Milal Daniel Korean School.
-import dayjs from 'dayjs';
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import { Stack, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
-import Tooltip from '@mui/material/Tooltip';
-import TextField from '@mui/material/TextField';
 import AlertDialog from '../common/AlertDialog';
 import ConsentsCtrl from '../../control/ConsentsCtrl';
 import Resource from '../../framework/resource/Resource';
@@ -17,6 +13,7 @@ import AddNewConsent from './AddNewConsent'; // Import the new component
 import EditConsent from './EditConsent'; // Import the EditConsent component
 import SessionManager from '../../control/SessionManager';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import Logger from '../../framework/logger/Logger';
 
 export default function ConsentsTable() {
     const [userList, setUserList] = useState([]); // State for user list
@@ -40,7 +37,7 @@ export default function ConsentsTable() {
 
     const onConsentListChange = (data) => {
         const filteredData = data.filter(item => item.id >= 0); // Exclude items with id less than 0
-        console.log(filteredData);
+        Logger.debug(filteredData);
         setUserList(filteredData); // Update user list state
     }
     const handleSelectionChange = (newSelection) => {

@@ -17,6 +17,7 @@ import Defines from '../Defines'
 import RegisterCtrl from '../../control/RegisterCtrl';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import Logger from '../../framework/logger/Logger';
 
 export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
     const [formData, setFormData] = useState({

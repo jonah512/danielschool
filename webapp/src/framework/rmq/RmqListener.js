@@ -47,10 +47,10 @@ class RmqListenerObj {
       Logger.debug('[checkConnections] start', self.#connections);
       self.#connections.forEach((value, key) => {
         if (value.connection === false) {
-          console.log('[checkConnections] find not connected session', self.#clients.get(key));
+          Logger.debug('[checkConnections] find not connected session', self.#clients.get(key));
           let client = self.#createClient(value.exchangeName, key, value.ip);
           self.#clients.set(key, client);
-          console.log('[checkConnections] try to subscribe again', self.#clients);
+          Logger.debug('[checkConnections] try to subscribe again', self.#clients);
           client.activate();
         }
         else {

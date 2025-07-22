@@ -12,7 +12,7 @@ export default class ConsentCtrl {
   }
 
   getConsents() {
-    console.log('fetchConsents');
+    Logger.debug('fetchConsents');
     axios
       .get(this.#url + "/consents" )
       .then(response => {
@@ -22,10 +22,10 @@ export default class ConsentCtrl {
   }
   
   async getConsentsSync() {
-    console.log('fetchConsents');
+    Logger.debug('fetchConsents');
     try{
       const response = await axios.get(this.#url + "/consents" );
-      console.log("Fetched Consents:", response.data);
+      Logger.debug("Fetched Consents:", response.data);
       EventPublisher.publish(EventDef.onConsentListChange, response.data);
       return response.data;
     } catch (error) {
@@ -35,7 +35,7 @@ export default class ConsentCtrl {
 
 
   updateConsent(consentId, consentData) {
-    console.log('Updating consent:', consentId, consentData);
+    Logger.debug('Updating consent:', consentId, consentData);
     axios
       .put(`${this.#url}/consents/${consentId}`, consentData)
       .then(response => {
@@ -45,7 +45,7 @@ export default class ConsentCtrl {
   }
 
   addNewConsent(consentData) {
-    console.log('Adding new consent:', consentData);
+    Logger.debug('Adding new consent:', consentData);
     axios
       .post(this.#url + "/consents", consentData)
       .then(response => {
@@ -55,12 +55,12 @@ export default class ConsentCtrl {
   }
 
   async deleteConsents(consentIds) {
-    console.log('Deleting consents:', consentIds);
+    Logger.debug('Deleting consents:', consentIds);
 
     for (const id of consentIds) {
       try {
         const response = await axios.delete(`${this.#url}/consents/${id}`);
-        console.log(`Consent with ID ${id} deleted successfully:`);
+        Logger.debug(`Consent with ID ${id} deleted successfully:`);
       } catch (error) {
         Logger.error(`Error deleting consent with ID ${id}:`, error);
       }

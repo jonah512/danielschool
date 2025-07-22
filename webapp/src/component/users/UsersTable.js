@@ -2,15 +2,13 @@
 import dayjs from 'dayjs';
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
-import Tooltip from '@mui/material/Tooltip';
-import TextField from '@mui/material/TextField';
 import UsersCtrl from '../../control/UsersCtrl';
 import Resource from '../../framework/resource/Resource';
 import { EventDef } from '../../framework/event/EventDef';
 import EventPublisher from '../../framework/event/EventPublisher';
 import { DataGrid } from '@mui/x-data-grid';
+import Logger from '../../framework/logger/Logger';
 
 export default function UsersTable({ search }) {
   const [userList, setUserList] = useState([]); // State for user list
@@ -26,7 +24,7 @@ export default function UsersTable({ search }) {
   }, [search, window.APIURL]);
 
   const onUserListChange = (data) => {
-    console.log(data);
+    Logger.debug(data);
     setUserList(data); // Update user list state
   }
 

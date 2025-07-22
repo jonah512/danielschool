@@ -1,11 +1,7 @@
 // Copyright (c) 2025 Milal Daniel Korean School.
-import dayjs from 'dayjs';
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import { Stack, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
-import Tooltip from '@mui/material/Tooltip';
-import TextField from '@mui/material/TextField';
 import AlertDialog from '../common/AlertDialog';
 import TeachersCtrl from '../../control/TeachersCtrl';
 import Resource from '../../framework/resource/Resource';
@@ -18,6 +14,7 @@ import EditTeacher from './EditTeacher'; // Import the EditTeacher component
 import SessionManager from '../../control/SessionManager';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DownloadIcon from '@mui/icons-material/Download';
+import Logger from '../../framework/logger/Logger';
 
 export default function TeachersTable({search}) {
     const [userList, setUserList] = useState([]); // State for user list
@@ -40,7 +37,7 @@ export default function TeachersTable({search}) {
     }, [search, window.APIURL]);
 
     const onTeacherListChange = (data) => {
-        console.log(data);
+        Logger.debug(data);
         setUserList(data); // Update user list state
     }
     const handleSelectionChange = (newSelection) => {

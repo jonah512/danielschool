@@ -12,7 +12,7 @@ export default class ScheduleCtrl {
   }
 
   getSchedules() {
-    console.log('fetchSchedules');
+    Logger.debug('fetchSchedules');
     axios
       .get(this.#url + "/schedules" )
       .then(response => {
@@ -22,7 +22,7 @@ export default class ScheduleCtrl {
   }
 
   updateSchedule(scheduleId, scheduleData) {
-    console.log('Updating schedule:', scheduleId, scheduleData);
+    Logger.debug('Updating schedule:', scheduleId, scheduleData);
     axios
       .put(`${this.#url}/schedules/${scheduleId}`, scheduleData)
       .then(response => {
@@ -32,7 +32,7 @@ export default class ScheduleCtrl {
   }
 
   addNewSchedule(scheduleData) {
-    console.log('Adding new schedule:', scheduleData);
+    Logger.debug('Adding new schedule:', scheduleData);
     axios
       .post(this.#url + "/schedules", scheduleData)
       .then(response => {
@@ -42,12 +42,12 @@ export default class ScheduleCtrl {
   }
 
   async deleteSchedules(scheduleIds) {
-    console.log('Deleting schedules:', scheduleIds);
+    Logger.debug('Deleting schedules:', scheduleIds);
 
     for (const id of scheduleIds) {
       try {
         const response = await axios.delete(`${this.#url}/schedules/${id}`);
-        console.log(`Schedule with ID ${id} deleted successfully:`);
+        Logger.debug(`Schedule with ID ${id} deleted successfully:`);
       } catch (error) {
         Logger.error(`Error deleting schedule with ID ${id}:`, error);
       }

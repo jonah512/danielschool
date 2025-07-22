@@ -10,9 +10,8 @@ import {
 } from '@mui/material';
 import Resource from '../../framework/resource/Resource';
 import TeachersCtrl from '../../control/TeachersCtrl';
-import dayjs from 'dayjs';
 import SessionManager from '../../control/SessionManager';
-
+import Logger from '../../framework/logger/Logger';
 
 export default function AddNewTeacher({ open, onClose }) {
     const [formData, setFormData] = useState({

@@ -10,6 +10,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { Stack, TextField } from '@mui/material';
 import Resource from '../../framework/resource/Resource';
+import Logger from '../../framework/logger/Logger';
 
 export default function AlertDialog(props) {
   const [open, setOpen] = React.useState(props.Open);

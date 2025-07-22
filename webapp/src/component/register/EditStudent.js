@@ -13,6 +13,7 @@ import Defines from '../Defines';
 import RegisterCtrl from '../../control/RegisterCtrl';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import Logger from '../../framework/logger/Logger';
 
 export default function EditStudent({onPrev, onNext, student }) {
     const [formData, setFormData] = useState({

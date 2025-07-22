@@ -14,7 +14,7 @@ export default class ClassesCtrl {
   }
 
   getClasses(search, year, term) {
-    console.log('getClasses');
+    Logger.debug('getClasses');
     if (term === 'all') term = null;
     if (year === 'all') year = null;
 
@@ -27,11 +27,11 @@ export default class ClassesCtrl {
   }
 
   addClass(classData, search = '') {
-    console.log('Adding new class:', classData);
+    Logger.debug('Adding new class:', classData);
     axios
       .post(this.#url + "/classes/", classData) // Ensure trailing slash
       .then(response => {
-        console.log("Class added successfully:", response.data);
+        Logger.debug("Class added successfully:", response.data);
         this.getClasses(search);
       })
       .catch(error => {
@@ -42,7 +42,7 @@ export default class ClassesCtrl {
   async updateClassSync(classId, classData) {
     try {
       const response = await axios.put(`${this.#url}/classes/${classId}`, classData); // Ensure trailing slash
-      console.log("Class updated successfully:", response.data);
+      Logger.debug("Class updated successfully:", response.data);
       return response.data; // Return the updated class data
     } catch (error) {
       Logger.error("Error editing class:", error.response?.data || error.message);
@@ -51,12 +51,12 @@ export default class ClassesCtrl {
   }
 
   async deleteClasses(studentIds, search = '') {
-    console.log('Deleting classes:', studentIds);
+    Logger.debug('Deleting classes:', studentIds);
 
     for (const id of studentIds) {
       try {
         const response = await axios.delete(`${this.#url}/classes/${id}`);
-        console.log(`Class with ID ${id} deleted successfully:`);
+        Logger.debug(`Class with ID ${id} deleted successfully:`);
       } catch (error) {
         Logger.error(`Error deleting class with ID ${id}:`, error);
       }

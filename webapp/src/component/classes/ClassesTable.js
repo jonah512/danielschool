@@ -1,11 +1,7 @@
 // Copyright (c) 2025 Milal Daniel Korean School.
-import dayjs from 'dayjs';
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import { Stack, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
-import Tooltip from '@mui/material/Tooltip';
-import TextField from '@mui/material/TextField';
 import AlertDialog from '../common/AlertDialog';
 import ClassesCtrl from '../../control/ClassesCtrl';
 import TeachersCtrl from '../../control/TeachersCtrl';
@@ -19,6 +15,7 @@ import EditClass from './EditClass'; // Import the EditClass component
 import SessionManager from '../../control/SessionManager';
 import Defines from '../Defines';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import Logger from '../../framework/logger/Logger';
 
 export default function ClassesTable({search, year, term}) {
     const [userList, setUserList] = useState([]); // State for user list
@@ -48,12 +45,12 @@ export default function ClassesTable({search, year, term}) {
     }, [search, year, term, window.APIURL]);
 
     const onTeacherListChange = (event) => {
-        console.log('onTeacherListChange', event);
+        Logger.debug('onTeacherListChange', event);
         setTeachers(event); // Update teachers state
     }
 
     const onClassListChange = (data) => {
-        console.log('onClassListChange handleCloseEditClassDialog ',data);
+        Logger.debug('onClassListChange handleCloseEditClassDialog ',data);
         // Sort data by mendatory -> name -> period
         const sortedData = data.sort((a, b) => {
             if (b.mendatory !== a.mendatory) {
@@ -96,14 +93,14 @@ export default function ClassesTable({search, year, term}) {
         try {
             // Call updateClassSync synchronously
             await control.updateClassSync(selectedClass);
-            console.log('Class updated successfully');
+            Logger.debug('Class updated successfully');
         } catch (error) {
             console.error('Error updating class:', error);
         }
 
         // Refresh the class list after updating
         EventPublisher.addEventListener(EventDef.onClassListChange, MODULE, onClassListChange);
-        console.log('handleCloseEditClassDialog', search, year, term);
+        Logger.debug('handleCloseEditClassDialog', search, year, term);
         control.getClasses(search = search, year = year, term = term);
     };
 

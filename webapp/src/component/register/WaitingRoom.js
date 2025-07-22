@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Stack, Typography, RadioGroup, FormControlLabel, Radio, Button, Tooltip, CircularProgress, Dialog, DialogContent } from '@mui/material';
+import { Stack, Typography, Tooltip, CircularProgress, Dialog, DialogContent } from '@mui/material';
 import RegisterCtrl from '../../control/RegisterCtrl';
 import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
 import Defines from '../Defines';
-import dayjs from 'dayjs';
 import ClassesCtrl from '../../control/ClassesCtrl';
-import EnrollmentCtrl from '../../control/EnrollmentCtrl';
 import TeachersCtrl from '../../control/TeachersCtrl';
-
+import Logger from '../../framework/logger/Logger';
 
 export default function WaitingRoom({ onNext, onPrev }) {
 
@@ -48,7 +46,7 @@ export default function WaitingRoom({ onNext, onPrev }) {
     }, []);
 
     const onSelectedStudentChanged = (student) => {
-        console.log('onSelectedStudentChanged student : ', student);
+        Logger.debug('onSelectedStudentChanged student : ', student);
         setSelectedStudent(student);
         const class_control = new ClassesCtrl(window.APIURL);
         class_control.getClasses(null, RegisterCtrl.year, RegisterCtrl.term);
@@ -99,7 +97,7 @@ export default function WaitingRoom({ onNext, onPrev }) {
     };
 
     const onWaitingPositionChange = (position) => {
-        console.log('onWaitingPositionChange position:', position);
+        Logger.debug('onWaitingPositionChange position:', position);
         setWaitingPosition(position);
         
         if( position <= Defines.MAX_WAITING_POSITION) {

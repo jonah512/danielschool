@@ -32,11 +32,11 @@ class RegisterCtrlObj {
   }
 
   findEmail(email, onSuccess, onError) {
-    console.log('findEmail', email);
+    Logger.debug('findEmail', email);
     axios
       .get(window.APIURL + "/students", { params: { name: email } })
       .then(response => {
-        console.log("Fetched Students:", response.data);
+        Logger.debug("Fetched Students:", response.data);
         if (response.data && response.data.length > 0) {
           onSuccess(response.data);
           this.parent_email = email;
@@ -55,15 +55,15 @@ class RegisterCtrlObj {
   }
 
   searchEmail(student_name, onSuccess) {
-    console.log('searchEmail', student_name);
+    Logger.debug('searchEmail', student_name);
     axios
     .get(window.APIURL + "/students", { params: { name: student_name } })
     .then(response => {
-      console.log("Fetched Students:", response.data);
+      Logger.debug("Fetched Students:", response.data);
       if (response.data && response.data.length > 0) {
         onSuccess(response.data);
       } else {
-        console.log("No students found with the given name.");
+        Logger.debug("No students found with the given name.");
       }
     })
     .catch(error => {
@@ -74,11 +74,11 @@ class RegisterCtrlObj {
 
   startSession(email) {
     // call /session/StartSession API
-    console.log('Starting session', email);
+    Logger.debug('Starting session', email);
     axios
       .post(window.APIURL + "/StartSession?email=" + email) // Fix: Pass email as a query parameter
       .then(response => {
-        console.log("Session started successfully:", response.data);
+        Logger.debug("Session started successfully:", response.data);
         localStorage.setItem('session_key', response.data.session_key);
 
         if (this.waitingPosition != response.data.position) {
@@ -87,7 +87,7 @@ class RegisterCtrlObj {
         }
         // start timer to check session status every 5 seconds
         this.sessionCheckInterval = setInterval(() => {
-          console.log("Checking session status...", localStorage.getItem('parent_email'), localStorage.getItem('session_key'));
+          Logger.debug("Checking session status...", localStorage.getItem('parent_email'), localStorage.getItem('session_key'));
           if (localStorage.getItem('parent_email') == null || !localStorage.getItem('session_key') == null) {
             EventPublisher.publish(EventDef.onMenuChanged, 'Login');
             clearInterval(this.sessionCheckInterval);
@@ -95,7 +95,7 @@ class RegisterCtrlObj {
           }
           axios.post(window.APIURL + "/CheckSession?email=" + localStorage.getItem('parent_email') + "&session_key=" + localStorage.getItem('session_key'))
             .then(response => {
-              console.log("Session status checked:", response.data, this.waitingPosition);
+              Logger.debug("Session status checked:", response.data, this.waitingPosition);
               if (this.waitingPosition != response.data.position) {
                 EventPublisher.publish(EventDef.onWaitingPosition, response.data.position);
                 this.waitingPosition = response.data.position;
@@ -116,12 +116,12 @@ class RegisterCtrlObj {
   }
 
   cleanUpSession() {
-    console.log('Cleaning up session');
+    Logger.debug('Cleaning up session');
     // call /session/EndSession API
     if (localStorage.getItem('parent_email') != null && localStorage.getItem('session_key') != null) {
       axios.post(window.APIURL + "/EndSession?email=" + localStorage.getItem('parent_email') + "&session_key=" + localStorage.getItem('session_key'))
         .then(response => {
-          console.log("Session ended successfully:", response.data);
+          Logger.debug("Session ended successfully:", response.data);
         })
         .catch(error => {
           Logger.error("Error ending session:", error);
@@ -144,11 +144,11 @@ class RegisterCtrlObj {
   }
 
   getStudentWithId(id) {
-    console.log('getStudent');
+    Logger.debug('getStudent');
     axios
       .get(window.APIURL + "/students/" + id)
       .then(response => {
-        console.log("Fetched Students:", response.data);
+        Logger.debug("Fetched Students:", response.data);
         this.selected_student = response.data;
         EventPublisher.publish(EventDef.onSelectedStudentChanged, response.data);
       })
@@ -156,7 +156,7 @@ class RegisterCtrlObj {
   }
 
   updateStudent(studentId, studentData, search = '') {
-    console.log('Updating student:', studentId, studentData);
+    Logger.debug('Updating student:', studentId, studentData);
     axios
       .put(`${window.APIURL}/students/${studentId}`, studentData)
       .then(response => {
@@ -166,7 +166,7 @@ class RegisterCtrlObj {
   }
 
   startScheduleCheck() {
-    console.log('Starting schedule check...');
+    Logger.debug('Starting schedule check...');
     const schedule_control = new SchedulesCtrl(window.APIURL);
     this.scheduleCheckInterval = setInterval(() => {
       schedule_control.getSchedules();
@@ -177,7 +177,7 @@ class RegisterCtrlObj {
     if (this.scheduleCheckInterval) {
       clearInterval(this.scheduleCheckInterval);
       this.scheduleCheckInterval = null;
-      console.log('Schedule check stopped.');
+      Logger.debug('Schedule check stopped.');
     }
   }
 

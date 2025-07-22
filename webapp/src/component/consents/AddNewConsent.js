@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import Resource from '../../framework/resource/Resource';
 import ConsentsCtrl from '../../control/ConsentsCtrl';
+import Logger from '../../framework/logger/Logger';
 
 
 export default function AddNewConsent({ open, onClose }) {

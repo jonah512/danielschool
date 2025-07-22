@@ -2,10 +2,10 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Stack, TextField, Button } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 import StudentsTable from './StudentsTable';
 import Resource from '../../framework/resource/Resource';
 import SessionManager from '../../control/SessionManager';
+import Logger from '../../framework/logger/Logger';
 
 export default function Students(props) {
   const [searchWord, setSearchWord] = React.useState("");
@@ -19,7 +19,7 @@ export default function Students(props) {
   const handleSearchChange = (event) => {
     setSearchWord(event.target.value);
     SessionManager.setSearchWord('Students', event.target.value);
-    console.log("Search text changed:", event.target.value);
+    Logger.debug("Search text changed:", event.target.value);
   };
 
   return (

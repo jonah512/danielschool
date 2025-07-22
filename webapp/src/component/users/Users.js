@@ -6,6 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import UsersTable from './UsersTable';
 import Resource from '../../framework/resource/Resource';
 import SessionManager from '../../control/SessionManager';
+import Logger from '../../framework/logger/Logger';
 
 export default function Users(props) {
   const [searchWord, setSearchWord] = React.useState("");
@@ -19,7 +20,7 @@ export default function Users(props) {
   const handleSearchChange = (event) => {
     setSearchWord(event.target.value);
     SessionManager.setSearchWord('Users', event.target.value);
-    console.log("Search text changed:", event.target.value);
+    Logger.debug("Search text changed:", event.target.value);
   };
 
   return (

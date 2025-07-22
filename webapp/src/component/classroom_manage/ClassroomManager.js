@@ -2,10 +2,10 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Stack, TextField, Button } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 import ClassroomTable from './ClassroomTable';
 import Resource from '../../framework/resource/Resource';
 import SessionManager from '../../control/SessionManager';
+import Logger from '../../framework/logger/Logger';
 
 export default function ClassroomManager() {
   const [searchWord, setSearchWord] = React.useState(SessionManager.getSearchWord('ClassroomManager'));
@@ -27,7 +27,7 @@ export default function ClassroomManager() {
   };
 
   const onYearChange = (year) => {
-    console.log("Year changed:", year);
+    Logger.debug("Year changed:", year);
     SessionManager.setSearchWord('Enrollment_Year', year);
     setSelectedYear(year);
   }

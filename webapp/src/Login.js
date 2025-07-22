@@ -28,7 +28,7 @@ const defaultTheme = createTheme({
 
 export default function Login(props) {
   const [deviceConnectionStatus, setDeviceConnectionStatus] = React.useState(false);
-  const [language, setLanguage] = React.useState(0);
+  const [languageIndex, setLanguage] = React.useState(0);
   const [apiUrl, setApiUrl] = React.useState(localStorage.getItem('apiUrl') || window.APIURL);
   const MODULE = 'Login';
   const languageMap = {};
@@ -38,7 +38,14 @@ export default function Login(props) {
     localStorage.setItem('session_key', '');
 
     SessionManager.addDeviceConnectionArbiter("login_window", onDeviceConnectionStatusChanged)
+    
+    Resource.getLanguages().forEach((language, index) => {
+      languageMap[language] = index;
+    });
+
     setLanguage(languageMap[Resource.language]);
+    Logger.debug('language index: ', languageMap[Resource.language])
+
     EventPublisher.addEventListener(EventDef.onLanguageChange, MODULE, onLanguageChange);
     EventPublisher.addEventListener(EventDef.onApiIpChanged, MODULE, setApiUrl);
     return () => {
@@ -73,14 +80,6 @@ export default function Login(props) {
     setLanguage(value);
   };
 
-  let cameraImageClickCount = 0;
-  const onCameraImageClick = (event) => {
-    cameraImageClickCount++;
-  }
-  const onVirtekImageClick = (event) => {
-
-  }
-
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -90,7 +89,7 @@ export default function Login(props) {
           justifyContent="center"
           alignItems="center"
         >
-          <img src="daniel_logo.png" width='300' alt='Daniel School Admin Page' onClick={onVirtekImageClick}></img>
+          <img src="daniel_logo.png" width='300' alt='Daniel School Admin Page'></img>
           <Box sx={{ height: 30}} />
           <Typography component="h1" variant="h4" textAlign={'center'} >
             {Resource.get('common.title')}
@@ -121,7 +120,7 @@ export default function Login(props) {
                 <Select
                   fullWidth
                   List={Resource.getLanguages()}
-                  Value={language} Title={Resource.get("usermenu.language")}
+                  Value={languageIndex} Title={Resource.get("usermenu.language")}
                   onValueChanged={handleLanguageChange}
                 /> : ''}
             </Box>

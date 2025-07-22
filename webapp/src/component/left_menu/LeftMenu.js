@@ -5,11 +5,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import List from '@mui/material/List';
-import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
-import PodcastsIcon from '@mui/icons-material/Podcasts';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import Resource from '../../framework/resource/Resource';
-import UserRole from '../../framework/user_role/UserRole';
 
 export default function LeftMenu(props) {
   const [selectedMenu, setSelectedMenu] = React.useState(props.SelectedMenu);

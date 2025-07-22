@@ -11,8 +11,8 @@ import Checkbox from '@mui/material/Checkbox';
 import LanguageIcon from '@mui/icons-material/Language';
 import SessionManager from '../../control/SessionManager';
 import LogoutIcon from '@mui/icons-material/Logout';
-import UserRole from '../../framework/user_role/UserRole';
 import RegisterCtrl from '../../control/RegisterCtrl';
+import Logger from '../../framework/logger/Logger';
 
 export default function UserMenu(props) {
   const [anchorEl, setAnchorEl] = useState(null);

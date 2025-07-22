@@ -18,10 +18,10 @@ class LoggerObj {
       if (args.length > 1) {
         let message = this.#getCurrentDateTime() + JSON.stringify(args[0]);
         args.shift();
-        console.log(message, args);
+        Logger.debug(message, args);
       }
       else {
-        console.log(this.#getCurrentDateTime(), JSON.stringify(args));
+        Logger.debug(this.#getCurrentDateTime(), JSON.stringify(args));
       }
     }
   }
@@ -30,10 +30,10 @@ class LoggerObj {
     if (args.length > 1) {
       let message = this.#getCurrentDateTime() + JSON.stringify(args[0]);
       args.shift();
-      console.log(message, args);
+      Logger.debug(message, args);
     }
     else {
-      console.log(this.#getCurrentDateTime(), JSON.stringify(args));
+      Logger.debug(this.#getCurrentDateTime(), JSON.stringify(args));
     }
   }
 

@@ -16,6 +16,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import Typography from '@mui/material/Typography';
+import Logger from '../../framework/logger/Logger';
 
 export default function AlertDialogDetail(props) {
   const [open, setOpen] = React.useState(props.Open);

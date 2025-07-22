@@ -2,13 +2,10 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Copyright from '../etc/Copyright';
 import SessionManager from '../../control/SessionManager';
 import Logger from '../../framework/logger/Logger';
 import LoginIcon from '@mui/icons-material/Login';
@@ -19,7 +16,6 @@ import Select from '../common/Select';
 import { Stack } from '@mui/material';
 import RegisterCtrl from '../../control/RegisterCtrl';
 import AddNewStudent from '../students/AddNewStudent';
-import Register from './Register';
 import Grid from '@mui/material/Grid';
 import FindEmail from './FindEmail';
 import { useMediaQuery, useTheme } from '@mui/material'; // Add responsive utilities
@@ -83,7 +79,7 @@ export default function Login(props) {
     }
 
     RegisterCtrl.findEmail(searchEmail, (data) => {
-      console.log('Found email:', data);
+      Logger.debug('Found email:', data);
       RegisterCtrl.students = data;
       RegisterCtrl.parent_email = searchEmail;
       RegisterCtrl.parent_name = data[0].parent_name || '';
@@ -102,7 +98,7 @@ export default function Login(props) {
   const handleCloseAddStudentDialog = (student) => {
     setShowNewRegistration(false);
     RegisterCtrl.findEmail(student.email, (data) => {
-      console.log('Found email:', data);
+      Logger.debug('Found email:', data);
       RegisterCtrl.students = data;
       EventPublisher.publish(EventDef.onMenuChanged, 'SelectStudent');
 

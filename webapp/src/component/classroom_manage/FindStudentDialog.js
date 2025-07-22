@@ -13,12 +13,9 @@ import Resource from '../../framework/resource/Resource';
 import { DataGrid } from '@mui/x-data-grid';
 import Defines from '../Defines';
 import { useEffect, useState } from 'react';
-import { EventDef } from '../../framework/event/EventDef';
-import EventPublisher from '../../framework/event/EventPublisher';
 import StuidentCtrl from '../../control/StudentsCtrl';
 import SearchIcon from '@mui/icons-material/Search';
-import SessionManager from '../../control/SessionManager';
-import EnrollmentCtrl from '../../control/EnrollmentCtrl';
+import Logger from '../../framework/logger/Logger';
 
 export default function FindStudentDialog({ classId, onClose, onAddStudent }) {
   const [studentList, setStudentList] = useState([]); // State for user list
@@ -29,9 +26,9 @@ export default function FindStudentDialog({ classId, onClose, onAddStudent }) {
   const handleSearchChange = async (event) => {
     const control = new StuidentCtrl(window.APIURL);
     setSearch(event.target.value);
-    console.log("Search text changed:", event.target.value);
+    Logger.debug("Search text changed:", event.target.value);
     const students_ = await control.getStudentsSync(event.target.value); // Await the async function
-    console.log('students_ : ', students_);
+    Logger.debug('students_ : ', students_);
     setStudentList(students_);
   };
 
@@ -54,7 +51,7 @@ export default function FindStudentDialog({ classId, onClose, onAddStudent }) {
   };
 
   const handleAddStudent = async () => {
-    console.log('handleAddStudent', selectionStudent);
+    Logger.debug('handleAddStudent', selectionStudent);
     onAddStudent(selectionStudent);
     onClose();
 

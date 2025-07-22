@@ -5,6 +5,7 @@ import { Stack, TextField } from '@mui/material';
 import ClassesTable from './ClassesTable';
 import Resource from '../../framework/resource/Resource';
 import SessionManager from '../../control/SessionManager';
+import Logger from '../../framework/logger/Logger';
 
 export default function Classes() {
   const [searchWord, setSearchWord] = React.useState(SessionManager.getSearchWord('Classes'));
@@ -15,17 +16,17 @@ export default function Classes() {
   const handleSearchChange = (event) => {
     setSearchWord(event.target.value);
     SessionManager.setSearchWord('Classes', event.target.value);
-    console.log("Search text changed:", event.target.value);
+    Logger.debug("Search text changed:", event.target.value);
   };
 
   const onYearChange = (year) => {
-    console.log("Year changed:", year);
+    Logger.debug("Year changed:", year);
     SessionManager.setSearchWord('Classes_Year', year);
     setSelectedYear(year);
   }
 
   const onTermChange = (term) => {
-    console.log("Term changed:", term);
+    Logger.debug("Term changed:", term);
     SessionManager.setSearchWord('Classes_Term', term);
     setSelectedTerm(term);
   };

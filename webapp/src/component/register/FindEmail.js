@@ -4,12 +4,12 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import CheckIcon from '@mui/icons-material/Check';
 import { Stack, TextField, Typography } from '@mui/material';
 import Resource from '../../framework/resource/Resource';
 import RegisterCtrl from '../../control/RegisterCtrl';
+import Logger from '../../framework/logger/Logger';
 
 export default function FindEmail({funcConfirm}) {
   const [open, setOpen] = React.useState(true);
@@ -29,7 +29,7 @@ export default function FindEmail({funcConfirm}) {
   };
 
   const onSearch = (event) => {
-    console.log('onSearch', event);
+    Logger.debug('onSearch', event);
     const emails = event.map(item => item.email);
 
     const maskedEmails = emails.map(email => {

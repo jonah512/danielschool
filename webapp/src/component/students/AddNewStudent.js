@@ -15,8 +15,8 @@ import StudentsCtrl from '../../control/StudentsCtrl';
 import dayjs from 'dayjs';
 import SessionManager from '../../control/SessionManager';
 import Defines from '../Defines'
-import Typography from '@mui/material/Typography';
 import SelectKoreanLevel from './SelectKoreanLevel';
+import Logger from '../../framework/logger/Logger';
 
 export default function AddNewStudent({ open, onClose, onAddStudent }) {
     const [formData, setFormData] = useState({

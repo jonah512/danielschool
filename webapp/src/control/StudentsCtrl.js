@@ -12,21 +12,21 @@ export default class StudentCtrl {
   }
 
   getStudents(search = '') {
-    console.log('getStudents');
+    Logger.debug('getStudents');
     axios
       .get(this.#url + "/students", { params: { name: search } })
       .then(response => {
-        console.log("Fetched Students:", response.data);
+        Logger.debug("Fetched Students:", response.data);
         EventPublisher.publish(EventDef.onStudentListChange, response.data);
       })
       .catch(error => Logger.error("Error fetching students:", error));
   }
 
   async getStudentsSync(search = '') {
-    console.log('getStudentsSync', search);
+    Logger.debug('getStudentsSync', search);
     try {
       const response = await axios.get(this.#url + "/students", { params: { name: search } });
-      console.log("getStudentsSync Students:", response.data);
+      Logger.debug("getStudentsSync Students:", response.data);
       return response.data;
     } catch (error) {
       Logger.error("Error fetching students:", error);
@@ -34,10 +34,10 @@ export default class StudentCtrl {
   }
 
   async addNewStudentSync(studentData, search = '') {
-    console.log('Adding new student:', studentData);
+    Logger.debug('Adding new student:', studentData);
     try {
       const response = await axios.post(this.#url + "/students", studentData);
-      console.log("Student added successfully:", response.data);
+      Logger.debug("Student added successfully:", response.data);
       this.getStudents(search);
     } catch (error) {
       Logger.error("Error adding student:", error);
@@ -45,7 +45,7 @@ export default class StudentCtrl {
   }
 
   updateStudent(studentId, studentData, search = '') {
-    console.log('Updating student:', studentId, studentData);
+    Logger.debug('Updating student:', studentId, studentData);
     axios
       .put(`${this.#url}/students/${studentId}`, studentData)
       .then(response => {
@@ -55,12 +55,12 @@ export default class StudentCtrl {
   }
 
   async deleteStudentsSync(studentIds, search = '') {
-    console.log('Deleting students:', studentIds);
+    Logger.debug('Deleting students:', studentIds);
 
     for (const id of studentIds) {
       try {
         const response = await axios.delete(`${this.#url}/students/${id}`);
-        console.log(`Student with ID ${id} deleted successfully:`);
+        Logger.debug(`Student with ID ${id} deleted successfully:`);
       } catch (error) {
         Logger.error(`Error deleting student with ID ${id}:`, error);
       }

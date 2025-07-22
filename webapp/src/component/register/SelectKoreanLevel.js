@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
 import Defines from '../Defines';
+import Logger from '../../framework/logger/Logger';
 
 export default function SelectKoreanLevel({ open, onClose, onSelect, currentLevel }) {
     const [selectedLevel, setSelectedLevel] = useState(currentLevel);

@@ -23,6 +23,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { TablePagination } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import Defines from '../Defines';
+import Logger from '../../framework/logger/Logger';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -54,7 +55,7 @@ export default function EnrollmentStudentTable({ search, year, term }) {
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
     useEffect(() => {
-        console.log('EnrollmentStudentTable useEffect', search, year, term);
+        Logger.debug('EnrollmentStudentTable useEffect', search, year, term);
         const student_control = new StuidentCtrl(window.APIURL);
         const enrollment_control = new EnrollmentCtrl(window.APIURL);
         const class_control = new ClassesCtrl(window.APIURL);
@@ -73,12 +74,12 @@ export default function EnrollmentStudentTable({ search, year, term }) {
     }, [search, year, term, window.APIURL]);
 
     const onEnrollmentListChange = (data) => {
-        console.log('onEnrollmentListChange:');
+        Logger.debug('onEnrollmentListChange:');
         setEnrollmentList(data); // Update enrollment list state 
     }
 
     const onClassListChange = (data) => {
-        console.log('onClassListChange:');
+        Logger.debug('onClassListChange:');
         setClassList(data); // Update class list state
     }
 

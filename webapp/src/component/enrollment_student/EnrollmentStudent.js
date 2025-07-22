@@ -1,11 +1,11 @@
 // Copyright (c) 2025 Milal Daniel Korean School.
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { Stack, TextField, Button } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import { useState } from 'react';
+import { Stack, TextField } from '@mui/material';
 import EnrollmentStudentTable from './EnrollmentStudentTable';
 import Resource from '../../framework/resource/Resource';
 import SessionManager from '../../control/SessionManager';
+import Logger from '../../framework/logger/Logger';
 
 export default function EnrollmentStudent() {
   const [searchWord, setSearchWord] = React.useState(SessionManager.getSearchWord('Enrollment'));
@@ -16,17 +16,17 @@ export default function EnrollmentStudent() {
   const handleSearchChange = (event) => {
     setSearchWord(event.target.value);
     SessionManager.setSearchWord('Enrollment', event.target.value);
-    console.log("Search text changed:", event.target.value);
+    Logger.debug("Search text changed:", event.target.value);
   };
 
   const onYearChange = (year) => {
-    console.log("Year changed:", year);
+    Logger.debug("Year changed:", year);
     SessionManager.setSearchWord('Enrollment_Year', year);
     setSelectedYear(year);
   }
 
   const onTermChange = (term) => {
-    console.log("Term changed:", term);
+    Logger.debug("Term changed:", term);
     SessionManager.setSearchWord('Enrollment_Term', term);
     setSelectedTerm(term);
   };

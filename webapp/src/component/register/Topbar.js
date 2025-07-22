@@ -14,6 +14,7 @@ import Menu from '@mui/material/Menu'; // Import Menu
 import MenuItem from '@mui/material/MenuItem'; // Import MenuItem
 import FormControlLabel from '@mui/material/FormControlLabel'; // Import FormControlLabel
 import Checkbox from '@mui/material/Checkbox'; // Import Checkbox
+import Logger from '../../framework/logger/Logger';
 
 function Topbar({ year, term }) {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -35,7 +36,7 @@ function Topbar({ year, term }) {
     }, []);
 
     const onSelectedStudentChanged = (student) => {
-        console.log('onSelectedStudentChanged student : ', student);
+        Logger.debug('onSelectedStudentChanged student : ', student);
         setSelectedStudent(student);
     };
 

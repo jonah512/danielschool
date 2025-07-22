@@ -5,13 +5,12 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import List from '@mui/material/List';
-import PermMediaIcon from '@mui/icons-material/PermMedia';
 import Logger from '../../framework/logger/Logger';
 import Resource from '../../framework/resource/Resource';
-import UserRole from '../../framework/user_role/UserRole';
 import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
 import RoomPreferencesIcon from '@mui/icons-material/RoomPreferences';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import GroupIcon from '@mui/icons-material/Group';
 
 export default function LeftMenuRelations(props) {
 
@@ -85,7 +84,25 @@ export default function LeftMenuRelations(props) {
           </ListItemIcon>
           <ListItemText primary={Resource.get('menu.schedule')} sx={{ color: selectedMenu === 'Schedules' ? "#FFFFFF" : "inherit" }} />
         </ListItemButton>
-      </List>   
+      </List>  
+      <List>
+        <ListItemButton
+          sx={{
+            "&.Mui-selected": {
+              backgroundColor: "#641c71",
+              color: "#000000",
+              ":hover": { backgroundColor: "#D4A8DC" }
+            },
+            ":hover": { backgroundColor: "#D4A8DC" }
+          }}
+          selected={selectedMenu === 'AccessedUser'}
+          onClick={(event) => handleListItemClick(event, 'AccessedUser')}>
+          <ListItemIcon sx={{ color: selectedMenu === 'AccessedUser' ? "#FFFFFF" : "inherit" }}>
+            <GroupIcon />
+          </ListItemIcon>
+          <ListItemText primary={Resource.get('menu.accesseduser')} sx={{ color: selectedMenu === 'AccessedUser' ? "#FFFFFF" : "inherit" }} />
+        </ListItemButton>
+      </List>         
     </React.Fragment>
   );
 };

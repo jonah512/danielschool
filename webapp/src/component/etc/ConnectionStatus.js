@@ -10,6 +10,7 @@ import { EventDef } from '../../framework/event/EventDef';
 import Resource from '../../framework/resource/Resource';
 import Snackbar from '@mui/material/Snackbar';
 import Fade from '@mui/material/Fade';
+import Logger from '../../framework/logger/Logger';
 
 export default function ConnectionStatus(props) {
   const [ deviceConnectionStatus, setDeviceConnectionStatus] = React.useState(SessionManager.getLoginStatus());

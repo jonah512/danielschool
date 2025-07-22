@@ -12,6 +12,7 @@ import {
 import Resource from '../../framework/resource/Resource';
 import SchedulesCtrl from '../../control/SchedulesCtrl';
 import dayjs from 'dayjs';
+import Logger from '../../framework/logger/Logger';
 
 
 export default function AddNewSchedule({ open, onClose }) {

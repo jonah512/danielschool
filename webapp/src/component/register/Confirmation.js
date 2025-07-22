@@ -10,6 +10,7 @@ import EnrollmentCtrl from '../../control/EnrollmentCtrl';
 import RegisterCtrl from '../../control/RegisterCtrl';
 import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
+import Logger from '../../framework/logger/Logger';
 
 export default function Confirmation({ onNext, student }) {
     const formData = {
@@ -34,7 +35,7 @@ export default function Confirmation({ onNext, student }) {
     const onEnrollmentListChange = (enrollments) => {
         RegisterCtrl.enrollments = enrollments;
         const studentEnrollments = RegisterCtrl.enrollments.filter(e => e.student_id === student.id);
-        console.log('onEnrollmentListChange studentEnrollments:', studentEnrollments);
+        Logger.debug('onEnrollmentListChange studentEnrollments:', studentEnrollments);
         const classes = studentEnrollments.map(e => {
             const classInfo = RegisterCtrl.classes.find(c => c.id === e.class_id);
             return {

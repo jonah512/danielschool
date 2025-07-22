@@ -9,7 +9,6 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
@@ -23,6 +22,7 @@ import SessionManager from '../../control/SessionManager';
 import FindStudentDialog from './FindStudentDialog';
 import { EventDef } from '../../framework/event/EventDef';
 import EventPublisher from '../../framework/event/EventPublisher';
+import Logger from '../../framework/logger/Logger';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -110,8 +110,8 @@ export default function ClassroomElement({ classItem, students, enrollments, cla
             const restEnrollments = enrollmentsInClass ? enrollmentsInClass.filter(enrollment => enrollment.student_id !== selectedStudent) : [];
             const restStudents = studentsInClass ? studentsInClass.filter(student => student.id !== selectedStudent) : [];
 
-            console.log('restStudents', restStudents);
-            console.log('restEnrollments', restEnrollments);
+            Logger.debug('restStudents', restStudents);
+            Logger.debug('restEnrollments', restEnrollments);
             setStudentsInClass(restStudents);
             setEnrollmentsInClass(restEnrollments);
         }
@@ -125,7 +125,7 @@ export default function ClassroomElement({ classItem, students, enrollments, cla
         const enrollmentControl = new EnrollmentCtrl(window.APIURL);
 
         for (const studentId of selectionStudent) {
-            console.log('Selected student ID:', studentId);
+            Logger.debug('Selected student ID:', studentId);
             // Add logic to handle each selected student ID
             const newEnrollment = {
                 student_id: studentId,
@@ -135,29 +135,29 @@ export default function ClassroomElement({ classItem, students, enrollments, cla
                 year: year,
                 term: term
             };
-            console.log('newEnrollment', newEnrollment);
+            Logger.debug('newEnrollment', newEnrollment);
             await enrollmentControl.addEnrollmentSync(newEnrollment);
         }
 
         if(enrollments && classes){
             // find out enrollments with the same student id
             const sameStudentEnrollments = enrollments.filter(enrollment => selectionStudent.includes(enrollment.student_id));
-            console.log('Enrollments with the same student ID:', sameStudentEnrollments);
+            Logger.debug('Enrollments with the same student ID:', sameStudentEnrollments);
             // find out enrollments which class id has same  period with the selected class
             const samePeriodEnrollments = sameStudentEnrollments.filter(enrollment => {
                 const class_ = classes.find(classItem => classItem.id === enrollment.class_id);
                 return class_ && class_.period === classItem.period && class_.id !==classItem.id;
             });
-            console.log('Enrollments with the same period:', samePeriodEnrollments);
+            Logger.debug('Enrollments with the same period:', samePeriodEnrollments);
             // Create a map to store enrollments by class ID
             const enrollmentsByClassId = new Map();
 
-            console.log('Enrollments grouped by class ID:', enrollmentsByClassId);
+            Logger.debug('Enrollments grouped by class ID:', enrollmentsByClassId);
             // remove enrollments with the same student id and class id
             for (const enrollment of samePeriodEnrollments) {
-                console.log('Remove enrollment:', enrollment);
+                Logger.debug('Remove enrollment:', enrollment);
                 await enrollmentControl.deleteEnrollment(enrollment.id, year, term);
-                console.log('Remove enrollment Publish:', EventDef.onEnrollmentDelete + enrollment.class_id);
+                Logger.debug('Remove enrollment Publish:', EventDef.onEnrollmentDelete + enrollment.class_id);
                 if (!enrollmentsByClassId.has(enrollment.class_id)) {
                     enrollmentsByClassId.set(enrollment.class_id, []);
                 }

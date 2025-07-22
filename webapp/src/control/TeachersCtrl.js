@@ -12,7 +12,7 @@ export default class TeacherCtrl {
   }
 
   getTeachers(search) {
-    console.log('fetchTeachers');
+    Logger.debug('fetchTeachers');
     axios
       .get(this.#url + "/teachers", { params: { name: search } })
       .then(response => {
@@ -22,7 +22,7 @@ export default class TeacherCtrl {
   }
 
   updateTeacher(teacherId, teacherData, search = '') {
-    console.log('Updating teacher:', teacherId, teacherData);
+    Logger.debug('Updating teacher:', teacherId, teacherData);
     axios
       .put(`${this.#url}/teachers/${teacherId}`, teacherData)
       .then(response => {
@@ -32,7 +32,7 @@ export default class TeacherCtrl {
   }
 
   addNewTeacher(teacherData, search = '') {
-    console.log('Adding new teacher:', teacherData);
+    Logger.debug('Adding new teacher:', teacherData);
     axios
       .post(this.#url + "/teachers", teacherData)
       .then(response => {
@@ -42,12 +42,12 @@ export default class TeacherCtrl {
   }
 
   async deleteTeachers(teacherIds, search = '') {
-    console.log('Deleting teachers:', teacherIds);
+    Logger.debug('Deleting teachers:', teacherIds);
 
     for (const id of teacherIds) {
       try {
         const response = await axios.delete(`${this.#url}/teachers/${id}`);
-        console.log(`Teacher with ID ${id} deleted successfully:`);
+        Logger.debug(`Teacher with ID ${id} deleted successfully:`);
       } catch (error) {
         Logger.error(`Error deleting teacher with ID ${id}:`, error);
       }

@@ -27,18 +27,18 @@ function SelectStudent() {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
 
     useEffect(() => {
-        console.log('SelectStudent students:', students);
+        Logger.debug('SelectStudent students:', students);
         RegisterCtrl.selected_student = - students[0]; // Set the first student as selected by default
     }, []);
 
     const handleNext = () => {
         const selected = students.find(student => String(student.id) === String(selectedStudent));
         RegisterCtrl.selected_student = selected;
-        console.log('Selected student:', RegisterCtrl.selected_student, students, selectedStudent);
+        Logger.debug('Selected student:', RegisterCtrl.selected_student, students, selectedStudent);
         // Handle the next button click, if needed
         EventPublisher.publish(EventDef.onSelectedStudentChanged, RegisterCtrl.selected_student);
 
-        console.log('RegisterCtrl.waitingPosition:', RegisterCtrl.waitingPosition);
+        Logger.debug('RegisterCtrl.waitingPosition:', RegisterCtrl.waitingPosition);
         if (RegisterCtrl.waitingPosition > Defines.MAX_WAITING_POSITION) {
             EventPublisher.publish(EventDef.onMenuChanged, "WaitingRoom");
         }
@@ -55,7 +55,7 @@ function SelectStudent() {
     }
 
     const handleDelete = (studentId) => {
-        console.log('Deleting student with ID:', studentId);
+        Logger.debug('Deleting student with ID:', studentId);
         setSelectedStudentId(studentId);
         setDeleteConfirm(true); // Show delete confirmation dialog
     }
@@ -63,12 +63,12 @@ function SelectStudent() {
 
     const findLastEnrollmentDate = (student) => {
         const enrollments = RegisterCtrl.enrollments.filter(enrollment => enrollment.student_id === student.id);
-        console.log('findLastEnrollmentDate Enrollments for student', student.name, ':', enrollments);
+        Logger.debug('findLastEnrollmentDate Enrollments for student', student.name, ':', enrollments);
         if (enrollments.length === 0) return '';
         const lastEnrollment = enrollments.reduce((latest, current) => {
             return new Date(latest.updated_at) > new Date(current.updated_at) ? latest : current;
         });
-        console.log('findLastEnrollmentDate Last enrollment date for student', student.name, ':', lastEnrollment.updated_at);
+        Logger.debug('findLastEnrollmentDate Last enrollment date for student', student.name, ':', lastEnrollment.updated_at);
         const updatedAt = new Date(lastEnrollment.updated_at);
         const estOffset = -5 * 60; // EST offset in minutes
         const isDST = (date) => {
@@ -79,7 +79,7 @@ function SelectStudent() {
         };
         const dstAdjustment = isDST(updatedAt) ? 60 : 0; // Add 60 minutes if DST is active
         const updatedAtEST = new Date(updatedAt.getTime() + (estOffset + dstAdjustment) * 60000);
-        console.log('findLastEnrollmentDate Last enrollment date for student', student.name, ':', lastEnrollment.updated_at, updatedAtEST);
+        Logger.debug('findLastEnrollmentDate Last enrollment date for student', student.name, ':', lastEnrollment.updated_at, updatedAtEST);
         return updatedAtEST.toLocaleDateString() + ' ' + updatedAtEST.toTimeString().slice(0, 8);
     }
 
@@ -97,7 +97,7 @@ function SelectStudent() {
     }
 
     const onConfirm = () => {
-        console.log('Confirm delete for student ID:', selectedStudentId);
+        Logger.debug('Confirm delete for student ID:', selectedStudentId);
         setDeleteConfirm(false);
         const updatedStudents = students.filter(student => student.id !== selectedStudentId);
         setStudents(updatedStudents);
@@ -120,7 +120,7 @@ function SelectStudent() {
     const handleCloseAddStudentDialog = (student) => {
         setShowNewRegistration(false);
         RegisterCtrl.findEmail(student.email, (data) => {
-            console.log('Found email:', data);
+            Logger.debug('Found email:', data);
             RegisterCtrl.students = data;
             setStudents(data);
         }, (error) => {
@@ -176,7 +176,7 @@ function SelectStudent() {
                         aria-labelledby="select-student-label"
                         name="selectedStudent"
                         onChange={(event) => {
-                            console.log('Selected student ID:', event.target.value);
+                            Logger.debug('Selected student ID:', event.target.value);
                             const id = event.target.value;
                             setSelectedStudent(id);
                         }}

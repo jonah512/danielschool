@@ -1,7 +1,7 @@
 // Copyright (c) 2025 Milal Daniel Korean School.
 import * as React from 'react';
-import { useEffect, Suspense } from 'react';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import { useEffect } from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Box, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
 import { useMediaQuery, useTheme } from '@mui/material'; // Add responsive utilities
@@ -76,7 +76,7 @@ export default function Register() {
   }, []);
 
   const onScheduleListChange = (schedules) => {
-    console.log('onScheduleListChange:', schedules);
+    Logger.debug('onScheduleListChange:', schedules);
 
     // Get the earliest schedule (smallest id or -1)
     const earliestSchedule = schedules.reduce((earliest, current) => {
@@ -88,8 +88,8 @@ export default function Register() {
       return current.id > (latest?.id || 0) ? current : latest;
     }, null);
 
-    console.log('Earliest Schedule:', earliestSchedule);
-    console.log('Latest Schedule:', lastSchedule);
+    Logger.debug('Earliest Schedule:', earliestSchedule);
+    Logger.debug('Latest Schedule:', lastSchedule);
 
     const currentDateTime = earliestSchedule.opening_time;
     const openingTime = lastSchedule.opening_time;
@@ -97,14 +97,14 @@ export default function Register() {
     RegisterCtrl.currentDateTime = currentDateTime;
     RegisterCtrl.timeGap = Date.now() - new Date(currentDateTime).getTime();
 
-    console.log('Current Time Gap:', RegisterCtrl.timeGap);
+    Logger.debug('Current Time Gap:', RegisterCtrl.timeGap);
     const currentDate = new Date(currentDateTime);
     const openingDate = new Date(openingTime);
     const closingDate = new Date(closingTime);
 
-    console.log('Current DateTime:', currentDate);
-    console.log('Opening Time:', openingDate);
-    console.log('Closing Time:', closingDate);
+    Logger.debug('Current DateTime:', currentDate);
+    Logger.debug('Opening Time:', openingDate);
+    Logger.debug('Closing Time:', closingDate);
 
     if (RegisterCtrl.year != lastSchedule.year || RegisterCtrl.term != lastSchedule.term) {
       const enroll_control = new EnrollmentCtrl(window.APIURL);

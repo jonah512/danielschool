@@ -46,7 +46,8 @@ const Korean = {
         enrollment: "수강신청",
         classroommanager: "교실 관리자",
         schedule: "수강신청 일정",
-        consents: "동의서"
+        consents: "동의서",
+        accesseduser: "접속중인 사용자"
     },
     users: {
         id: "아이디",

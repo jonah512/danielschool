@@ -14,6 +14,7 @@ import StudentsCtrl from '../../control/StudentsCtrl';
 import dayjs from 'dayjs';
 import SessionManager from '../../control/SessionManager';
 import Defines from '../Defines';
+import Logger from '../../framework/logger/Logger';
 
 export default function EditStudent({ open, onClose, student }) {
     const [formData, setFormData] = useState({
@@ -52,7 +53,7 @@ export default function EditStudent({ open, onClose, student }) {
         onClose(); // Close the dialog
     };
 
-    console.log(formData, student);
+    Logger.debug(formData, student);
 
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm" spacing={2}>

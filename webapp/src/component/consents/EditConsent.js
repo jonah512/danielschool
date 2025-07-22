@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import Resource from '../../framework/resource/Resource';
 import ConsentsCtrl from '../../control/ConsentsCtrl';
-import SessionManager from '../../control/SessionManager';
+import Logger from '../../framework/logger/Logger';
 
 export default function EditConsent({ open, onClose, consent }) {
     const [formData, setFormData] = useState({ 
