@@ -28,11 +28,11 @@ export default function LeftMenu(props) {
         <ListItemButton
           sx={{
             "&.Mui-selected": {
-              backgroundColor: "#641c71",
-              color: "#000000",
-              ":hover": { backgroundColor: "#D4A8DC" }
+              backgroundColor: "#0D47A1", // Dark blue tone for selected menu
+              color: "#FFFFFF",
+              ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
             },
-            ":hover": { backgroundColor: "#D4A8DC" }
+            ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
           }}
           selected={selectedMenu === 'Users'}
           onClick={(event) => handleListItemClick(event, 'Users')}>

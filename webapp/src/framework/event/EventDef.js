@@ -15,5 +15,6 @@ export const EventDef = {
   onStudentSelected: 'onStudentSelected',
   onWaitingPosition: 'onWaitingPosition',
   onScheduleListChange: 'onScheduleListChange',
-  onConsentListChange: 'onConsentListChange'
+  onConsentListChange: 'onConsentListChange',
+  onRequestListChange: 'onRequestListChange',
 };

@@ -36,6 +36,7 @@ import ClassroomManager from './component/classroom_manage/ClassroomManager';
 import Schedules from './component/schedule/Schedules';
 import Consents from './component/consents/Consents';
 import AccessedUser from './component/users/AccessedUser';
+import Requests from './component/request/Requests';
 
 const drawerWidth = 240;
 
@@ -86,16 +87,23 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const defaultTheme = createTheme({
   palette: {
     primary: {
-      main: '#E0BFE6',
+      main: '#1565C0', // Darker blue tone for primary color
+    },
+    secondary: {
+      main: '#64B5F6', // Lighter blue for secondary color
     },
     red: {
       main: '#FF0D00'
     },
     button: {
-      main: '#F5F5F5'
+      main: '#BBDEFB'
+    },
+    background: {
+      default: '#E3F2FD', // Light blue background
     },
   },
 });
+
 
 export default function DanielAdminApp() {
   const [open, setOpen] = React.useState(!Os.isMobileBrowser());
@@ -158,6 +166,8 @@ export default function DanielAdminApp() {
         return (<Consents />);
       case 'AccessedUser':
         return (<AccessedUser />)
+      case 'Requests':
+        return (<Requests />);
       default:
         return (selectedMenu);
     }

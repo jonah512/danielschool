@@ -32,6 +32,13 @@ TODO)
 >> done : 27. 버튼들에 아이콘 넣기.
 >> done : 28. 과목 선택창에 경고문구는 red color.
 >> done : 29. 한글등급선택하는 팝업창 만들기(신규 등록시에에)
+>> done : 30. 학부모 이메일 xkdlxmf--> 구분할 것
+>> done : 31. 추가 요청사항 입력하고 확인하는 기능능
+>> done : 32. email 찾기 버튼의 색깔을 바꿀것
+33. 수강확정내용 이메일 발송하기
+>> done : 34. 과목선택에서 다음단계 넘어가는 체커 함수 점검하기
+>> done : 35. 테마를 블루톤으로 변경하기기
 
 docker-compose -p daniel up --build -d
 docker save -o daniel-service.tar daniel-daniel-service
+docker exec -it daniel-service /bin/bash

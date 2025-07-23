@@ -104,6 +104,25 @@ class Consent(Base):
     content = Column(TEXT)  # Changed to TEXT
     content_eng = Column(TEXT)  # Changed to TEXT
 
+class Log(Base):
+    __tablename__ = "Log"
+    __table_args__ = {"sqlite_autoincrement": True}  # Ensure IDs are not reused in SQLite
+    
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    email = Column(String)
+    log = Column(TEXT)
+    action_time = Column(DateTime)
 
-
-
+class Request(Base):
+    __tablename__ = "Request"
+    __table_args__ = {"sqlite_autoincrement": True}  # Ensure IDs are not reused in SQLite
+    
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    email = Column(String)
+    phone = Column(String)
+    name = Column(String)
+    students = Column(String)
+    message = Column(TEXT)
+    status = Column(String)
+    memo = Column(TEXT)
+    request_time = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

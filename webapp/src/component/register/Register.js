@@ -27,16 +27,23 @@ const drawerWidth = 240;
 const defaultTheme = createTheme({
   palette: {
     primary: {
-      main: '#E0BFE6',
+      main: '#1565C0', // Darker blue tone for primary color
+    },
+    secondary: {
+      main: '#64B5F6', // Lighter blue for secondary color
     },
     red: {
       main: '#FF0D00'
     },
     button: {
-      main: '#F5F5F5'
+      main: '#BBDEFB'
+    },
+    background: {
+      default: '#E3F2FD', // Light blue background
     },
   },
 });
+
 
 export default function Register() {
   const [selectedMenu, setSelectedMenu] = React.useState('ConfirmConsent');

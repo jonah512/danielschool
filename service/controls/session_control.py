@@ -35,9 +35,10 @@ class SessionControl:
         """Check if the session key is valid for the given email and return its position in the queue."""
         for index, session in enumerate(self.session_queue):
             if session["email"] == email and session["session_key"] == session_key:
-                logger.info(f"Session valid for {email} with key {session_key}")
-                session["last_access"] = datetime.now()
-                position = index + 1  # Position in the queue (1-based index)
+                session["last_access"] = datetime.now()                
+                position = index + 1 # Position in the queue (1-based index)
+                session["position"] = position 
+                logger.info(f"Session valid for {email} with key {session_key}, position {position}")
                 return {"valid": True, "position": position}
         logger.warning(f"Invalid session for {email} with key {session_key}")
         return {"valid": False, "position": None}
@@ -95,3 +96,32 @@ class SessionControl:
         self.index = 0
         logger.info("All sessions cleared.")
         return True
+
+    def add_log(self, email: str, log: str):
+        # Check if the Log table size exceeds 10,000
+        log_count = self.db.query(models.Log).count()
+        if log_count >= 10000:
+            oldest_log = self.db.query(models.Log).order_by(models.Log.action_time.asc()).first()
+            if oldest_log:
+                self.db.delete(oldest_log)
+                self.db.commit()
+                logger.info(f"Oldest log with ID {oldest_log.id} removed to maintain table size limit.")
+
+        # Create a new log entry using the mapped SQLAlchemy model
+        new_log = models.Log(
+            email=email,
+            log=log,
+            action_time=datetime.now()
+        )
+        self.db.add(new_log)
+        self.db.commit()
+        self.db.refresh(new_log)
+        logger.info(f"Log added for {new_log.email} with log {new_log.log}")
+        return new_log
+    
+
+    def get_log(self, email: str) -> List[models.Log]:
+        """Retrieve logs for a specific email."""
+        logs = self.db.query(models.Log).filter(models.Log.email == email).order_by(models.Log.action_time.desc()).all()
+        logger.info(f"Retrieved {len(logs)} logs for email {email}.")
+        return logs

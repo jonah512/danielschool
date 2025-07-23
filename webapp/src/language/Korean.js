@@ -14,7 +14,7 @@ const Korean = {
             save: "저장",
             submit: "제출"
         },
-        save: "현재 워크플로우에 저장",
+        save: "저장",
         delete: "삭제",
         uploadfile: "파일 업로드",
         selectall: "전체 선택",
@@ -47,7 +47,8 @@ const Korean = {
         classroommanager: "교실 관리자",
         schedule: "수강신청 일정",
         consents: "동의서",
-        accesseduser: "접속중인 사용자"
+        accesseduser: "접속중인 사용자",
+        requests: "요청사항",
     },
     users: {
         id: "아이디",
@@ -63,7 +64,8 @@ const Korean = {
         title: "새 학생 추가",
         name: "학생 이름",
         birthdate: "생년월일",
-        email: "학부모 이메일 (Google Class 활용을 위해 Gmail 사용을 권장합니다)",
+        email_recommand: "학부모 이메일 (Google Class 활용을 위해 Gmail 사용을 권장합니다)",
+        email: "학부모 이메일",
         phone: "전화번호",
         parent_name: "학부모 이름",
         address: "주소",
@@ -95,6 +97,23 @@ const Korean = {
         deletetitle: "교사 삭제",
         deletecontent: "이 교사를 삭제하시겠습니까?",
         edit_title: "교사 정보 수정"
+    },
+    requests: {
+        id: "아이디",
+        name: "부모 이름",
+        email: "이메일",
+        students: "학생",
+        phone: "전화번호",
+        message: "내용",
+        status: "상태",
+        request_time: "요청일",
+        deletetitle: "요청사항 삭제",
+        deletecontent: "이 요청사항을 삭제하시겠습니까?",
+        edit_title: "요청사항 상세 내용",
+        status_complete: "처리완료",
+        status_pending: "미결",
+        status_requested: "요청",
+        memo: "메모"
     },
     classes: {
         id: "아이디",
@@ -176,7 +195,8 @@ const Korean = {
         delete_title: "학생 선택 삭제",
         delete_content: "이 학생을 삭제하시겠습니까?",
         select_class: "수강 신청",
-        logout: "로그아웃"
+        logout: "로그아웃",
+        status: "수강신청상태"
     },
     register: {
         guide_korean: "지난 학기 등록되었던 학생이면, 아래에서 등록시 사용되었던 부모님의 Email 주소를 입력해 주세요.",
@@ -213,7 +233,9 @@ const Korean = {
         detail_description: "설명:",
         occupied_status:"{0} 신청마감(정원{1}명}",
         enrollment_fail: "'{0}' 과목은 신청이 불가합니다. 다른 과목으로 변경후 재신청 바랍니다.",
-        add_student: "학생추가하기"   
+        add_student: "학생추가하기",
+        request: "기타 요청사항이 있으면 적어주세요.",
+        request_confirm: "요청사항 메모:"
     },
     blocked:{
         opening_time: "시작: {0}",

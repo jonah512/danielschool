@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 from ..schemas import models, schemas_entity
 from fastapi import HTTPException
+from datetime import datetime 
 
 class EnrollmentControl:
     def __init__(self, db: Session):
@@ -80,3 +81,13 @@ class EnrollmentControl:
         self.db.commit()
         self._update_enrolled_number(class_id, year, term)  # Update enrolled_number
         return enrollment
+    
+    def add_request(self, email: str, message: str):
+        request = models.Request(
+            email=email, 
+            message=message, 
+            reuqest_date=datetime.now())
+        self.db.add(request)
+        self.db.commit()
+        self.db.refresh(request)
+        return request

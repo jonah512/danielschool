@@ -35,11 +35,11 @@ export default function LeftMenuEntities(props) {
         <ListItemButton
           sx={{
             "&.Mui-selected": {
-              backgroundColor: "#641c71",
-              color: "#000000",
-              ":hover": { backgroundColor: "#D4A8DC" }
+              backgroundColor: "#0D47A1", // Dark blue tone for selected menu
+              color: "#FFFFFF",
+              ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
             },
-            ":hover": { backgroundColor: "#D4A8DC" }
+            ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
           }}
           selected={selectedMenu === 'Students'}
           onClick={(event) => handleListItemClick(event, 'Students')}>
@@ -53,11 +53,11 @@ export default function LeftMenuEntities(props) {
         <ListItemButton
           sx={{
             "&.Mui-selected": {
-              backgroundColor: "#641c71",
-              color: "#000000",
-              ":hover": { backgroundColor: "#D4A8DC" }
+              backgroundColor: "#0D47A1", // Dark blue tone for selected menu
+              color: "#FFFFFF",
+              ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
             },
-            ":hover": { backgroundColor: "#D4A8DC" }
+            ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
           }}
           selected={selectedMenu === 'Teachers'}
           onClick={(event) => handleListItemClick(event, 'Teachers')}>
@@ -71,11 +71,11 @@ export default function LeftMenuEntities(props) {
         <ListItemButton
           sx={{
             "&.Mui-selected": {
-              backgroundColor: "#641c71",
-              color: "#000000",
-              ":hover": { backgroundColor: "#D4A8DC" }
+              backgroundColor: "#0D47A1", // Dark blue tone for selected menu
+              color: "#FFFFFF",
+              ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
             },
-            ":hover": { backgroundColor: "#D4A8DC" }
+            ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
           }}
           selected={selectedMenu === 'Classes'}
           onClick={(event) => handleListItemClick(event, 'Classes')}>
@@ -89,11 +89,11 @@ export default function LeftMenuEntities(props) {
         <ListItemButton
           sx={{
             "&.Mui-selected": {
-              backgroundColor: "#641c71",
-              color: "#000000",
-              ":hover": { backgroundColor: "#D4A8DC" }
+              backgroundColor: "#0D47A1", // Dark blue tone for selected menu
+              color: "#FFFFFF",
+              ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
             },
-            ":hover": { backgroundColor: "#D4A8DC" }
+            ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
           }}
           selected={selectedMenu === 'Consents'}
           onClick={(event) => handleListItemClick(event, 'Consents')}>

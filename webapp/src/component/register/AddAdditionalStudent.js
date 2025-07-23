@@ -17,6 +17,7 @@ import Defines from '../Defines'
 import RegisterCtrl from '../../control/RegisterCtrl';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import SelectKoreanLevel from '../students/SelectKoreanLevel';
 import Logger from '../../framework/logger/Logger';
 
 export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
@@ -35,6 +36,7 @@ export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
     });
 
     const [emailError, setEmailError] = useState(''); // State for email error
+    const [showSelectKoreanLevel, setShowSelectKoreanLevel] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -72,7 +74,10 @@ export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
 
         onAddStudent(formData); // Close the dialog
     };
-
+    const handleSelectKoreanLevel = (level) => {
+        setFormData({ ...formData, korean_level: level });
+        setShowSelectKoreanLevel(false);
+    };
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
             <DialogTitle>{Resource.get('students.title')}</DialogTitle>
@@ -151,19 +156,16 @@ export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
                         onChange={handleChange}
                         fullWidth
                     />
-                    <TextField
-                        select
+                    <TextField                        
                         label={Resource.get('students.korean_level')}
                         name="korean_level"
                         value={formData.korean_level}
                         onChange={handleChange}
+                        onClick={() => setShowSelectKoreanLevel(true)}
                         fullWidth
+                        InputProps={{ readOnly: true }}
                     >
-                    {Defines.koreanLevelOptions.map((option) => (
-                        <MenuItem key={option.label} value={option.level}>
-                            {option.label}
-                        </MenuItem>
-                    ))}
+                        {formData.korean_level}
                     </TextField>
                 </Stack>
             </DialogContent>
@@ -175,6 +177,12 @@ export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
                     {Resource.get('common.dialog.submit')}
                 </Button>
             </DialogActions>
+            <SelectKoreanLevel
+                open={showSelectKoreanLevel}
+                onClose={() => setShowSelectKoreanLevel(false)}
+                onSelect={handleSelectKoreanLevel}
+                currentLevel={formData.korean_level}
+            />
         </Dialog>
     );
 }

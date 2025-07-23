@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Stack, Typography, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
+import { Box, Stack, Typography, RadioGroup, FormControlLabel, Radio, Button, TextField } from '@mui/material';
 import RegisterCtrl from '../../control/RegisterCtrl';
 import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
@@ -11,6 +11,7 @@ import ClassDetailPopup from './ClassDetailPopup'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Logger from '../../framework/logger/Logger';
+import RequestsCtrl from '../../control/RequestsCtrl';
 
 export default function SelectClasses({ onNext, onPrev }) {
 
@@ -24,7 +25,7 @@ export default function SelectClasses({ onNext, onPrev }) {
     const [showClassDescription, setShowClassDescription] = useState(false);
     const [hoveredClass, setHoveredClass] = useState(null);
     const [evaluationCheck, setEvaluationCheck] = useState('');
-
+    const [requestContent, setRequestContent] = useState('');
     const MODULE = 'SelectClasses';
 
 
@@ -41,7 +42,7 @@ export default function SelectClasses({ onNext, onPrev }) {
     }, []);
 
     const onSelectedStudentChanged = (student) => {
-        Logger.debug('onSelectedStudentChanged student : ', student);
+        console.log('onSelectedStudentChanged student : ', student);
         setSelectedStudent(student);
         const class_control = new ClassesCtrl(window.APIURL);
         class_control.getClasses(null, RegisterCtrl.year, RegisterCtrl.term);
@@ -82,9 +83,9 @@ export default function SelectClasses({ onNext, onPrev }) {
         const enrolledClassPeriod1 = enrolledClasses.find(e => e.class_id && period1.some(c => c.id === e.class_id));
         const enrolledClassPeriod2 = enrolledClasses.find(e => e.class_id && period2.some(c => c.id === e.class_id));
         const enrolledClassPeriod3 = enrolledClasses.find(e => e.class_id && period3.some(c => c.id === e.class_id));
-        Logger.debug('onClassListEnrollmentChange enrolledClassPeriod1:', enrolledClassPeriod1);
-        Logger.debug('onClassListEnrollmentChange enrolledClassPeriod2:', enrolledClassPeriod2);
-        Logger.debug('onClassListEnrollmentChange enrolledClassPeriod3:', enrolledClassPeriod3);
+        console.log('onClassListEnrollmentChange enrolledClassPeriod1:', enrolledClassPeriod1);
+        console.log('onClassListEnrollmentChange enrolledClassPeriod2:', enrolledClassPeriod2);
+        console.log('onClassListEnrollmentChange enrolledClassPeriod3:', enrolledClassPeriod3);
         if (RegisterCtrl.selectedClassPeriod1 == null || RegisterCtrl.selectedClassPeriod1 == undefined) {
             setSelectedClassPeriod1(enrolledClassPeriod1 ? enrolledClassPeriod1.class_id : null);
         }
@@ -95,16 +96,18 @@ export default function SelectClasses({ onNext, onPrev }) {
             setSelectedClassPeriod3(enrolledClassPeriod3 ? enrolledClassPeriod3.class_id : null);
         }
 
+        setEvaluationCheck(evaluateMandatoryClasses(enrolledClassPeriod1.class_id, enrolledClassPeriod2.class_id, enrolledClassPeriod3.class_id));
+
     };
 
     const handleClassSelection = (period, classId) => {
         const selected_class = RegisterCtrl.classes.find(c => String(c.id) === String(classId));
-        Logger.debug('handleClassSelection period:', period, 'classId:', classId, 'selected_class:', selected_class);
+        console.log('handleClassSelection period:', period, 'classId:', classId, 'selected_class:', selected_class);
         if (selected_class.max_grade < 0) { // kindergarten class
             // find same class name in all periods and select it
 
             const sameClasses = RegisterCtrl.classes.filter(c => String(c.name) === String(selected_class.name));
-            Logger.debug('handleClassSelection sameClasses:', sameClasses);
+            console.log('handleClassSelection sameClasses:', sameClasses);
             sameClasses.forEach(sameClass => {
                 if (sameClass.period === 1) { setSelectedClassPeriod1(sameClass.id); RegisterCtrl.selectedClassPeriod1 = sameClass.id; setEvaluationCheck('success');}
                 if (sameClass.period === 2) { setSelectedClassPeriod2(sameClass.id); RegisterCtrl.selectedClassPeriod2 = sameClass.id;  setEvaluationCheck('success');}
@@ -113,7 +116,7 @@ export default function SelectClasses({ onNext, onPrev }) {
 
         }
         else { // other classes
-            Logger.debug('handleClassSelection classId:', classId, period);
+            console.log('handleClassSelection classId:', classId, period);
             if (period === 1) {
                 setSelectedClassPeriod1(classId);
                 RegisterCtrl.selectedClassPeriod1 = classId;
@@ -137,16 +140,16 @@ export default function SelectClasses({ onNext, onPrev }) {
             Number(period3)
         ];
 
-        Logger.debug('evaluateMandatoryClasses selectedClasses:', selectedClasses);
+        console.log('evaluateMandatoryClasses selectedClasses:', selectedClasses);
 
         const mandatoryClasses = RegisterCtrl.classes.filter(c => c.mendatory);
-        Logger.debug('evaluateMandatoryClasses mandatoryClasses:', mandatoryClasses);
+        console.log('evaluateMandatoryClasses mandatoryClasses:', mandatoryClasses);
         const selectedMandatoryClasses = mandatoryClasses.filter(c => selectedClasses.includes(c.id));
         if (selectedMandatoryClasses.length === 0) {
             return Resource.get('register.class_selection_guide_kr') + ' ' + Resource.get('register.class_selection_guide_en');
         }
 
-        Logger.debug('selected class number', selectedClasses.length);
+        console.log('selected class number', selectedClasses.length);
         if (selectedClasses.length !== 3 || selectedClasses.includes(0)) {
             return '총 3과목을 선택해야 합니다.';
         }
@@ -185,7 +188,7 @@ export default function SelectClasses({ onNext, onPrev }) {
             prevClassPeriod3 && prevClassPeriod3.class_id == selectedClassPeriod3 ? null : selectedClassPeriod3,
         ].filter(id => id); // Filter out empty selections
 
-        Logger.debug('onSumit selectedClasses:', selectedClasses);
+        console.log('onSumit selectedClasses:', selectedClasses);
         const enrollments = selectedClasses.map(classId => ({
             student_id: RegisterCtrl.selected_student.id,
             class_id: classId,
@@ -195,7 +198,7 @@ export default function SelectClasses({ onNext, onPrev }) {
             comment: ''
         }));
 
-        Logger.debug('onSumit enrollments:', enrollments);
+        console.log('onSumit enrollments:', enrollments);
         const enrollment_control = new EnrollmentCtrl(window.APIURL);
 
         try {
@@ -215,6 +218,7 @@ export default function SelectClasses({ onNext, onPrev }) {
             }
 
             enrollment_control.getEnrollment(RegisterCtrl.year, RegisterCtrl.term);
+            sendRequest();
             onNext();
 
         } catch (enrollmentData) {
@@ -239,6 +243,26 @@ export default function SelectClasses({ onNext, onPrev }) {
         const teacher = RegisterCtrl.teachers.find(t => t.id === classItem.teacher_id);
         return teacher ? teacher.name : 'N/A';
     };
+
+    const sendRequest = () =>{
+        console.log('sendRequest:', RegisterCtrl.selected_student);
+        const request = {
+            "email": RegisterCtrl.selected_student.email,
+            "name": RegisterCtrl.selected_student.parent_name,
+            "phone": RegisterCtrl.selected_student.phone,
+            "students": RegisterCtrl.selected_student.name,
+            "message": requestContent || '', 
+            "status": "REQUESTED",
+            "memo": ""
+        };
+        console.log('sendRequest request:', request); // Add logging to debug
+
+        RegisterCtrl.request = request;
+    }
+
+    const onRequestChange = (value) => {
+        setRequestContent(value.target.value );
+    }
 
     return (
         <Stack
@@ -371,6 +395,15 @@ export default function SelectClasses({ onNext, onPrev }) {
             <Typography variant="h8" textAlign="center" sx={{color:'red'}}>
                 {evaluationCheck !== 'success' && evaluationCheck}
             </Typography>
+            <TextField
+                label={Resource.get('register.request')}
+                name="memo"
+                value={requestContent}
+                onChange={onRequestChange}                                        
+                multiline
+                sx={{maxWidth:1200}}
+            />
+            <Box height={20}></Box>
             <Stack direction="row" spacing={2}>
                 <Button variant="contained" color="secondary" fullWidth onClick={onPrev} startIcon={<ArrowBackIosNewIcon/>}>
                     {Resource.get('register.prev_select_basic_info')}

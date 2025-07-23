@@ -23,6 +23,8 @@ import Resource from '../../framework/resource/Resource';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Logger from '../../framework/logger/Logger';
+import RequestsCtrl from '../../control/RequestsCtrl';
+import Register from './Register';
 
 export default function EnrollmentRegister() {
 
@@ -100,8 +102,29 @@ const onTeacherListChange = (teachers) => {
 
   const handleSubmit = () => {
     // show confirmation dialog
-    Logger.debug('handleSubmit called');
+    console.log('handleSubmit called');
     setShowConfirmation(true);
+  }
+
+  const submitEnrollment = () => {
+    // TODO : submit request content
+    // change enrollment status, draft -> confirmed
+    if(RegisterCtrl.request !== null, RegisterCtrl.request.message != null, RegisterCtrl.request.message.length > 0){
+      const reqControl = new RequestsCtrl(window.APIURL);
+      reqControl.addNewRequest(RegisterCtrl.request, RegisterCtrl.selected_student.parent_name);
+    }
+
+   // find out enrollment ids by student id
+    const enrollments = RegisterCtrl.enrollments.filter(e => e.student_id === RegisterCtrl.selected_student.id);
+    console.log('Enrollments for student:', enrollments);
+
+    const enrollment_control = new EnrollmentCtrl(window.APIURL);
+    enrollments.forEach(e => {
+      e.status = 'enrolled';
+      console.log('update enrollment status', e);
+      enrollment_control.updateEnrollment(e.id, e);
+    });
+
   }
 
   return (
@@ -205,6 +228,7 @@ const onTeacherListChange = (teachers) => {
         onNo={() => {setShowConfirmation(false);}}
         onYes={() => {
           setShowConfirmation(false);
+          submitEnrollment();
           RegisterCtrl.selected_student = null; // Clear selected student
           EventPublisher.publish(EventDef.onSelectedStudentChanged, null); // Notify that the selected student has changed
           EventPublisher.publish(EventDef.onMenuChanged, 'SelectStudent'); // Go back to student selection

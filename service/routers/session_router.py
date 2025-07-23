@@ -4,6 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from ..db_config import SessionLocal
 from ..controls.session_control import SessionControl
+from ..schemas.schemas_entity import Log, LogCreate
+from typing import List, Optional
 
 router = APIRouter()
 
@@ -16,7 +18,7 @@ def get_db():
         db.close()
 
 router = APIRouter()
-session_control = SessionControl(get_db)
+session_control = SessionControl(db=SessionLocal())
 
 @router.get("/GetServerStatus")
 def get_server_status(db: Session = Depends(get_db)):
@@ -71,3 +73,12 @@ def clear_session_queue(db: Session = Depends(get_db)):
         return {"success": True, "message": "Session queue cleared"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error clearing session queue: {str(e)}")
+    
+@router.post("/AddLog", response_model=Log)
+def add_log(email : str, log: str, db: Session = Depends(get_db)):
+    result = session_control.add_log(email, log)
+    return result
+
+@router.get("/GetLog", response_model=List[Log])
+def get_log(email: str, db: Session = Depends(get_db)):
+    return session_control.get_log(email)

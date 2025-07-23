@@ -90,13 +90,13 @@ export default function EditStudent({onPrev, onNext, student }) {
                     fullWidth
                 />
                 <TextField
-                    label={Resource.get('students.email')}
+                    label={Resource.get('students.email_recommand')}
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
                     fullWidth
                     error={!!emailError}
-                    helperText={emailError}
+                    helperText={emailError}                    
                 />
                 <TextField
                     label={Resource.get('students.phone')}

@@ -79,7 +79,7 @@ function Topbar({ year, term }) {
                 alignItems: 'center',
                 justifyContent: isMobile ? 'center' : 'space-between', // Center items on mobile
                 width: '100%',
-                textAlign: isMobile ? 'center' : 'left', // Center text on mobile
+                textAlign: isMobile ? 'center' : 'center', // Center text on mobile
             }}
         >
             <img src="daniel_logo.png" width={isMobile ? '50' : '70'} alt="Daniel School Register Web" /> {/* Adjust logo size */}

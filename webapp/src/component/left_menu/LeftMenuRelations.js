@@ -11,6 +11,7 @@ import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
 import RoomPreferencesIcon from '@mui/icons-material/RoomPreferences';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import GroupIcon from '@mui/icons-material/Group';
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 
 export default function LeftMenuRelations(props) {
 
@@ -35,11 +36,11 @@ export default function LeftMenuRelations(props) {
         <ListItemButton
           sx={{
             "&.Mui-selected": {
-              backgroundColor: "#641c71",
-              color: "#000000",
-              ":hover": { backgroundColor: "#D4A8DC" }
+              backgroundColor: "#0D47A1", // Dark blue tone for selected menu
+              color: "#FFFFFF",
+              ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
             },
-            ":hover": { backgroundColor: "#D4A8DC" }
+            ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
           }}
           selected={selectedMenu === 'EnrollmentStudent'}
           onClick={(event) => handleListItemClick(event, 'EnrollmentStudent')}>
@@ -53,11 +54,11 @@ export default function LeftMenuRelations(props) {
         <ListItemButton
           sx={{
             "&.Mui-selected": {
-              backgroundColor: "#641c71",
-              color: "#000000",
-              ":hover": { backgroundColor: "#D4A8DC" }
+              backgroundColor: "#0D47A1", // Dark blue tone for selected menu
+              color: "#FFFFFF",
+              ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
             },
-            ":hover": { backgroundColor: "#D4A8DC" }
+            ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
           }}
           selected={selectedMenu === 'ClassroomManager'}
           onClick={(event) => handleListItemClick(event, 'ClassroomManager')}>
@@ -71,11 +72,11 @@ export default function LeftMenuRelations(props) {
         <ListItemButton
           sx={{
             "&.Mui-selected": {
-              backgroundColor: "#641c71",
-              color: "#000000",
-              ":hover": { backgroundColor: "#D4A8DC" }
+              backgroundColor: "#0D47A1", // Dark blue tone for selected menu
+              color: "#FFFFFF",
+              ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
             },
-            ":hover": { backgroundColor: "#D4A8DC" }
+            ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
           }}
           selected={selectedMenu === 'Schedules'}
           onClick={(event) => handleListItemClick(event, 'Schedules')}>
@@ -89,11 +90,29 @@ export default function LeftMenuRelations(props) {
         <ListItemButton
           sx={{
             "&.Mui-selected": {
-              backgroundColor: "#641c71",
-              color: "#000000",
-              ":hover": { backgroundColor: "#D4A8DC" }
+              backgroundColor: "#0D47A1", // Dark blue tone for selected menu
+              color: "#FFFFFF",
+              ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
             },
-            ":hover": { backgroundColor: "#D4A8DC" }
+            ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
+          }}
+          selected={selectedMenu === 'Requests'}
+          onClick={(event) => handleListItemClick(event, 'Requests')}>
+          <ListItemIcon sx={{ color: selectedMenu === 'Requests' ? "#FFFFFF" : "inherit" }}>
+            <QuestionAnswerIcon />
+          </ListItemIcon>
+          <ListItemText primary={Resource.get('menu.requests')} sx={{ color: selectedMenu === 'Requests' ? "#FFFFFF" : "inherit" }} />
+        </ListItemButton>
+      </List>
+      <List>
+        <ListItemButton
+          sx={{
+            "&.Mui-selected": {
+              backgroundColor: "#0D47A1", // Dark blue tone for selected menu
+              color: "#FFFFFF",
+              ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
+            },
+            ":hover": { backgroundColor: "#1976D2" } // Slightly lighter blue on hover
           }}
           selected={selectedMenu === 'AccessedUser'}
           onClick={(event) => handleListItemClick(event, 'AccessedUser')}>
@@ -102,7 +121,8 @@ export default function LeftMenuRelations(props) {
           </ListItemIcon>
           <ListItemText primary={Resource.get('menu.accesseduser')} sx={{ color: selectedMenu === 'AccessedUser' ? "#FFFFFF" : "inherit" }} />
         </ListItemButton>
-      </List>         
+      </List>
+
     </React.Fragment>
   );
 };

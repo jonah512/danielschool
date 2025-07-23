@@ -159,7 +159,7 @@ export default function Login(props) {
           <Grid item xs={12} sm={3}> {/* Full width for Button on mobile */}
             <Button
               fullWidth
-              variant="contained"
+              variant="none"
               onClick={() => setShowFindEmail(true)}
               sx={{ fontSize: isMobile ? '0.8rem' : '1rem' }} // Adjust font size
               startIcon={<SearchIcon/>}

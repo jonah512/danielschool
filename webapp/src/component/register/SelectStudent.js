@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Stack, Box, Button, IconButton, Container, useMediaQuery, useTheme } from '@mui/material'; // Add responsive utilities
+import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Stack, Box, Button, IconButton, Container, useMediaQuery, useTheme, Typography } from '@mui/material'; // Add responsive utilities
 import DeleteIcon from '@mui/icons-material/Delete';
 import RegisterCtrl from '../../control/RegisterCtrl'; // Import the RegisterCtrl
 import EventPublisher from '../../framework/event/EventPublisher';
@@ -144,12 +144,19 @@ function SelectStudent() {
                         }
                     },
                     {
+                        field: 'status', headerName: Resource.get('student_selection.status'), width: 200,
+                        renderCell: (params) => {
+                            return params.value.toUpperCase();
+                        }
+                    },
+                    {
                         field: 'updated_at', headerName: Resource.get('student_selection.updated_at'), width: 200,
                         renderCell: (params) => {
                             const date_time = new Date(params.value);
                             return <span>{getTimeString(date_time)}</span>;
                         }
                     },
+
                 ]}
                 autoHeight
                 disableSelectionOnClick
@@ -171,7 +178,7 @@ function SelectStudent() {
                 </Box>
 
                 <FormControl>
-                    <FormLabel id="select-student-label"></FormLabel>
+
                     <RadioGroup
                         aria-labelledby="select-student-label"
                         name="selectedStudent"
@@ -181,29 +188,32 @@ function SelectStudent() {
                             setSelectedStudent(id);
                         }}
                         value={selectedStudent}
-                    >
+                    >                        
                         {students.map((student) => (
-                            <Stack
-                                direction={isMobile ? "column" : "row"} // Stack vertically on mobile
-                                alignItems="center"
-                                key={student.id}
-                                spacing={2}
-                                sx={{ width: '100%' }}
-                            >
-                                <FormControlLabel
-                                    value={student.id}
-                                    control={<Radio />}
-                                    label={`${student.name}`}
-                                />
-                                <IconButton
-                                    aria-label="delete"
-                                    color="error"
-                                    onClick={() => handleDelete(student.id)}
+                            <div>
+                                <Box height={22}></Box>
+                                <Stack
+                                    direction={isMobile ? "column" : "row"} // Stack vertically on mobile
+                                    alignItems="center"
+                                    key={student.id}
+                                    spacing={5}
+                                    sx={{ width: '100%' }}
                                 >
-                                    <DeleteIcon />
-                                </IconButton>
-                                {displayHistory(student.id)}
-                            </Stack>
+                                    <FormControlLabel
+                                        value={student.id}
+                                        control={<Radio />}
+                                        label={`${student.name}`}
+                                    />
+                                    <IconButton
+                                        aria-label="delete"
+                                        color="error"
+                                        onClick={() => handleDelete(student.id)}
+                                    >
+                                        <DeleteIcon />
+                                    </IconButton>
+                                    {displayHistory(student.id)}
+                                </Stack>
+                            </div>
                         ))}
                     </RadioGroup>
                 </FormControl>

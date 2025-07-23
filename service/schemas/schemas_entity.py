@@ -132,3 +132,35 @@ class Consent(ConsentBase):
     class Config:
         orm_mode = True
 
+class LogBase(BaseModel):
+    email: str
+    log: str
+    action_time: datetime
+
+class LogCreate(LogBase):
+    pass
+
+class Log(LogBase):
+    id: int
+    class Config:
+        orm_mode = True
+
+class RequestBase(BaseModel):
+    email: str
+    name: str
+    phone: str
+    students: str
+    message: str
+    status: str
+    memo: str
+
+class RequestCreate(RequestBase):
+    pass
+
+class Request(RequestBase):
+    id: int
+    request_time: datetime
+    class Config:
+        orm_mode = True
+
+

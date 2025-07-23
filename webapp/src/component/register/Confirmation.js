@@ -96,6 +96,15 @@ export default function Confirmation({ onNext, student }) {
                         </Typography>
                     ))}
                 </Box>
+
+                <Box sx={{ textAlign: 'left', marginBottom: '20px', backgroundColor: '#f9f9f9', padding: '10px', borderRadius: '5px' }}>
+                    <Typography>
+                        {Resource.get('register.request_confirm')}
+                    </Typography>
+                    <Typography>
+                        {RegisterCtrl.request?.message}
+                    </Typography>
+                </Box>
             </Stack>
         </Box>
     );

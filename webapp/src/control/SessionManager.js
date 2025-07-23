@@ -147,6 +147,32 @@ class SessionManagerObj {
     clearInterval(self.streamCheckTimer);
     self.streamCheckTimer = null;
   }
+
+  log(email, message) {
+    axios
+      .post(window.APIURL + "/AddLog", {
+        email: email,
+        log: message
+      })
+      .then(response => {
+        Logger.debug("Log successfully sent to server.");
+      })
+      .catch(error => {
+        Logger.error("Failed to send log to server: " + error.message);
+      });
+  }
+
+  async get_log(email) {
+    try {
+      const response = await axios.get(window.APIURL + "/GetLog", {
+      params: { email: email }
+      });
+      return response.data;
+    } catch (error) {
+      Logger.error("Failed to retrieve log from server: " + error.message);
+      return null;
+    }
+  }
 };
 
 let SessionManager = new SessionManagerObj();

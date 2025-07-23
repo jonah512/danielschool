@@ -115,7 +115,7 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
                         fullWidth
                     />
                     <TextField
-                        label={Resource.get('students.email')}
+                        label={Resource.get('students.email_recommand')}
                         name="email"
                         value={formData.email}
                         onChange={handleChange}

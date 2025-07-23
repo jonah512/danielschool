@@ -8,6 +8,7 @@ from .routers.session_router import router as session_router
 from .routers.enrollment_router import router as enrollment_router
 from .routers.schedule_router import router as schedule_router
 from .routers.consent_router import router as consent_router
+from .routers.request_router import router as request_router
 app = FastAPI()
 
 app.add_middleware(
@@ -26,3 +27,4 @@ app.include_router(session_router, tags=["Session"])
 app.include_router(enrollment_router, tags=["Enrollment"])
 app.include_router(schedule_router, tags=["Schedule"])
 app.include_router(consent_router, tags=["Consent"])
+app.include_router(request_router, tags=["Request"])
