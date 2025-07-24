@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-name: daniel
+version: '3.8'
 
 services:
   daniel-service:

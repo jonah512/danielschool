@@ -80,7 +80,17 @@ export default function ClassroomTable({ search, year, term }) {
 
     const onClassListChange = (data) => {
         Logger.debug('onClassListChange:');
-        setClassList(data); // Update class list state
+                // Sort data by mendatory -> name -> period
+        const sortedData = data.sort((a, b) => {
+            if (b.mendatory !== a.mendatory) {
+                return b.mendatory - a.mendatory; // Sort mendatory descending
+            }
+            if (a.name !== b.name) {
+                return b.name.localeCompare(a.name); // Sort name descending
+            }
+            return a.period - b.period; // Sort period ascending
+        });
+        setClassList(sortedData); // Update class list state
     }
 
     const onStudentListChange = (data) => {

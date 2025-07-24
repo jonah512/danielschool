@@ -28,7 +28,7 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
         address: '',
         gender: '',
         church: '',
-        korean_level: 1,
+        korean_level: 0,
         religion: 'no',
         grade: 1
     });
@@ -68,6 +68,11 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
             }
         }
 
+        if(formData.korean_level === 0) {
+            alert(Resource.get('students.korean_level_missing'));
+            return;
+        }
+
         await control.addNewStudentSync(formData, SessionManager.getSearchWord('Students')); // Call addNewStudent to save the new student
 
         onAddStudent(formData); // Close the dialog
@@ -76,6 +81,11 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
     const handleSelectKoreanLevel = (level) => {
         setFormData({ ...formData, korean_level: level });
         setShowSelectKoreanLevel(false);
+    };
+
+    const getKoreanLevelLabel = (level) => {
+        const option = Defines.koreanLevelOptions.find(opt => opt.level === level);
+        return option ? option.level + ". " + option.label : 'Unknown';
     };
 
     return (
@@ -173,6 +183,7 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
                         fullWidth
                     />
                     <TextField
+                        select
                         label={Resource.get('students.korean_level')}
                         name="korean_level"
                         value={formData.korean_level}
@@ -180,7 +191,11 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
                         onClick={() => setShowSelectKoreanLevel(true)}
                         fullWidth
                         InputProps={{ readOnly: true }}
-                    />
+                    >
+                            <MenuItem key={formData.korean_level} value={formData.korean_level}>
+                                {getKoreanLevelLabel(formData.korean_level)}
+                            </MenuItem>
+                    </TextField>
 
                 </Stack>
             </DialogContent>

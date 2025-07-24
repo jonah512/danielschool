@@ -102,7 +102,7 @@ const onTeacherListChange = (teachers) => {
 
   const handleSubmit = () => {
     // show confirmation dialog
-    console.log('handleSubmit called');
+    Logger.debug('handleSubmit called');
     setShowConfirmation(true);
   }
 
@@ -116,12 +116,12 @@ const onTeacherListChange = (teachers) => {
 
    // find out enrollment ids by student id
     const enrollments = RegisterCtrl.enrollments.filter(e => e.student_id === RegisterCtrl.selected_student.id);
-    console.log('Enrollments for student:', enrollments);
+    Logger.debug('Enrollments for student:', enrollments);
 
     const enrollment_control = new EnrollmentCtrl(window.APIURL);
     enrollments.forEach(e => {
       e.status = 'enrolled';
-      console.log('update enrollment status', e);
+      Logger.debug('update enrollment status', e);
       enrollment_control.updateEnrollment(e.id, e);
     });
 

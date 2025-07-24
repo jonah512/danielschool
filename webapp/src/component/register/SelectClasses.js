@@ -42,7 +42,7 @@ export default function SelectClasses({ onNext, onPrev }) {
     }, []);
 
     const onSelectedStudentChanged = (student) => {
-        console.log('onSelectedStudentChanged student : ', student);
+        Logger.debug('onSelectedStudentChanged student : ', student);
         setSelectedStudent(student);
         const class_control = new ClassesCtrl(window.APIURL);
         class_control.getClasses(null, RegisterCtrl.year, RegisterCtrl.term);
@@ -83,9 +83,9 @@ export default function SelectClasses({ onNext, onPrev }) {
         const enrolledClassPeriod1 = enrolledClasses.find(e => e.class_id && period1.some(c => c.id === e.class_id));
         const enrolledClassPeriod2 = enrolledClasses.find(e => e.class_id && period2.some(c => c.id === e.class_id));
         const enrolledClassPeriod3 = enrolledClasses.find(e => e.class_id && period3.some(c => c.id === e.class_id));
-        console.log('onClassListEnrollmentChange enrolledClassPeriod1:', enrolledClassPeriod1);
-        console.log('onClassListEnrollmentChange enrolledClassPeriod2:', enrolledClassPeriod2);
-        console.log('onClassListEnrollmentChange enrolledClassPeriod3:', enrolledClassPeriod3);
+        Logger.debug('onClassListEnrollmentChange enrolledClassPeriod1:', enrolledClassPeriod1);
+        Logger.debug('onClassListEnrollmentChange enrolledClassPeriod2:', enrolledClassPeriod2);
+        Logger.debug('onClassListEnrollmentChange enrolledClassPeriod3:', enrolledClassPeriod3);
         if (RegisterCtrl.selectedClassPeriod1 == null || RegisterCtrl.selectedClassPeriod1 == undefined) {
             setSelectedClassPeriod1(enrolledClassPeriod1 ? enrolledClassPeriod1.class_id : null);
         }
@@ -96,18 +96,20 @@ export default function SelectClasses({ onNext, onPrev }) {
             setSelectedClassPeriod3(enrolledClassPeriod3 ? enrolledClassPeriod3.class_id : null);
         }
 
-        setEvaluationCheck(evaluateMandatoryClasses(enrolledClassPeriod1.class_id, enrolledClassPeriod2.class_id, enrolledClassPeriod3.class_id));
+        if(RegisterCtrl.selectedClassPeriod1 == null && RegisterCtrl.selectedClassPeriod2 == null && RegisterCtrl.selectedClassPeriod3 == null){
+            setEvaluationCheck(evaluateMandatoryClasses(enrolledClassPeriod1.class_id, enrolledClassPeriod2.class_id, enrolledClassPeriod3.class_id));
+        }
 
     };
 
     const handleClassSelection = (period, classId) => {
         const selected_class = RegisterCtrl.classes.find(c => String(c.id) === String(classId));
-        console.log('handleClassSelection period:', period, 'classId:', classId, 'selected_class:', selected_class);
+        Logger.debug('handleClassSelection period:', period, 'classId:', classId, 'selected_class:', selected_class);
         if (selected_class.max_grade < 0) { // kindergarten class
             // find same class name in all periods and select it
 
             const sameClasses = RegisterCtrl.classes.filter(c => String(c.name) === String(selected_class.name));
-            console.log('handleClassSelection sameClasses:', sameClasses);
+            Logger.debug('handleClassSelection sameClasses:', sameClasses);
             sameClasses.forEach(sameClass => {
                 if (sameClass.period === 1) { setSelectedClassPeriod1(sameClass.id); RegisterCtrl.selectedClassPeriod1 = sameClass.id; setEvaluationCheck('success');}
                 if (sameClass.period === 2) { setSelectedClassPeriod2(sameClass.id); RegisterCtrl.selectedClassPeriod2 = sameClass.id;  setEvaluationCheck('success');}
@@ -116,7 +118,7 @@ export default function SelectClasses({ onNext, onPrev }) {
 
         }
         else { // other classes
-            console.log('handleClassSelection classId:', classId, period);
+            Logger.debug('handleClassSelection classId:', classId, period);
             if (period === 1) {
                 setSelectedClassPeriod1(classId);
                 RegisterCtrl.selectedClassPeriod1 = classId;
@@ -140,16 +142,23 @@ export default function SelectClasses({ onNext, onPrev }) {
             Number(period3)
         ];
 
-        console.log('evaluateMandatoryClasses selectedClasses:', selectedClasses);
-
-        const mandatoryClasses = RegisterCtrl.classes.filter(c => c.mendatory);
-        console.log('evaluateMandatoryClasses mandatoryClasses:', mandatoryClasses);
+        Logger.debug('evaluateMandatoryClasses selectedClasses:', selectedClasses);
+        const student = RegisterCtrl.selected_student;
+        const filteredClasses = RegisterCtrl.classes.filter(c =>
+            student.grade >= c.min_grade
+            && student.grade <= c.max_grade
+            && student.korean_level >= c.min_korean_level
+            && student.korean_level <= c.max_korean_level
+        );
+        const mandatoryClasses = filteredClasses.filter(c => c.mendatory);
+        Logger.debug('evaluateMandatoryClasses mandatoryClasses:', mandatoryClasses);
         const selectedMandatoryClasses = mandatoryClasses.filter(c => selectedClasses.includes(c.id));
+        Logger.debug('evaluateMandatoryClasses selectedMandatoryClasses:', selectedMandatoryClasses);
         if (selectedMandatoryClasses.length === 0) {
             return Resource.get('register.class_selection_guide_kr') + ' ' + Resource.get('register.class_selection_guide_en');
         }
 
-        console.log('selected class number', selectedClasses.length);
+        Logger.debug('selected class number', selectedClasses.length);
         if (selectedClasses.length !== 3 || selectedClasses.includes(0)) {
             return '총 3과목을 선택해야 합니다.';
         }
@@ -188,7 +197,7 @@ export default function SelectClasses({ onNext, onPrev }) {
             prevClassPeriod3 && prevClassPeriod3.class_id == selectedClassPeriod3 ? null : selectedClassPeriod3,
         ].filter(id => id); // Filter out empty selections
 
-        console.log('onSumit selectedClasses:', selectedClasses);
+        Logger.debug('onSumit selectedClasses:', selectedClasses);
         const enrollments = selectedClasses.map(classId => ({
             student_id: RegisterCtrl.selected_student.id,
             class_id: classId,
@@ -198,7 +207,7 @@ export default function SelectClasses({ onNext, onPrev }) {
             comment: ''
         }));
 
-        console.log('onSumit enrollments:', enrollments);
+        Logger.debug('onSumit enrollments:', enrollments);
         const enrollment_control = new EnrollmentCtrl(window.APIURL);
 
         try {
@@ -236,16 +245,12 @@ export default function SelectClasses({ onNext, onPrev }) {
             }
             enrollment_control.getEnrollment(RegisterCtrl.year, RegisterCtrl.term);
         }
-    };
 
-    const getTeacherName = (classItem) => {
-        if (!classItem || !classItem.teacher_id) return 'N/A';
-        const teacher = RegisterCtrl.teachers.find(t => t.id === classItem.teacher_id);
-        return teacher ? teacher.name : 'N/A';
+        RegisterCtrl.selectedClassPeriod1 = RegisterCtrl.selectedClassPeriod2 = RegisterCtrl.selectedClassPeriod3 = null;
     };
 
     const sendRequest = () =>{
-        console.log('sendRequest:', RegisterCtrl.selected_student);
+        Logger.debug('sendRequest:', RegisterCtrl.selected_student);
         const request = {
             "email": RegisterCtrl.selected_student.email,
             "name": RegisterCtrl.selected_student.parent_name,
@@ -255,7 +260,7 @@ export default function SelectClasses({ onNext, onPrev }) {
             "status": "REQUESTED",
             "memo": ""
         };
-        console.log('sendRequest request:', request); // Add logging to debug
+        Logger.debug('sendRequest request:', request); // Add logging to debug
 
         RegisterCtrl.request = request;
     }
@@ -269,7 +274,12 @@ export default function SelectClasses({ onNext, onPrev }) {
             direction="column"
             spacing={1}
         >
-            <Typography variant="body1" textAlign="center" sx={{color:'red'}}>
+            <Typography variant="h5" textAlign="center">
+                {Resource.get('register.select_class_guide')}
+            </Typography>
+
+            <div style={{ height: '20px' }}></div>
+            <Typography variant="h8" textAlign="center" sx={{color:'#ff0000'}}>
                 {evaluationCheck !== 'success' && evaluationCheck}
             </Typography>
 
@@ -392,7 +402,7 @@ export default function SelectClasses({ onNext, onPrev }) {
                     
                 </Stack>
             </Stack>
-            <Typography variant="h8" textAlign="center" sx={{color:'red'}}>
+            <Typography variant="h8" textAlign="center" sx={{color:'#ff0000'}}>
                 {evaluationCheck !== 'success' && evaluationCheck}
             </Typography>
             <TextField

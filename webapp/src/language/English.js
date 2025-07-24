@@ -85,7 +85,9 @@ const English = {
       grade: "Grade",
       bulk_upload: "Bulk Upload",
       missing: "'{0}' is missing.",
-      select_korean_level_title: "Select Korean Level"
+      select_korean_level_title: "Select Korean Level",
+      korean_level_missing: "Please select a Korean level.",
+      birthdate_missing: "Please enter the birthdate.",
     },
     teachers: {
       id: "ID",
@@ -199,7 +201,8 @@ const English = {
       status: "Enrollment Status"
     },
     register: {
-        guide_korean: "지난 학기 등록되었던 학생이면, 아래에서 등록시 사용되었던 부모님의 Email 주소를 입력해 주세요.",
+      select_class_guide: "Classes displayed are based on the allowed Korean level and grade for your child.",
+      guide_korean: "지난 학기 등록되었던 학생이면, 아래에서 등록시 사용되었던 부모님의 Email 주소를 입력해 주세요.",
       guide_english: "If you have registered in the past, please enter the parent's email address used for registration below.",
       start_registration: "Start Registration",
       guide2: "If your child is enrolling for the first time, please register as a new student below.",

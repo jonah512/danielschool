@@ -85,7 +85,9 @@ const Korean = {
         grade: "학년",
         bulk_upload: "일괄 업로드",
         missing: "'{0}'이(가) 누락되었습니다.",
-        select_korean_level_title: "한국어 수준 선택"
+        select_korean_level_title: "한국어 수준 선택",
+        korean_level_missing: "한국어 수준을 선택해 주세요.",
+        birthdate_missing: "생년월일을 입력해 주세요.",
     },
     teachers: {
         id: "아이디",
@@ -199,6 +201,7 @@ const Korean = {
         status: "수강신청상태"
     },
     register: {
+        select_class_guide: "화면에는 한글 수준과 학년에 맞는 반만 보입니다.",
         guide_korean: "지난 학기 등록되었던 학생이면, 아래에서 등록시 사용되었던 부모님의 Email 주소를 입력해 주세요.",
         guide_english: "If you have registered in the past, please enter the parent's email address used for registration below.",
         start_registration: "Start Registration. 수강신청 시작하기",

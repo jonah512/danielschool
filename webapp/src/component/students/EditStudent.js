@@ -24,7 +24,7 @@ export default function EditStudent({ open, onClose, student }) {
         birth_date: student?.birth_date ? dayjs(student.birth_date).format('YYYY-MM-DD') : '',
         gender: student?.gender || '',
         church: student?.church || '',
-        korean_level: student?.korean_level || 1,
+        korean_level: student?.korean_level || 0,
         created_at: student?.created_at || '',
         updated_at: student?.updated_at || '',
         religion: Defines.religion.find((religion) => religion.label === student.religion)?.value || student.religion,

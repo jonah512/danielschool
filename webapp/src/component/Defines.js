@@ -6,6 +6,7 @@ const Defines = {
     ...Array.from({ length: 12 }, (_, i) => ({ value: (i + 1), label: `Grade ${i + 1}` })),
   ],
   koreanLevelOptions: [
+    { level: 0, label: 'Not Defined (Unknown)', example: ''},
     { level: 1, label: '기본 자음 14개와 기본 모음 10개를 공부합니다. Will study the following words.', example: '사자, 가수, 오이, 우유, 아이'},
     { level: 2, label: '쌍자음 5개와 이중모음 11개를 공부합니다.', example: '찌개, 머리띠, 쓰레기, 돼지, 과자, 시계'},
     { level: 3, label: '받침 ㄱ, ㄴ, ㄷ, ㄹ, ㅁ, ㅂ, ㅇ 이 들어간 단어를 공부합니다.', example: '국, 문, 돋보기, 하늘, 곰, 입, 강'},

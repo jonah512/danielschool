@@ -41,7 +41,7 @@ export default function AccessedUser(props) {
     const users = await usersCtrl.getAccessedUser();
     users.map((user) => user['id'] = user['index']);
     setUserListAccessed(users);
-    console.log('accessed user: ', users);
+    Logger.debug('accessed user: ', users);
     refreshUserList(users, RegisterCtrl.students);
   }
 
@@ -50,7 +50,7 @@ export default function AccessedUser(props) {
   }
 
   const refreshUserList = (accessUser, userInDb) => {
-    console.log('refreshUserList', accessUser, userInDb);
+    Logger.debug('refreshUserList', accessUser, userInDb);
     if (accessUser.length == 0 || userInDb.length == 0) {
         setUserList([]);
         return;
@@ -58,7 +58,7 @@ export default function AccessedUser(props) {
 
     const updatedList = accessUser.map((accessedUser) => {
       const dbUsers = userInDb.filter((dbUser) => isEqual(dbUser.email, accessedUser.email));
-      console.log('refreshUserList dbUsers:', dbUsers);
+      Logger.debug('refreshUserList dbUsers:', dbUsers);
 
       const names = dbUsers.map((db) => db.name).join(', '); // Append db.name for multiple matches
 
@@ -73,7 +73,7 @@ export default function AccessedUser(props) {
         phone: dbUsers[0].phone
       };
     });
-    console.log(updatedList);
+    Logger.debug(updatedList);
     setUserList(updatedList);
   }
 
