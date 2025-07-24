@@ -63,6 +63,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
 
         if(gradeConfirmed === false) {
             alert(Resource.get('students.grade_confirm_missing'));
+            setGradeConfirmed(true);
             return;
         }
 

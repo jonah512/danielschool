@@ -48,7 +48,7 @@ TODO)
 >> done : 43. 학생선택 화면에서 수강신청 현황 주기적으로 다시 불러오기
 >> done : 44. 교사 추가시에 필요 정보 알람 반드시 띄울것 -> email and phone number should not be unique
 >> done : 45. Grade확인하는 팝업창 학생 정보 확인란에 띄울것것
-
+>> done : 
 
 sudo docker-compose -p daniel up --build -d
 sudo docker save -o daniel-service.tar daniel-daniel-service

@@ -247,7 +247,10 @@ const English = {
       remaining_time: "Remaining wait time: {0}",
       automatic_refresh: "Automatically redirecting to enrollment screen.",
       closed_enrollment: "Enrollment is closed."
-    }
+    },
+    waiting:{
+      message: "Currently {0} people are waiting. Please wait a moment. You will be redirected to the enrollment screen automatically."
+  }
   };
   
   export default English;

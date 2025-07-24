@@ -247,6 +247,9 @@ const Korean = {
         remaining_time: " 잔여 대기시간: {0}",
         automatic_refresh: "자동으로 수강신청 화면으로 전환됩니다.",
         closed_enrollment: "수강신청이 마감되었습니다.",
+    },
+    waiting:{
+        message: "현재 {0}명이 대기 중입니다. 잠시 기다려 주세요. 수강신청 화면으로 자동으로 전환됩니다.",
     }
 };
 
