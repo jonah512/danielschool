@@ -54,7 +54,7 @@ function SelectStudent() {
             enrollmentMap.get(enrollment.student_id).push(enrollment);
         });
         setStudentEnrollments(enrollmentMap); // Update state with the enrollment map
-        console.log('Updated studentEnrollments:', enrollmentMap);
+        Logger.debug('Updated studentEnrollments:', enrollmentMap);
     };
 
     const handleNext = () => {

@@ -88,6 +88,7 @@ const Korean = {
         select_korean_level_title: "한국어 수준 선택",
         korean_level_missing: "한국어 수준을 선택해 주세요.",
         birthdate_missing: "생년월일을 입력해 주세요.",
+        grade_confirm_missing: "학년을 확인해 주세요.",
     },
     teachers: {
         id: "아이디",

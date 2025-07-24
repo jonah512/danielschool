@@ -12,8 +12,8 @@ class Teacher(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     name = Column(String, index=True)
     subject = Column(String)
-    email = Column(String, unique=True)
-    phone = Column(String, unique=True)
+    email = Column(String)
+    phone = Column(String)
 
 class Student(Base):
     __tablename__ = "Student"

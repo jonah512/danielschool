@@ -34,6 +34,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
     const [emailError, setEmailError] = useState(''); // State for email error
     const [showSelectKoreanLevel, setShowSelectKoreanLevel] = useState(false);
     const [showKoreanLevel, setShowKoreanLevel] = useState(student.korean_level === 0);
+    const [gradeConfirmed, setGradeConfirmed] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -47,12 +48,21 @@ export default function EditStudent({ onPrev, onNext, student }) {
                 setEmailError('');
             }
         }
+
+        if (name === 'grade'){
+            setGradeConfirmed(true);
+        }
     };
 
     const handleSubmit = () => {
 
         if (formData.korean_level === 0) {
             alert(Resource.get('students.korean_level_missing'));
+            return;
+        }
+
+        if(gradeConfirmed === false) {
+            alert(Resource.get('students.grade_confirm_missing'));
             return;
         }
 
@@ -67,7 +77,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
         });
     
 
-        console.log('formData', formData);
+        Logger.debug('formData', formData);
         
         // if birth data is 2000-01-01 return here
         if (formData.birth_date.indexOf('2000-01-01') === 0) {

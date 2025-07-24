@@ -117,11 +117,13 @@ export default function DanielAdminApp() {
     SessionManager.addDeviceConnectionArbiter(MODULE, onCmsConnectionChanged);
     EventPublisher.addEventListener(EventDef.onUserRoleChange, MODULE, setRole);
     EventPublisher.addEventListener(EventDef.onLanguageChange, MODULE, setLanguage);
+    EventPublisher.addEventListener(EventDef.onMenuChanged, MODULE, onMenuChanged);
     checkUpdateResult();
     return () => {
       SessionManager.removeDeviceConnectionArbiter(MODULE);
       EventPublisher.removeEventListener(EventDef.onUserRoleChange, MODULE);
       EventPublisher.removeEventListener(EventDef.onLanguageChange, MODULE);
+      EventPublisher.removeEventListener(EventDef.onMenuChanged, MODULE);
     };
   }, []);
 
@@ -168,6 +170,9 @@ export default function DanielAdminApp() {
         return (<AccessedUser />)
       case 'Requests':
         return (<Requests />);
+      case 'Login':
+        window.location.reload();
+        break;
       default:
         return (selectedMenu);
     }

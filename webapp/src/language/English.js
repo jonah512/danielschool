@@ -88,6 +88,7 @@ const English = {
       select_korean_level_title: "Select Korean Level",
       korean_level_missing: "Please select a Korean level.",
       birthdate_missing: "Please enter the birthdate.",
+      grade_confirm_missing: "Please confirm the grade."
     },
     teachers: {
       id: "ID",

@@ -122,10 +122,10 @@ class RegisterCtrlObj {
     if (localStorage.getItem('parent_email') != null && localStorage.getItem('session_key') != null) {
       axios.post(window.APIURL + "/EndSession?email=" + localStorage.getItem('parent_email') + "&session_key=" + localStorage.getItem('session_key'))
         .then(response => {
-          Logger.debug("Session ended successfully:", response.data);
+          Logger.debug("[cleanUpSession] Session ended successfully:", response.data);
         })
         .catch(error => {
-          Logger.error("Error ending session:", error);
+          console.error("[cleanUpSession] Error ending session:", error);
         });
 
     }
@@ -142,6 +142,7 @@ class RegisterCtrlObj {
     this.selectedClassPeriod2 = null;
     this.selectedClassPeriod3 = null;
 
+    Logger.debug('[cleanUpSession] Session cleaned up');
   }
 
   getStudentWithId(id) {

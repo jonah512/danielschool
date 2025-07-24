@@ -49,10 +49,12 @@ export default function UserMenu(props) {
   };
 
   const handleLogout = () => {
+    Logger.debug('Logging out...');
     RegisterCtrl.cleanUpSession();
     SessionManager.setLoginStatus(false);    
     EventPublisher.publish(EventDef.onSelectedStudentChanged, null);
     EventPublisher.publish(EventDef.onMenuChanged, "Login");
+    Logger.debug('Logging out... end');
   };
 
 

@@ -144,7 +144,7 @@ export default function Login(props) {
               name="id"
               autoFocus
               onChange={(e) => {
-                const value = e.target.value;
+                const value = e.target.value.trim();;
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (emailRegex.test(value)) {
                   setFoundEmail(true);
