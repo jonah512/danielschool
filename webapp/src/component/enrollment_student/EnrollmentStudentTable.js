@@ -61,6 +61,10 @@ export default function EnrollmentStudentTable({ search, year, term }) {
         const class_control = new ClassesCtrl(window.APIURL);
         student_control.getStudents(search);
         enrollment_control.getEnrollment(year, term);
+        const intervalId = setInterval(() => {
+            enrollment_control.getEnrollment(year, term);
+        }, 3000); // Refresh every 60 seconds
+
         class_control.getClasses(null, year, term);
         EventPublisher.addEventListener(EventDef.onStudentListChange, MODULE, onStudentListChange);
         EventPublisher.addEventListener(EventDef.onEnrollmentListChange, MODULE, onEnrollmentListChange);
@@ -70,6 +74,7 @@ export default function EnrollmentStudentTable({ search, year, term }) {
             EventPublisher.removeEventListener(EventDef.onStudentListChange, MODULE);
             EventPublisher.removeEventListener(EventDef.onEnrollmentListChange, MODULE);
             EventPublisher.removeEventListener(EventDef.onClassListChange, MODULE);
+            clearInterval(intervalId);
         };
     }, [search, year, term, window.APIURL]);
 
@@ -94,21 +99,24 @@ export default function EnrollmentStudentTable({ search, year, term }) {
         setStudentList(processedData); // Update user list state with formatted data
     };
 
+    const enrollmentMap = React.useMemo(() => {
+        const map = new Map();
+        enrollmentList.forEach((enrollment) => {
+            if (!map.has(enrollment.student_id)) {
+                map.set(enrollment.student_id, []);
+            }
+            map.get(enrollment.student_id).push(enrollment);
+        });
+        return map;
+    }, [enrollmentList]);
+
     const getEnrolledClass = (studentId, period) => {
-
-        if (enrollmentList == null || enrollmentList.length === 0) {
-            return -1;
-        }
-
-        const enrollment = enrollmentList.find((enrollment) =>
-            enrollment.student_id === studentId &&
+        const studentEnrollments = enrollmentMap.get(studentId) || [];
+        const enrollment = studentEnrollments.find((enrollment) =>
             classList.find((classItem) => classItem.id === enrollment.class_id)?.period === period
         );
 
-        if (enrollment) {
-            return enrollment.class_id;
-        }
-        return -1;
+        return enrollment ? enrollment.class_id : -1;
     }
 
     const handleChange = async (studentId, period, classId) => {

@@ -4,7 +4,7 @@ import Defines from '../Defines';
 import Resource from '../../framework/resource/Resource';
 import Logger from '../../framework/logger/Logger';
 
-export default function SelectKoreanLevel({ open, onClose, onSelect, currentLevel }) {
+export default function SelectKoreanLevel({ open, onClose, onSelect, currentLevel, hideUnknown = false }) {
     const [selectedLevel, setSelectedLevel] = useState(currentLevel);
 
     const handleSelect = () => {
@@ -23,6 +23,7 @@ export default function SelectKoreanLevel({ open, onClose, onSelect, currentLeve
                     onChange={(e) => setSelectedLevel(Number(e.target.value))}
                 >
                     {Defines.koreanLevelOptions.map((option) => (
+                        !(hideUnknown && option.level==0) && 
                         <Box><FormControlLabel
                             key={option.level}
                             value={option.level}

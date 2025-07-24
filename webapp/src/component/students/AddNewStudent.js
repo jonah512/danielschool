@@ -212,6 +212,7 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
                 onClose={() => setShowSelectKoreanLevel(false)}
                 onSelect={handleSelectKoreanLevel}
                 currentLevel={formData.korean_level}
+                hideUnknown={true} 
             />
         </Dialog>
     );

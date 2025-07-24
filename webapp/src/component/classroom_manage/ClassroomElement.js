@@ -27,7 +27,6 @@ import Logger from '../../framework/logger/Logger';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: theme.palette.common.white,
-        color: theme.palette.common.black,
         fontSize: 14,
     },
     [`&.${tableCellClasses.body}`]: {
@@ -46,7 +45,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     height: '11px',
 }));
 
-export default function ClassroomElement({ classItem, students, enrollments, classes }) {
+export default function ClassroomElement({ classItem, students, enrollments, classes, search }) {
 
     const [studentsInClass, setStudentsInClass] = React.useState([]);
     const [enrollmentsInClass, setEnrollmentsInClass] = React.useState([]);
@@ -204,7 +203,7 @@ export default function ClassroomElement({ classItem, students, enrollments, cla
                     <TableBody>
                         {studentsInClass.map((row) => (
                             <StyledTableRow key={row.id} sx={{}}>
-                                <StyledTableCell align="center" sx={{ color: 'red' }}>{row.name}({row.grade})</StyledTableCell>
+                                <StyledTableCell align="center" sx={{ color: search ? '#0000ff' : 'black' }}>{row.name}({row.grade})</StyledTableCell>
                                 <StyledTableCell align="center">
                                     <IconButton
                                         aria-label="delete"

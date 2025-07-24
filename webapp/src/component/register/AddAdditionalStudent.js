@@ -74,6 +74,10 @@ export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
 
         onAddStudent(formData); // Close the dialog
     };
+    const getKoreanLevelLabel = (level) => {
+        const option = Defines.koreanLevelOptions.find(opt => opt.level === level);
+        return option ? option.level + ". " + option.label : 'Unknown';
+    };
     const handleSelectKoreanLevel = (level) => {
         setFormData({ ...formData, korean_level: level });
         setShowSelectKoreanLevel(false);
@@ -156,7 +160,8 @@ export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
                         onChange={handleChange}
                         fullWidth
                     />
-                    <TextField                        
+                    <TextField
+                        select
                         label={Resource.get('students.korean_level')}
                         name="korean_level"
                         value={formData.korean_level}
@@ -165,7 +170,9 @@ export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
                         fullWidth
                         InputProps={{ readOnly: true }}
                     >
-                        {formData.korean_level}
+                        <MenuItem key={formData.korean_level} value={formData.korean_level}>
+                            {getKoreanLevelLabel(formData.korean_level)}
+                        </MenuItem>
                     </TextField>
                 </Stack>
             </DialogContent>
@@ -182,6 +189,7 @@ export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
                 onClose={() => setShowSelectKoreanLevel(false)}
                 onSelect={handleSelectKoreanLevel}
                 currentLevel={formData.korean_level}
+                hideUnknown={true}
             />
         </Dialog>
     );

@@ -169,7 +169,7 @@ export default function ClassroomTable({ search, year, term }) {
                     {classList
                         .filter((classItem) => classItem.period === 1)
                         .map((classItem) => (
-                            <ClassroomElement key={classItem.id} classItem={classItem} students={studentList} enrollments={enrollmentList} classes={classList}/>
+                            <ClassroomElement key={classItem.id} classItem={classItem} students={studentList} enrollments={enrollmentList} classes={classList} search={search}/>
                         ))}
                 </Stack>
                 <Divider />
@@ -185,7 +185,7 @@ export default function ClassroomTable({ search, year, term }) {
                     {classList
                         .filter((classItem) => classItem.period === 2)
                         .map((classItem) => (
-                            <ClassroomElement key={classItem.id} classItem={classItem} students={studentList} enrollments={enrollmentList} classes={classList}/>
+                            <ClassroomElement key={classItem.id} classItem={classItem} students={studentList} enrollments={enrollmentList} classes={classList} search={search}/>
                         ))}
                 </Stack>
                 <Divider />
@@ -201,7 +201,7 @@ export default function ClassroomTable({ search, year, term }) {
                     {classList
                         .filter((classItem) => classItem.period === 3)
                         .map((classItem) => (
-                            <ClassroomElement key={classItem.id} classItem={classItem} students={studentList} enrollments={enrollmentList} classes={classList}/>
+                            <ClassroomElement key={classItem.id} classItem={classItem} students={studentList} enrollments={enrollmentList} classes={classList} search={search}/>
                         ))}
                 </Stack>
             </Stack>

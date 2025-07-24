@@ -223,6 +223,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
                 onClose={() => setShowSelectKoreanLevel(false)}
                 onSelect={handleSelectKoreanLevel}
                 currentLevel={formData.korean_level}
+                hideUnknown={true}
             />
         </Box>
     );

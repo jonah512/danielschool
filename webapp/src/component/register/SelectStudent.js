@@ -15,21 +15,47 @@ import SessionManager from '../../control/SessionManager';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import LogoutIcon from '@mui/icons-material/Logout';
+import EnrollmentCtrl from '../../control/EnrollmentCtrl';
 
 function SelectStudent() {
     const [students, setStudents] = useState(RegisterCtrl.students); // List of students
     const [selectedStudent, setSelectedStudent] = useState(RegisterCtrl.students[0].id);
-    const [deleteConfirm, setDeleteConfirm] = useState(false); // State for delete confirmation dialog
-    const [selectedStudentId, setSelectedStudentId] = useState(null); // State for selected student ID for deletion
     const [showNewRegistration, setShowNewRegistration] = useState(false);
-
+    const [studentEnrollments, setStudentEnrollments] = useState(new Map());
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
+    const MODULE = 'SelectStudent';
 
     useEffect(() => {
         Logger.debug('SelectStudent students:', students);
-        RegisterCtrl.selected_student = - students[0]; // Set the first student as selected by default
-    }, []);
+        RegisterCtrl.selected_student = - students[0];
+
+        EventPublisher.addEventListener(EventDef.onEnrollmentListChange, MODULE, onEnrollmentListChange);
+        
+        const enrollmentCtrl = new EnrollmentCtrl(window.APIURL);
+        
+        enrollmentCtrl.getEnrollment(RegisterCtrl.year, RegisterCtrl.term);
+        const intervalId = setInterval(()=>enrollmentCtrl.getEnrollment(RegisterCtrl.year, RegisterCtrl.term), 3000); // Call every 3 seconds
+        return () => {
+            EventPublisher.removeEventListener(EventDef.onEnrollmentListChange, MODULE);
+            clearInterval(intervalId); // Clear interval on cleanup
+        };
+    }, [ RegisterCtrl.students]);
+
+    const onEnrollmentListChange = (enrollments) => {
+        Logger.debug('onEnrollmentListChange enrollments:', enrollments);
+        RegisterCtrl.enrollments = enrollments;
+
+        const enrollmentMap = new Map();
+        enrollments.forEach((enrollment) => {
+            if (!enrollmentMap.has(enrollment.student_id)) {
+                enrollmentMap.set(enrollment.student_id, []);
+            }
+            enrollmentMap.get(enrollment.student_id).push(enrollment);
+        });
+        setStudentEnrollments(enrollmentMap); // Update state with the enrollment map
+        console.log('Updated studentEnrollments:', enrollmentMap);
+    };
 
     const handleNext = () => {
         const selected = students.find(student => String(student.id) === String(selectedStudent));
@@ -53,13 +79,6 @@ function SelectStudent() {
         EventPublisher.publish(EventDef.onSelectedStudentChanged, null);
         EventPublisher.publish(EventDef.onMenuChanged, "Login");
     }
-
-    const handleDelete = (studentId) => {
-        Logger.debug('Deleting student with ID:', studentId);
-        setSelectedStudentId(studentId);
-        setDeleteConfirm(true); // Show delete confirmation dialog
-    }
-
 
     const findLastEnrollmentDate = (student) => {
         const enrollments = RegisterCtrl.enrollments.filter(enrollment => enrollment.student_id === student.id);
@@ -96,21 +115,6 @@ function SelectStudent() {
         return updatedAtEST.toLocaleDateString() + ' ' + updatedAtEST.toTimeString().slice(0, 8);
     }
 
-    const onConfirm = () => {
-        Logger.debug('Confirm delete for student ID:', selectedStudentId);
-        setDeleteConfirm(false);
-        const updatedStudents = students.filter(student => student.id !== selectedStudentId);
-        setStudents(updatedStudents);
-        if (RegisterCtrl.selected_student?.id === selectedStudentId) {
-            RegisterCtrl.selected_student = null; // Clear selected student if deleted
-            setSelectedStudent(updatedStudents[0]?.id || null);
-        }
-
-        // remove from database
-        const student_control = new StudentsCtrl(window.APIURL);
-        student_control.deleteStudentsSync([selectedStudentId]);
-    };
-
     const getClassName = (classId) => {
         const classData = RegisterCtrl.classes.find(c => c.id === classId);
         return classData ? classData.name : 'Unknown Class';
@@ -130,7 +134,7 @@ function SelectStudent() {
     };
 
     const displayHistory = (studentId) => {
-        const enrollments = RegisterCtrl.enrollments.filter(enrollment => enrollment.student_id === studentId);
+        const enrollments = studentEnrollments.get(studentId) || [];
         if (enrollments.length === 0) return '';
 
         return (
@@ -149,21 +153,20 @@ function SelectStudent() {
                             return params.value.toUpperCase();
                         }
                     },
-                    {
+                    ...(!isMobile ? [{
                         field: 'updated_at', headerName: Resource.get('student_selection.updated_at'), width: 200,
                         renderCell: (params) => {
                             const date_time = new Date(params.value);
                             return <span>{getTimeString(date_time)}</span>;
                         }
-                    },
-
+                    }] : [])
                 ]}
                 autoHeight
                 disableSelectionOnClick
                 hideFooter
             />
         );
-    }
+    };
 
     return (
         <Container maxWidth="md" sx={{ padding: isMobile ? 2 : 4 }}> {/* Add responsive container */}
@@ -204,13 +207,6 @@ function SelectStudent() {
                                         control={<Radio />}
                                         label={`${student.name}`}
                                     />
-                                    <IconButton
-                                        aria-label="delete"
-                                        color="error"
-                                        onClick={() => handleDelete(student.id)}
-                                    >
-                                        <DeleteIcon />
-                                    </IconButton>
                                     {displayHistory(student.id)}
                                 </Stack>
                             </div>
@@ -254,14 +250,7 @@ function SelectStudent() {
                 {showNewRegistration && (
                     <AddAdditionalStudent open={showNewRegistration} onAddStudent={handleCloseAddStudentDialog} onClose={() => setShowNewRegistration(false)} />
                 )}
-                {deleteConfirm && (
-                    <AlertDialog
-                        onYes={onConfirm}
-                        onNo={() => setDeleteConfirm(false)}
-                        YesOrNo={true} Open={true}
-                        Title={Resource.get('student_selection.delete_title')}
-                        Content={Resource.get('student_selection.delete_content')} />
-                )}
+
             </Stack>
         </Container>
     );
