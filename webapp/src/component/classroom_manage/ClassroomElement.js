@@ -28,7 +28,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: theme.palette.common.white,
         color: theme.palette.common.black,
-        fontSize: 16,
+        fontSize: 14,
     },
     [`&.${tableCellClasses.body}`]: {
         fontSize: 14,
@@ -43,7 +43,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:last-child td, &:last-child th': {
         border: 0,
     },
-    height: '13px',
+    height: '11px',
 }));
 
 export default function ClassroomElement({ classItem, students, enrollments, classes }) {
@@ -184,7 +184,7 @@ export default function ClassroomElement({ classItem, students, enrollments, cla
         setDeleteConfirm(false);
     }
     return (
-        <Box sx={{ border: 1, borderRadius: 2, padding: 1, marginBottom: 1 }} minWidth={250} textAlign="center">
+        <Box sx={{ border: 1, borderRadius: 2, padding: 1, marginBottom: 1 }} minWidth={195} textAlign="center">
             <Tooltip
                 title={
                     <Stack spacing={1}>
@@ -195,12 +195,12 @@ export default function ClassroomElement({ classItem, students, enrollments, cla
                 }
                 arrow
             >   
-            {studentsInClass.length > classItem.max_students ? (<Typography variant="h6" style={{ color: 'red' }}>{classItem.name} [{studentsInClass.length}/{classItem.max_students}]</Typography>)
-            : (<Typography variant="h6" style={{ color: 'black' }} >{classItem.name} [{studentsInClass.length}/{classItem.max_students}]</Typography>)}
+            {studentsInClass.length > classItem.max_students ? (<Typography variant="h8" style={{ color: 'red' }}>{classItem.name} [{studentsInClass.length}/{classItem.max_students}]</Typography>)
+            : (<Typography variant="h8" style={{ color: 'black' }} >{classItem.name} [{studentsInClass.length}/{classItem.max_students}]</Typography>)}
 
             </Tooltip>
             <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 220 }} aria-label="customized table">
+                <Table sx={{ minWidth: 175 }} aria-label="customized table">
                     <TableBody>
                         {studentsInClass.map((row) => (
                             <StyledTableRow key={row.id} sx={{}}>

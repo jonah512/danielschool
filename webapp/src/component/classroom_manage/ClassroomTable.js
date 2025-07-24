@@ -165,7 +165,7 @@ export default function ClassroomTable({ search, year, term }) {
                 >
                     {Resource.get('enrollment.period_1')}
                 </Typography>
-                <Stack spacing={2} style={{ width: '100%' }} direction={"row"}>
+                <Stack spacing={1} style={{ width: '100%' }} direction={"row"}>
                     {classList
                         .filter((classItem) => classItem.period === 1)
                         .map((classItem) => (
@@ -181,7 +181,7 @@ export default function ClassroomTable({ search, year, term }) {
                 >
                     {Resource.get('enrollment.period_2')}
                 </Typography>
-                <Stack spacing={2} style={{ width: '100%' }} direction={"row"}>
+                <Stack spacing={1} style={{ width: '100%' }} direction={"row"}>
                     {classList
                         .filter((classItem) => classItem.period === 2)
                         .map((classItem) => (
@@ -197,7 +197,7 @@ export default function ClassroomTable({ search, year, term }) {
                 >
                     {Resource.get('enrollment.period_3')}
                 </Typography>
-                <Stack spacing={2} style={{ width: '100%' }} direction={"row"}>
+                <Stack spacing={1} style={{ width: '100%' }} direction={"row"}>
                     {classList
                         .filter((classItem) => classItem.period === 3)
                         .map((classItem) => (
