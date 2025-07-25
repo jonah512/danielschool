@@ -81,6 +81,22 @@ class EnrollmentControl:
         self.db.commit()
         self._update_enrolled_number(class_id, year, term)  # Update enrolled_number
         return enrollment
+    def delete_by_student(self, student_id: int):
+        """Delete all enrollments for a specific student."""
+        enrollments = self.db.query(models.Enrollment).filter(models.Enrollment.student_id == student_id).all()
+        if not enrollments:
+            return None
+        for enrollment in enrollments:
+            class_id = enrollment.class_id
+            year = enrollment.year
+            term = enrollment.term
+            self.db.delete(enrollment)
+        self.db.commit()
+        
+        for enrollment in enrollments:
+            self._update_enrolled_number(enrollment.class_id, year, term)
+        
+        return enrollments
     
     def add_request(self, email: str, message: str):
         request = models.Request(

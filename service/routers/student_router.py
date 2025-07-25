@@ -13,6 +13,7 @@ import time
 from pathlib import Path
 
 from ..controls.student_control import StudentControl
+from ..controls.enrollment_control import EnrollmentControl
 from ..schemas.schemas_entity import Student, StudentCreate
 
 setup_logging()
@@ -39,7 +40,7 @@ def get_db():
         db.close()
 
 student_control = StudentControl(db=SessionLocal())
-
+enrollmentControl = EnrollmentControl(db=SessionLocal())
 @router.post("/students/", response_model=Student)
 def add_student(student: StudentCreate, db: Session = Depends(get_db)):
     """Add a new student."""
@@ -57,6 +58,7 @@ def modify_student(student_id: int, student: StudentCreate, db: Session = Depend
 def delete_student(student_id: int, db: Session = Depends(get_db)):
     """Delete a student."""
     deleted_student = student_control.delete(student_id)
+    enrollmentControl.delete_by_student(student_id)
     if not deleted_student:
         raise HTTPException(status_code=404, detail="Student not found")
     return deleted_student

@@ -43,6 +43,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function ClassroomTable({ search, year, term }) {
     const [studentList, setStudentList] = useState([]); // State for user list
     const [classList, setClassList] = useState([]); // State for class list
+    const [classListPeriod1, setClassListPeriod1] = useState([]); // State for class list period 1
+    const [classListPeriod2, setClassListPeriod2] = useState([]);
+    const [classListPeriod3, setClassListPeriod3] = useState([]); // State for class list period 3
     const [enrollmentList, setEnrollmentList] = useState([]); // State for enrollment list
     const MODULE = 'ClassroomTable';
 
@@ -80,17 +83,29 @@ export default function ClassroomTable({ search, year, term }) {
 
     const onClassListChange = (data) => {
         Logger.debug('onClassListChange:');
-                // Sort data by mendatory -> name -> period
-        const sortedData = data.sort((a, b) => {
+        
+        // Reusable sort function - Sort by mandatory -> name -> period
+        const sortClasses = (classes) => classes.sort((a, b) => {
             if (b.mendatory !== a.mendatory) {
-                return b.mendatory - a.mendatory; // Sort mendatory descending
+                return b.mendatory - a.mendatory; // Sort mandatory descending
             }
             if (a.name !== b.name) {
                 return b.name.localeCompare(a.name); // Sort name descending
             }
             return a.period - b.period; // Sort period ascending
         });
-        setClassList(sortedData); // Update class list state
+
+        // Filter and sort classes by period
+        const sortedData = sortClasses([...data]);
+        const period1Classes = sortClasses(data.filter(classItem => classItem.period === 1));
+        const period2Classes = sortClasses(data.filter(classItem => classItem.period === 2));
+        const period3Classes = sortClasses(data.filter(classItem => classItem.period === 3));
+
+        // Update all class list states
+        setClassList(sortedData);
+        setClassListPeriod1(period1Classes);
+        setClassListPeriod2(period2Classes);
+        setClassListPeriod3(period3Classes);
     }
 
     const onStudentListChange = (data) => {

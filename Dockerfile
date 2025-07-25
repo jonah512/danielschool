@@ -10,6 +10,7 @@ COPY service /workspace
 COPY webapp/build /var/www/html
 RUN apt-get update && apt-get install -y zip
 RUN apt-get install -y apache2
+RUN apt-get install -y sqlite3
 
 # Add a script to start both uvicorn and apache2
 COPY start.sh /start.sh

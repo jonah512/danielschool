@@ -50,7 +50,10 @@ TODO)
 >> done : 45. Grade확인하는 팝업창 학생 정보 확인란에 띄울것것
 >> done : 
 
+sudo docker stop daniel-service
+sudo docker rm daniel-service
 sudo docker-compose -p daniel up --build -d
 sudo docker save -o daniel-service.tar daniel-daniel-service
 sudo docker exec -it daniel-service /bin/bash
 sudo docker logs -f daniel-service
+
