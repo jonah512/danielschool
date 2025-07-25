@@ -15,6 +15,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import SelectKoreanLevel from '../students/SelectKoreanLevel';
 import Logger from '../../framework/logger/Logger';
+import GradeConfirm from './GradeConfirm';
 
 export default function EditStudent({ onPrev, onNext, student }) {
     const [formData, setFormData] = useState({
@@ -35,6 +36,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
     const [showSelectKoreanLevel, setShowSelectKoreanLevel] = useState(false);
     const [showKoreanLevel, setShowKoreanLevel] = useState(student.korean_level === 0);
     const [gradeConfirmed, setGradeConfirmed] = useState(false);
+    const [trySubmit, setTrySubmit] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -49,7 +51,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
             }
         }
 
-        if (name === 'grade'){
+        if (name === 'grade') {
             setGradeConfirmed(true);
         }
     };
@@ -58,12 +60,6 @@ export default function EditStudent({ onPrev, onNext, student }) {
 
         if (formData.korean_level === 0) {
             alert(Resource.get('students.korean_level_missing'));
-            return;
-        }
-
-        if(gradeConfirmed === false) {
-            alert(Resource.get('students.grade_confirm_missing'));
-            setGradeConfirmed(true);
             return;
         }
 
@@ -76,10 +72,10 @@ export default function EditStudent({ onPrev, onNext, student }) {
             parent_name: formData.parent_name.trim(),
             church: formData.church.trim(),
         });
-    
+
 
         Logger.debug('formData', formData);
-        
+
         // if birth data is 2000-01-01 return here
         if (formData.birth_date.indexOf('2000-01-01') === 0) {
             alert(Resource.get('students.birthdate_missing'));
@@ -196,7 +192,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
                     onChange={handleChange}
                     fullWidth
                 />
-                {showKoreanLevel&&
+                {showKoreanLevel &&
                     <TextField
                         select
                         label={Resource.get('students.korean_level')}
@@ -223,12 +219,27 @@ export default function EditStudent({ onPrev, onNext, student }) {
                     <Button
                         variant="contained"
                         color="secondary"
-                        onClick={handleSubmit}
+                        onClick={() => {
+                            gradeConfirmed ? handleSubmit() : setTrySubmit(true);
+                        }}
                         fullWidth
                         endIcon={<ArrowForwardIosIcon />}
                     >{Resource.get('register.next_select_class')}</Button>
                 </Stack>
             </Stack>
+            {trySubmit && !gradeConfirmed &&
+                <GradeConfirm 
+                    student = {student}
+                    funcConfirm={() => {
+                        setGradeConfirmed(true);
+                        handleSubmit();
+                    }}  
+                    funcCancel={() => {
+                        setTrySubmit(false);
+                        setGradeConfirmed(true);
+                    }}
+                />
+            }
             <SelectKoreanLevel
                 open={showSelectKoreanLevel}
                 onClose={() => setShowSelectKoreanLevel(false)}
