@@ -242,7 +242,7 @@ const Korean = {
         add_student: "학생추가하기",
         request: "기타 요청사항이 있으면 적어주세요.",
         request_confirm: "요청사항 메모:",
-        result_display_title: "수강신청이 완료되었습니다."
+        result_display_title: "{0}학생의 {1}년 {2}학기 수강신청이 완료되었습니다."
     },
     blocked:{
         opening_time: "시작: {0}",

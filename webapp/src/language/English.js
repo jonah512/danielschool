@@ -240,7 +240,8 @@ const English = {
         enrollment_fail: "'{0}' class is not available. Please choose another.",
         add_student: "Add Student",
         request: "Additional requests (optional)",
-        request_confirm: "Request Memo:"
+        request_confirm: "Request Memo:",
+        result_display_title: "{0} student's {1} year {2} term enrollment has been completed."
     },
     blocked: {
         opening_time: "Start: {0}",

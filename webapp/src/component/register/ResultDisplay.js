@@ -16,6 +16,7 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import LogoutIcon from '@mui/icons-material/Logout';
 import EnrollmentCtrl from '../../control/EnrollmentCtrl';
+import RegisterCtrl from '../../control/RegisterCtrl';
 
 function ResultDisplay() {
     const [students, setStudents] = useState(RegisterCtrl.students); // List of students
@@ -69,19 +70,19 @@ function ResultDisplay() {
                 justifyContent="center"
                 sx={{ width: '100%' }}
             >
-<Box sx={{ width: '100%', height: 100, marginY: 1 }} />
+                <Box sx={{ width: '100%', height: 100, marginY: 1 }} />
                 <Typography variant="h4" sx={{ color: '#333', textAlign: 'center' }}>
-                    {Resource.get('register.result_display_title')}
+                    {Resource.get('register.result_display_title', RegisterCtrl.selected_student.name, RegisterCtrl.year, RegisterCtrl.term)}
                 </Typography>
-<Box sx={{ width: '100%', height: 100, marginY: 1 }} />
-                        <Button
-                            variant="contained"
-                            onClick={handleNext}
-                            fullWidth={isMobile} // Make buttons full width on mobile
-                            startIcon={<LibraryBooksIcon/>}
-                        >
-                            {Resource.get('common.dialog.confirm')}
-                        </Button>
+                <Box sx={{ width: '100%', height: 100, marginY: 1 }} />
+                <Button
+                    variant="contained"
+                    onClick={handleNext}
+                    fullWidth={isMobile} // Make buttons full width on mobile
+                    startIcon={<LibraryBooksIcon/>}
+                >
+                    {Resource.get('common.dialog.confirm')}
+                </Button>
             </Stack>
         </Container>
     );
