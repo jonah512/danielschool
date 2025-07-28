@@ -49,6 +49,9 @@ export default function Confirmation({ onNext, student }) {
         }).sort((a, b) => a.period - b.period);
 
         setEnrolledClasses(classes);
+
+        RegisterCtrl.email_content = Resource.get('register.request_email_content', formData.name, RegisterCtrl.year, RegisterCtrl.term, classes.map(c => `${c.period} ${Resource.get('enrollment.period')}: ${c.name}`).join('\n'));
+        console.log('Email content:', RegisterCtrl.email_content);
     };
     
     return (

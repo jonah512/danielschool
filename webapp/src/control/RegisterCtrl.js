@@ -28,6 +28,7 @@ class RegisterCtrlObj {
   openingDate = new Date();
   closingDate = new Date();
   timeGap = 0;
+  email_content = '';
   constructor() {
     this.parent_email = localStorage.getItem('parent_email');   
   }

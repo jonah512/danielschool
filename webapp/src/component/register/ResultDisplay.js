@@ -16,47 +16,16 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import LogoutIcon from '@mui/icons-material/Logout';
 import EnrollmentCtrl from '../../control/EnrollmentCtrl';
-import RegisterCtrl from '../../control/RegisterCtrl';
 
 function ResultDisplay() {
-    const [students, setStudents] = useState(RegisterCtrl.students); // List of students
-    const [selectedStudent, setSelectedStudent] = useState(RegisterCtrl.students[0].id);
-    const [showNewRegistration, setShowNewRegistration] = useState(false);
-    const [studentEnrollments, setStudentEnrollments] = useState(new Map());
+
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
-    const MODULE = 'ResultDisplay';
 
     useEffect(() => {
-        Logger.debug('ResultDisplay students:', students);
-        RegisterCtrl.selected_student = - students[0];
 
-        EventPublisher.addEventListener(EventDef.onEnrollmentListChange, MODULE, onEnrollmentListChange);
-        
-        const enrollmentCtrl = new EnrollmentCtrl(window.APIURL);
-        
-        enrollmentCtrl.getEnrollment(RegisterCtrl.year, RegisterCtrl.term);
-        const intervalId = setInterval(()=>enrollmentCtrl.getEnrollment(RegisterCtrl.year, RegisterCtrl.term), 3000); // Call every 3 seconds
-        return () => {
-            EventPublisher.removeEventListener(EventDef.onEnrollmentListChange, MODULE);
-            clearInterval(intervalId); // Clear interval on cleanup
-        };
-    }, [ RegisterCtrl.students]);
+    }, [ ]);
 
-    const onEnrollmentListChange = (enrollments) => {
-        Logger.debug('onEnrollmentListChange enrollments:', enrollments);
-        RegisterCtrl.enrollments = enrollments;
-
-        const enrollmentMap = new Map();
-        enrollments.forEach((enrollment) => {
-            if (!enrollmentMap.has(enrollment.student_id)) {
-                enrollmentMap.set(enrollment.student_id, []);
-            }
-            enrollmentMap.get(enrollment.student_id).push(enrollment);
-        });
-        setStudentEnrollments(enrollmentMap); // Update state with the enrollment map
-        Logger.debug('Updated studentEnrollments:', enrollmentMap);
-    };
 
     const handleNext = () => {
         EventPublisher.publish(EventDef.onMenuChanged, "SelectStudent");

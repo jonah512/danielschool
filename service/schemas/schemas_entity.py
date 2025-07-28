@@ -163,4 +163,9 @@ class Request(RequestBase):
     class Config:
         orm_mode = True
 
+class EmailRequest(BaseModel):
+    receiver: str
+    title: str
+    body: str
+
 

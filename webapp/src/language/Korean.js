@@ -242,7 +242,12 @@ const Korean = {
         add_student: "학생추가하기",
         request: "기타 요청사항이 있으면 적어주세요.",
         request_confirm: "요청사항 메모:",
-        result_display_title: "{0}학생의 {1}년 {2}학기 수강신청이 완료되었습니다."
+        result_display_title: "{0} 학생의 {1}년 {2}학기 수강신청이 완료되었습니다.",
+        request_email_title: "{0} 학생의 {1}년 {2}학기 수강신청이 완료되었습니다.",
+        request_email_content: "{0} 학생의 {1}년 {2}학기 수강신청이 완료되었습니다.\n\n" +
+            "신청한 과목:\n{3}\n\n" +
+            "감사합니다.\n\n" +
+            "다니엘 한국어 학교",
     },
     blocked:{
         opening_time: "시작: {0}",

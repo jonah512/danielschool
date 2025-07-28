@@ -31,6 +31,7 @@ export default function EnrollmentRegister() {
   const [selectedStudent, setSelectedStudent] = useState(RegisterCtrl.selected_student);
   const [stage, setStage] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
+
   const MODULE = 'EnrollmentRegister';
 
   const theme = useTheme();
@@ -109,10 +110,21 @@ const onTeacherListChange = (teachers) => {
   const submitEnrollment = () => {
     // TODO : submit request content
     // change enrollment status, draft -> confirmed
+    const reqControl = new RequestsCtrl(window.APIURL);
+    
     if(RegisterCtrl.request !== null, RegisterCtrl.request.message != null, RegisterCtrl.request.message.length > 0){
-      const reqControl = new RequestsCtrl(window.APIURL);
+
       reqControl.addNewRequest(RegisterCtrl.request, RegisterCtrl.selected_student.parent_name);
+      Logger.debug('Request sent:', RegisterCtrl.request);
     }
+
+    reqControl.sendEmail(
+      {
+        'receiver': RegisterCtrl.selected_student.email,
+        'title' : Resource.get('register.request_email_title', RegisterCtrl.selected_student.name, RegisterCtrl.year, RegisterCtrl.term),
+        'body' : RegisterCtrl.email_content
+      }
+    );
 
    // find out enrollment ids by student id
     const enrollments = RegisterCtrl.enrollments.filter(e => e.student_id === RegisterCtrl.selected_student.id);
@@ -229,7 +241,6 @@ const onTeacherListChange = (teachers) => {
         onYes={() => {
           setShowConfirmation(false);
           submitEnrollment();
-          RegisterCtrl.selected_student = null; // Clear selected student
           EventPublisher.publish(EventDef.onSelectedStudentChanged, null); // Notify that the selected student has changed
           EventPublisher.publish(EventDef.onMenuChanged, 'ResultDisplay'); // Go back to student selection
         }}/>)}

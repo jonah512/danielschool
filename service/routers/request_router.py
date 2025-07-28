@@ -2,7 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from ..controls.request_control import RequestControl
-from ..schemas.schemas_entity import Request, RequestCreate
+from ..controls.smtp_control import SmtpControl
+from ..schemas.schemas_entity import Request, RequestCreate, EmailRequest
 from ..db_config import SessionLocal
 
 router = APIRouter()
@@ -15,10 +16,18 @@ def get_db():
     finally:
         db.close()
 
+@router.post("/requests/send_email/")
+def send_email(email_request: EmailRequest, db: Session = Depends(get_db)):
+    """Send an email notification for a request."""
+    sender_email = "hyugrae.cho@gmail.com"
+    smtp = SmtpControl()
+    smtp.send_email(sender_email=sender_email, receiver_email=email_request.receiver, subject=email_request.title, body=email_request.body)
+
 @router.post("/requests/", response_model=Request)
 def add_request(request: RequestCreate, db: Session = Depends(get_db)):
     """Add a new request."""
-    return RequestControl(db).add(request)
+    ret = RequestControl(db).add(request)
+    return ret
 
 @router.put("/requests/{request_id}/", response_model=Request)
 def modify_request(request_id: int, request: RequestCreate, db: Session = Depends(get_db)):

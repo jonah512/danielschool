@@ -11,6 +11,18 @@ export default class RequestsCtrl {
     this.#url = url;
   }
 
+  sendEmail(requestObj) {
+    console.log('Sending email:', requestObj);
+    axios
+      .post(this.#url + '/requests/send_email/', requestObj)
+      .then(response => {
+        Logger.debug('Email sent successfully:', response.data);
+      })
+      .catch(error => {
+        Logger.error("Error sending email:", error);
+      });
+  }
+  
   getRequests(search) {
     Logger.debug('fetchRequests');
     axios
