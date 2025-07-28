@@ -29,14 +29,15 @@ const defaultTheme = createTheme({
   },
 });
 
-export default function Login(props) {
+export default function EmailLogin(props) {
 
   const [language, setLanguage] = React.useState(0);
+  const [foundEmail, setFoundEmail] = React.useState(false);
   const [searchEmail, setSearchEmail] = React.useState(RegisterCtrl.parent_email);
   const [showNewRegistration, setShowNewRegistration] = React.useState(false);
   const [showFindEmail, setShowFindEmail] = React.useState(false);
   const [apiUrl, setApiUrl] = React.useState(localStorage.getItem('apiUrl') || window.APIURL);
-  const MODULE = 'Login';
+  const MODULE = 'EmailLogin';
   const languageMap = {};
 
   const theme = useTheme();
@@ -72,10 +73,6 @@ export default function Login(props) {
     if (props.onLogin !== undefined) props.onLogin(data.get('id'), data.get('password'));
   };
 
-  const onStartPreviousStudent = () => {
-    EventPublisher.publish(EventDef.onMenuChanged, 'EmailLogin');    
-  }
-
   const onSearchEmail = (event) => {
     if(searchEmail === null || searchEmail === ''){
       return;
@@ -86,23 +83,6 @@ export default function Login(props) {
       RegisterCtrl.students = data;
       RegisterCtrl.parent_email = searchEmail;
       RegisterCtrl.parent_name = data[0].parent_name || '';
-      EventPublisher.publish(EventDef.onMenuChanged, 'SelectStudent');
-
-    }, (error) => {
-      Logger.error('Error finding email:', error);
-      alert(Resource.get('register.cannot_find_email'));
-    });
-  };
-
-  const startNewRegistration = (event) => {
-    setShowNewRegistration(true);
-  };
-
-  const handleCloseAddStudentDialog = (student) => {
-    setShowNewRegistration(false);
-    RegisterCtrl.findEmail(student.email, (data) => {
-      Logger.debug('Found email:', data);
-      RegisterCtrl.students = data;
       EventPublisher.publish(EventDef.onMenuChanged, 'SelectStudent');
 
     }, (error) => {
@@ -130,33 +110,51 @@ export default function Login(props) {
       <Box sx={{ height: isMobile ? 20 : 50 }} /> {/* Adjust spacing for mobile */}
 
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, width: '100%', padding: isMobile ? 2 : 0 }}>
-        <Typography textAlign="left" fontSize={isMobile ? '0.9rem' : '1rem'}> {/* Adjust font size */}
-          {Resource.get('register.guide_korean')}
-        </Typography>
-        <Typography textAlign="left" fontSize={isMobile ? '0.9rem' : '1rem'}> {/* Adjust font size */}
-        {Resource.get('register.guide_english')}
-        </Typography>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} sm={9}> {/* Full width for TextField on mobile */}
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="id"
+              label={Resource.get('register.find_email')}
+              name="id"
+              autoFocus
+              onChange={(e) => {
+                const value = e.target.value.trim();;
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (emailRegex.test(value)) {
+                  setFoundEmail(true);
+                }
+                else {
+                  setFoundEmail(false);
+                }
+                setSearchEmail(value);
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={3}> {/* Full width for Button on mobile */}
+            <Button
+              fullWidth
+              variant="none"
+              onClick={() => setShowFindEmail(true)}
+              sx={{ fontSize: isMobile ? '0.8rem' : '1rem' }} // Adjust font size
+              startIcon={<SearchIcon/>}
+            >
+              {Resource.get('register.find_email_by_name')}
+            </Button>
+          </Grid>
+        </Grid>
         <Button
           type="submit"
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2, fontSize: isMobile ? '0.9rem' : '1rem' }} // Adjust font size
-          onClick={onStartPreviousStudent}
+          startIcon={<LoginIcon />}
+          disabled={!foundEmail}
+          onClick={onSearchEmail}
         >
         {Resource.get('register.start_registration')}
-        </Button>
-        <Box sx={{ height: isMobile ? 20 : 30 }} /> {/* Adjust spacing for mobile */}
-        <Typography textAlign="center" fontSize={isMobile ? '0.9rem' : '1rem'}> {/* Adjust font size */}
-          {Resource.get('register.guide2')}
-        </Typography>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2, fontSize: isMobile ? '0.9rem' : '1rem' }} // Adjust font size
-          onClick={startNewRegistration}
-        >
-        {Resource.get('register.create_new_student')}
         </Button>
 
         {false ? (
@@ -171,10 +169,6 @@ export default function Login(props) {
             }}
           />) : (<div></div>)
         }
-        {showNewRegistration && (
-          <AddNewStudent open={showNewRegistration} onAddStudent={handleCloseAddStudentDialog} onClose={()=>setShowNewRegistration(false)}/>
-        )}
-
         {showFindEmail && <FindEmail funcConfirm={onCloseFindEmail}/>}
 
       </Box>

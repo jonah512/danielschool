@@ -92,29 +92,6 @@ export default function EditStudent({ open, onClose, student }) {
                         fullWidth
                     />
                     <TextField
-                        label={Resource.get('students.email')}
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        fullWidth
-                        error={!!emailError}
-                        helperText={emailError}
-                    />
-                    <TextField
-                        label={Resource.get('students.phone')}
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        fullWidth
-                    />
-                    <TextField
-                        label={Resource.get('students.parent_name')}
-                        name="parent_name"
-                        value={formData.parent_name}
-                        onChange={handleChange}
-                        fullWidth
-                    />
-                    <TextField
                         select
                         label={Resource.get('students.gender')}
                         name="gender"
@@ -163,6 +140,29 @@ export default function EditStudent({ open, onClose, student }) {
                         </MenuItem>
                     ))}
                     </TextField>
+                    <TextField
+                        label={Resource.get('students.email')}
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        fullWidth
+                        error={!!emailError}
+                        helperText={emailError}
+                    />
+                    <TextField
+                        label={Resource.get('students.phone')}
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        fullWidth
+                    />
+                    <TextField
+                        label={Resource.get('students.parent_name')}
+                        name="parent_name"
+                        value={formData.parent_name}
+                        onChange={handleChange}
+                        fullWidth
+                    />
 
                 </Stack>
             </DialogContent>

@@ -66,7 +66,7 @@ const Korean = {
         birthdate: "생년월일",
         email_recommand: "학부모 이메일 (Google Class 활용을 위해 Gmail 사용을 권장합니다)",
         email: "학부모 이메일",
-        phone: "전화번호",
+        phone: "학부모 전화번호",
         parent_name: "학부모 이름",
         address: "주소",
         deletetitle: "학생 삭제",
@@ -147,7 +147,8 @@ const Korean = {
         period_2: "2교시",
         period_3: "3교시",
         status: "상태",
-        comment: "비고"
+        comment: "비고",
+        period: "교시",
     },
     usermenu: {
         language: "언어"
@@ -198,16 +199,17 @@ const Korean = {
         delete_title: "학생 선택 삭제",
         delete_content: "이 학생을 삭제하시겠습니까?",
         select_class: "수강 신청",
-        logout: "로그아웃",
+        logout: "나가기",
         status: "수강신청상태"
     },
     register: {
         select_class_guide: "화면에는 한글 수준과 학년에 맞는 반만 보입니다.",
-        guide_korean: "지난 학기 등록되었던 학생이면, 아래에서 등록시 사용되었던 부모님의 Email 주소를 입력해 주세요.",
-        guide_english: "If you have registered in the past, please enter the parent's email address used for registration below.",
-        start_registration: "Start Registration. 수강신청 시작하기",
+        guide_korean: "지난 학기 등록되었던 학생이면 아래의 버튼을 눌러주세요.",
+        guide_english: "If you have registered in the last term, please the button below.",
+        start_registration: "지난 학기 학생, 수강신청하기",
         guide2: "자녀가 처음 수강하는 경우에는 아래의 신규 학생 신청으로 등록 바랍니다.",
-        create_new_student: "New Student. 신규 학생으로 수강신청 시작하기",
+        guide2_eng: "If a new student, press the button below",
+        create_new_student: "신규 학생으로 수강신청하기",
         cannot_find_email: "Cannot find the email address. Please check the email address and try again.",
         find_email: "부모님의 이메일: ",
         find_email_by_name: "찾기",
@@ -223,8 +225,8 @@ const Korean = {
         enroll_status: "{0} (신청{1}명/정원{2}명)",
         selected_class: "신청한 과목(Enrolled Classes)",
         prev_select_class : " (이전) 과목선택 단계로 이동",
-        confirm_title: "등록 확인",
-        confirm_content: "등록을 완료하시겠습니까?",
+        confirm_title: "확인",
+        confirm_content: "위 사항이 맞습니까?",
         submit: "Submit(제출하기)",
         prev_select_basic_info: "Prev(기본정보확인 단계로 이동)",
         next_confirm: "Next (최종확인 단계로 이동)",
@@ -239,7 +241,8 @@ const Korean = {
         enrollment_fail: "'{0}' 과목은 신청이 불가합니다. 다른 과목으로 변경후 재신청 바랍니다.",
         add_student: "학생추가하기",
         request: "기타 요청사항이 있으면 적어주세요.",
-        request_confirm: "요청사항 메모:"
+        request_confirm: "요청사항 메모:",
+        result_display_title: "수강신청이 완료되었습니다."
     },
     blocked:{
         opening_time: "시작: {0}",

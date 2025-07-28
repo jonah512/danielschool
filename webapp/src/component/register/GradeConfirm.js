@@ -10,6 +10,7 @@ import { Stack, Typography } from '@mui/material';
 import Resource from '../../framework/resource/Resource';
 import Logger from '../../framework/logger/Logger';
 import CancelIcon from '@mui/icons-material/Cancel';
+import Defines from '../Defines';
 
 export default function GradeConfirm({funcConfirm, funcCancel, student}) {
 
@@ -28,10 +29,11 @@ export default function GradeConfirm({funcConfirm, funcCancel, student}) {
         <DialogTitle id="alert-dialog-title">
         {Resource.get('students.grade_confirm_missing')}
         </DialogTitle>
-        <DialogContent>
+                <DialogContent>
           <Stack direction='column'>
             <Typography variant="body1" gutterBottom>
-              {Resource.get('students.grade')}: {student.grade}
+              {Resource.get('students.grade')}: {Defines.gradeOptions.find((grade) => grade.value === student.grade)?.label || student.grade}
+              
             </Typography>
 
           </Stack>

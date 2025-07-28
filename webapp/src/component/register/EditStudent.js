@@ -29,7 +29,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
         created_at: student?.created_at || '',
         updated_at: student?.updated_at || '',
         religion: Defines.religion.find((religion) => religion.label === student.religion)?.value || student.religion,
-        grade: Defines.gradeOptions.find((grade) => grade.label === student.grade)?.value || student.grade,
+        grade: 0,
     });
 
     const [emailError, setEmailError] = useState(''); // State for email error
@@ -57,6 +57,10 @@ export default function EditStudent({ onPrev, onNext, student }) {
     };
 
     const handleSubmit = () => {
+        if (!formData.grade) {
+            alert(Resource.get('students.grade_missing'));
+            return;
+        }
 
         if (formData.korean_level === 0) {
             alert(Resource.get('students.korean_level_missing'));
@@ -72,7 +76,6 @@ export default function EditStudent({ onPrev, onNext, student }) {
             parent_name: formData.parent_name.trim(),
             church: formData.church.trim(),
         });
-
 
         Logger.debug('formData', formData);
 
@@ -98,9 +101,10 @@ export default function EditStudent({ onPrev, onNext, student }) {
 
     return (
         <Box
-            sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
+            sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}
             id='EditStudent'
             spacing={4}
+            fullWidth
         >
             <Stack spacing={2} alignItems={'center'} justifyContent={'center'}> {/* Center alignment */}
                 <div style={{ marginBottom: '10px' }}></div>
@@ -110,6 +114,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
                     value={formData.name}
                     onChange={handleChange}
                     fullWidth
+                    mandatory={true}
                 />
                 <TextField
                     select
@@ -118,6 +123,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
                     value={formData.grade}
                     onChange={handleChange}
                     fullWidth
+                    error={formData.grade === 0}
                 >
                     {Defines.gradeOptions.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
@@ -133,29 +139,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
                     onChange={handleChange}
                     InputLabelProps={{ shrink: true }}
                     fullWidth
-                />
-                <TextField
-                    label={Resource.get('students.email_recommand')}
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    fullWidth
-                    error={!!emailError}
-                    helperText={emailError}
-                />
-                <TextField
-                    label={Resource.get('students.phone')}
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    fullWidth
-                />
-                <TextField
-                    label={Resource.get('students.parent_name')}
-                    name="parent_name"
-                    value={formData.parent_name}
-                    onChange={handleChange}
-                    fullWidth
+                    error={formData.birth_date === '2000-01-01'}
                 />
                 <TextField
                     select
@@ -208,22 +192,47 @@ export default function EditStudent({ onPrev, onNext, student }) {
                         </MenuItem>
                     </TextField>
                 }
+                <TextField
+                    label={Resource.get('students.email_recommand')}
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    fullWidth
+                    error={!!emailError}
+                    helperText={emailError}
+                />
+                <TextField
+                    label={Resource.get('students.phone')}
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    fullWidth
+                />
+                <TextField
+                    label={Resource.get('students.parent_name')}
+                    name="parent_name"
+                    value={formData.parent_name}
+                    onChange={handleChange}
+                    fullWidth
+                />
+
                 <Stack spacing={2} direction="row" justifyContent="center" style={{ marginTop: '20px' }}>
                     <Button
                         variant="contained"
-                        color="secondary"
+                        color="primary"
                         onClick={onPrev}
                         fullWidth
                         startIcon={<ArrowBackIosNewIcon />}
                     >{Resource.get('register.prev_select_student')}</Button>
                     <Button
                         variant="contained"
-                        color="secondary"
+                        color="primary"
                         onClick={() => {
                             gradeConfirmed ? handleSubmit() : setTrySubmit(true);
                         }}
                         fullWidth
                         endIcon={<ArrowForwardIosIcon />}
+                        disabled={formData.grade === 0}
                     >{Resource.get('register.next_select_class')}</Button>
                 </Stack>
             </Stack>

@@ -118,13 +118,7 @@ export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
                         InputLabelProps={{ shrink: true }}
                         fullWidth
                     />
-                    <TextField
-                        label={Resource.get('students.phone')}
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        fullWidth
-                    />
+ 
                     <TextField
                         select
                         label={Resource.get('students.gender')}
@@ -174,6 +168,13 @@ export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
                             {getKoreanLevelLabel(formData.korean_level)}
                         </MenuItem>
                     </TextField>
+                    <TextField
+                        label={Resource.get('students.phone')}
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        fullWidth
+                    />
                 </Stack>
             </DialogContent>
             <DialogActions>

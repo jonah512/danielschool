@@ -71,7 +71,6 @@ function ConfirmConsent({ consentList }) {
                         </Typography>
                         <Paper style={{
                             padding: 16,
-                            maxHeight: 500,
                             maxWidth: 900,
                             overflowY: 'auto',
                             backgroundColor: 'white',

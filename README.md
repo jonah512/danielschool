@@ -49,6 +49,22 @@ TODO)
 >> done : 44. 교사 추가시에 필요 정보 알람 반드시 띄울것 -> email and phone number should not be unique
 >> done : 45. Grade확인하는 팝업창 학생 정보 확인란에 띄울것것
 >> done : 46. 학년 확인하라는 팝업을 따로 만들것.
+>> done : 47. 학생정보 추가/수정할때 부모 항목을 아래에 배치
+>> done : 48. Concent Form 스크롤. 
+>> 지난학기 
+수강신청 먼저
+>> done 모바일용으로 width 조절
+>> Requirement 학년 
+1교시 옆으로
+>> done : 종교 기독교
+>> done : 1교시 2교시 3교시 
+>> done : 신청한 과목에 시메스터 
+>> done : 위 사항이 맞습니까
+>> done : 등록 enrolled 
+>> done : 나가기 exit 
+
+현재신청 신청자 
+
 
 sudo docker stop daniel-service
 sudo docker rm daniel-service

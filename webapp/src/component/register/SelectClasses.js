@@ -415,11 +415,11 @@ export default function SelectClasses({ onNext, onPrev }) {
             />
             <Box height={20}></Box>
             <Stack direction="row" spacing={2}>
-                <Button variant="contained" color="secondary" fullWidth onClick={onPrev} startIcon={<ArrowBackIosNewIcon/>}>
+                <Button variant="contained" color="primary" fullWidth onClick={onPrev} startIcon={<ArrowBackIosNewIcon/>}>
                     {Resource.get('register.prev_select_basic_info')}
                 </Button>
                 
-                <Button variant="contained" color="secondary" fullWidth onClick={onSumit}
+                <Button variant="contained" color="primary" fullWidth onClick={onSumit}
                     disabled={evaluationCheck !== 'success'} endIcon={<ArrowForwardIosIcon/>}>
                     {Resource.get('register.next_confirm')}
                 </Button>

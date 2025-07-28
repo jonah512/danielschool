@@ -79,10 +79,10 @@ export default function Blocked() {
                         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-                        if (days > 0) return `${days} days, ${hours}:${minutes}:${seconds} sec`;
-                        else if (hours > 0) return `${hours}:${minutes}:${seconds} sec`;
-                        else if (minutes > 0) return `${minutes}:${seconds} sec`;
-                        else return `${seconds} sec`;
+                        if (days > 0) return `${days} days, ${hours}h ${minutes}m ${seconds}s`;
+                        else if (hours > 0) return `${hours}h ${minutes}m ${seconds}s`;
+                        else if (minutes > 0) return `${minutes}m ${seconds}s`;
+                        else return `${seconds}s`;
                     })() : 'Not Set')}
                 </Typography>
                 <Box sx={{ height: 15 }} />

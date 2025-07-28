@@ -21,8 +21,8 @@ import ScheduleCtrl from '../../control/SchedulesCtrl';
 import EnrollmentCtrl from '../../control/EnrollmentCtrl';
 import ClassesCtrl from '../../control/ClassesCtrl';
 import ConfirmConsent from './ConfirmConsent';
-
-const drawerWidth = 240;
+import EmailLogin from './EmailLogin'
+import ResultDisplay from './ResultDisplay';
 
 const defaultTheme = createTheme({
   palette: {
@@ -150,6 +150,8 @@ export default function Register() {
     switch (selectedMenu) {
       case 'Login':
         return (<Login />);
+      case 'EmailLogin':
+        return (<EmailLogin />);
       case 'SelectStudent':
         return (<SelectStudent />);
       case 'EnrollmentRegister':
@@ -159,14 +161,16 @@ export default function Register() {
       case 'Blocked':
         return (<Blocked />);
       case 'ConfirmConsent':
-        return (<ConfirmConsent consentList={RegisterCtrl.consents}/>);
+        return (<ConfirmConsent consentList={RegisterCtrl.consents} />);
+      case 'ResultDisplay':
+        return (<ResultDisplay />);
       default:
         return (selectedMenu);
     }
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+      <ThemeProvider theme={defaultTheme}>
         <Box
           sx={{
             backgroundColor: (theme) =>
@@ -174,8 +178,6 @@ export default function Register() {
                 ? theme.palette.grey[100]
                 : theme.palette.grey[900],
             flexGrow: 1,
-            height: '100vh',
-            overflow: 'auto',
             width: '100%' // Use full width
           }}
         >
@@ -206,7 +208,7 @@ export default function Register() {
             </Stack>
           </Container>
         </Box>
-    </ThemeProvider>
+      </ThemeProvider>      
   );
 }
 

@@ -213,6 +213,8 @@ function SelectStudent() {
                         ))}
                     </RadioGroup>
                 </FormControl>
+                {/* insert divider*/}
+                <Box sx={{ width: '100%', height: 20, marginY: 1 }} />
                 <Stack
                     spacing={2}
                     alignItems="center"
@@ -221,7 +223,7 @@ function SelectStudent() {
                     sx={{ width: '100%' }}
                 >
                     <Button
-                        variant="contained"
+                        variant="secondary"
                         onClick={() => setShowNewRegistration(true)}
                         fullWidth={isMobile} // Make buttons full width on mobile
                         startIcon={<PersonAddAltIcon/>}
@@ -239,7 +241,7 @@ function SelectStudent() {
                         </Button>
                     )}
                     <Button
-                        variant="contained"
+                        variant="secondary"
                         onClick={handleExit}
                         fullWidth={isMobile} // Make buttons full width on mobile
                         startIcon={<LogoutIcon/>}

@@ -150,7 +150,7 @@ const onTeacherListChange = (teachers) => {
             {Resource.get('register.basic_info')}
           </Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ width: '100%' }}>
+        <AccordionDetails sx={{ width: '92%' }}>
           <EditStudent
             onPrev={() => EventPublisher.publish(EventDef.onMenuChanged, 'SelectStudent')} // Close dialog
             onNext={handleMoveNextFromStudenEdit} // Close dialog
@@ -202,18 +202,18 @@ const onTeacherListChange = (teachers) => {
         <AccordionActions>
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             onClick={handleMovePrevFromFinalCheck}
-            sx={{ fontSize: isMobile ? '0.8rem' : '1rem' }} // Adjust font size
+            sx={{ fontSize: isMobile ? '0.9rem' : '1rem' }} // Adjust font size
             startIcon={<ArrowBackIosNewIcon/>}
           >
             {Resource.get('register.prev_select_class')}
           </Button>
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             onClick={handleSubmit}
-            sx={{ fontSize: isMobile ? '0.8rem' : '1rem' }} // Adjust font size
+            sx={{ fontSize: isMobile ? '0.9rem' : '1rem' }} // Adjust font size
             endIcon={<ArrowForwardIosIcon/>}
           >
             {Resource.get('register.submit')}
@@ -231,7 +231,7 @@ const onTeacherListChange = (teachers) => {
           submitEnrollment();
           RegisterCtrl.selected_student = null; // Clear selected student
           EventPublisher.publish(EventDef.onSelectedStudentChanged, null); // Notify that the selected student has changed
-          EventPublisher.publish(EventDef.onMenuChanged, 'SelectStudent'); // Go back to student selection
+          EventPublisher.publish(EventDef.onMenuChanged, 'ResultDisplay'); // Go back to student selection
         }}/>)}
     </Box>
   );
