@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Stack, Typography, RadioGroup, FormControlLabel, Radio, Button, TextField } from '@mui/material';
+import { Box, Stack, Typography, RadioGroup, FormControlLabel, Radio, Button, TextField, useMediaQuery, useTheme } from '@mui/material';
 import RegisterCtrl from '../../control/RegisterCtrl';
 import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
@@ -12,6 +12,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Logger from '../../framework/logger/Logger';
 import RequestsCtrl from '../../control/RequestsCtrl';
+import GradingIcon from '@mui/icons-material/Grading';
 
 export default function SelectClasses({ onNext, onPrev }) {
 
@@ -26,6 +27,9 @@ export default function SelectClasses({ onNext, onPrev }) {
     const [hoveredClass, setHoveredClass] = useState(null);
     const [evaluationCheck, setEvaluationCheck] = useState('');
     const [requestContent, setRequestContent] = useState('');
+        const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
+    
     const MODULE = 'SelectClasses';
 
 
@@ -288,9 +292,9 @@ export default function SelectClasses({ onNext, onPrev }) {
                 {Resource.get('register.class_selection_description')}
             </Typography>
             <div style={{ height: '20px' }}></div>
-            <Stack direction="row" spacing={2} justifyContent="center">
+            <Stack direction={isMobile?"column":"row"} spacing={2} justifyContent="center">
                 <Stack direction="column" spacing={1} flex={1}>
-                    <Typography variant="h6" textAlign="left">{Resource.get('enrollment.period_1')}</Typography>
+                    <Typography variant="h6" textAlign="left">[ {Resource.get('enrollment.period_1')} ]</Typography>
                     <RadioGroup
                         value={selectedClassPeriod1}
                         onChange={(e) => handleClassSelection(1, e.target.value)}                        
@@ -311,7 +315,7 @@ export default function SelectClasses({ onNext, onPrev }) {
                                             <Typography
                                                 sx={{ color: classItem.mendatory ? 'blue' : 'inherit' }}
                                             >
-                                                {Resource.get('register.enroll_status', classItem.name, classItem.enrolled_number, classItem.max_students)}
+                                                {Resource.get('register.enroll_status', classItem.name)}
                                             </Typography> :
                                             <Typography
                                                 sx={{ color: 'inherit' }}
@@ -320,6 +324,7 @@ export default function SelectClasses({ onNext, onPrev }) {
                                             </Typography>
                                         }
                                         {hoveredClass === classItem && <ClassDetailPopup classItem={classItem} />}
+
                                     </div>
                                 }
                             />
@@ -327,7 +332,7 @@ export default function SelectClasses({ onNext, onPrev }) {
                     </RadioGroup>
                 </Stack>
                 <Stack direction="column" spacing={1} flex={1}>
-                    <Typography variant="h6" textAlign="left">{Resource.get('enrollment.period_2')}</Typography>
+                    <Typography variant="h6" textAlign="left">[ {Resource.get('enrollment.period_2')} ] </Typography>
                     <RadioGroup
                         value={selectedClassPeriod2}
                         onChange={(e) => handleClassSelection(2, e.target.value)}
@@ -353,7 +358,7 @@ export default function SelectClasses({ onNext, onPrev }) {
                                             <Typography
                                                 sx={{ color: 'inherit' }}
                                             >
-                                                {Resource.get('register.occupied_status', classItem.name, classItem.max_students)}
+                                                {Resource.get('register.occupied_status', classItem.name)}
                                             </Typography>
                                         }
                                         {hoveredClass === classItem && <ClassDetailPopup classItem={classItem} />}
@@ -364,7 +369,7 @@ export default function SelectClasses({ onNext, onPrev }) {
                     </RadioGroup>
                 </Stack>
                 <Stack direction="column" spacing={1} flex={1}>
-                    <Typography variant="h6" textAlign="left">{Resource.get('enrollment.period_3')}</Typography>
+                    <Typography variant="h6" textAlign="left">[ {Resource.get('enrollment.period_3')} ]</Typography>
                     <RadioGroup
                         value={selectedClassPeriod3}
                         onChange={(e) => handleClassSelection(3, e.target.value)}

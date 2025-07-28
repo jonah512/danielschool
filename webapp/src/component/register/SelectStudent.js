@@ -35,12 +35,15 @@ function SelectStudent() {
         const enrollmentCtrl = new EnrollmentCtrl(window.APIURL);
         
         enrollmentCtrl.getEnrollment(RegisterCtrl.year, RegisterCtrl.term);
-        const intervalId = setInterval(()=>enrollmentCtrl.getEnrollment(RegisterCtrl.year, RegisterCtrl.term), 3000); // Call every 3 seconds
         return () => {
             EventPublisher.removeEventListener(EventDef.onEnrollmentListChange, MODULE);
-            clearInterval(intervalId); // Clear interval on cleanup
         };
     }, [ RegisterCtrl.students]);
+
+    const getPeriod = (classId) => {
+        const classData = RegisterCtrl.classes.find(c => c.id === classId);
+        return classData ? classData.period : '';
+    }
 
     const onEnrollmentListChange = (enrollments) => {
         Logger.debug('onEnrollmentListChange enrollments:', enrollments);
@@ -51,6 +54,7 @@ function SelectStudent() {
             if (!enrollmentMap.has(enrollment.student_id)) {
                 enrollmentMap.set(enrollment.student_id, []);
             }
+            enrollment.period = getPeriod(enrollment.class_id);
             enrollmentMap.get(enrollment.student_id).push(enrollment);
         });
         setStudentEnrollments(enrollmentMap); // Update state with the enrollment map
@@ -78,28 +82,6 @@ function SelectStudent() {
         SessionManager.setLoginStatus(false);  
         EventPublisher.publish(EventDef.onSelectedStudentChanged, null);
         EventPublisher.publish(EventDef.onMenuChanged, "Login");
-    }
-
-    const findLastEnrollmentDate = (student) => {
-        const enrollments = RegisterCtrl.enrollments.filter(enrollment => enrollment.student_id === student.id);
-        Logger.debug('findLastEnrollmentDate Enrollments for student', student.name, ':', enrollments);
-        if (enrollments.length === 0) return '';
-        const lastEnrollment = enrollments.reduce((latest, current) => {
-            return new Date(latest.updated_at) > new Date(current.updated_at) ? latest : current;
-        });
-        Logger.debug('findLastEnrollmentDate Last enrollment date for student', student.name, ':', lastEnrollment.updated_at);
-        const updatedAt = new Date(lastEnrollment.updated_at);
-        const estOffset = -5 * 60; // EST offset in minutes
-        const isDST = (date) => {
-            const jan = new Date(date.getFullYear(), 0, 1);
-            const jul = new Date(date.getFullYear(), 6, 1);
-            const stdTimezoneOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-            return date.getTimezoneOffset() < stdTimezoneOffset;
-        };
-        const dstAdjustment = isDST(updatedAt) ? 60 : 0; // Add 60 minutes if DST is active
-        const updatedAtEST = new Date(updatedAt.getTime() + (estOffset + dstAdjustment) * 60000);
-        Logger.debug('findLastEnrollmentDate Last enrollment date for student', student.name, ':', lastEnrollment.updated_at, updatedAtEST);
-        return updatedAtEST.toLocaleDateString() + ' ' + updatedAtEST.toTimeString().slice(0, 8);
     }
 
     const getTimeString = (date_time) => {
@@ -133,28 +115,51 @@ function SelectStudent() {
         });
     };
 
+
     const displayHistory = (studentId) => {
         const enrollments = studentEnrollments.get(studentId) || [];
+        let enrollmentsText = [];
         if (enrollments.length === 0) return '';
-
+        console.log('Enrollments for student:', studentId, ':', enrollments);
+        enrollments.map((enrollment, index) => {
+            const className = getClassName(enrollment.class_id);
+            const period = getPeriod(enrollment.class_id);
+            const status = enrollment.status.toUpperCase();
+            const updatedAt = getTimeString(new Date(enrollment.updated_at));
+            enrollmentsText.push({
+                id: `${studentId}-${index}`, // Add a unique id for each row
+                class_id: enrollment.class_id,
+                class_name: className,
+                period: period,
+                status: status,
+                updated_at: updatedAt
+            });
+        });
+        enrollmentsText = enrollmentsText.sort((a, b) => a.period - b.period); // Sort by period
         return (
             <DataGrid
-                rows={enrollments}
+                rows={enrollmentsText}
                 columns={[
                     {
-                        field: 'class_id', headerName: Resource.get('student_selection.class_name'), width: 150,
+                        field: 'class_id',
+                        headerName: Resource.get('student_selection.class_name'),
+                        width: 200,
                         renderCell: (params) => {
-                            return <span>{getClassName(params.value)}</span>;
+                            return <span>{getPeriod(params.value) + Resource.get('enrollment.period') + ': ' + getClassName(params.value)}</span>;
                         }
                     },
                     {
-                        field: 'status', headerName: Resource.get('student_selection.status'), width: 200,
+                        field: 'status',
+                        headerName: Resource.get('student_selection.status'),
+                        width: 100,
                         renderCell: (params) => {
                             return params.value.toUpperCase();
                         }
                     },
                     ...(!isMobile ? [{
-                        field: 'updated_at', headerName: Resource.get('student_selection.updated_at'), width: 200,
+                        field: 'updated_at',
+                        headerName: Resource.get('student_selection.updated_at'),
+                        width: 200,
                         renderCell: (params) => {
                             const date_time = new Date(params.value);
                             return <span>{getTimeString(date_time)}</span>;
@@ -193,13 +198,13 @@ function SelectStudent() {
                         value={selectedStudent}
                     >                        
                         {students.map((student) => (
-                            <div>
-                                <Box height={22}></Box>
+                            <Stack direction={'column'} sx={{ width: '100%' }}>
+                                
                                 <Stack
                                     direction={isMobile ? "column" : "row"} // Stack vertically on mobile
                                     alignItems="center"
                                     key={student.id}
-                                    spacing={5}
+                                    spacing={1}
                                     sx={{ width: '100%' }}
                                 >
                                     <FormControlLabel
@@ -209,7 +214,9 @@ function SelectStudent() {
                                     />
                                     {displayHistory(student.id)}
                                 </Stack>
-                            </div>
+                                <Box height={20}  width={'100%'}></Box>
+
+                            </Stack>
                         ))}
                     </RadioGroup>
                 </FormControl>
