@@ -137,7 +137,8 @@ const Korean = {
         mendatory: "필수",
         fee: "수업료",
         min_korean_level: "최소 한국어 수준",
-        max_korean_level: "최대 한국어 수준"
+        max_korean_level: "최대 한국어 수준",
+        grade: "학년",
     },
     enrollment: {
         id: "아이디",
@@ -155,7 +156,7 @@ const Korean = {
     },
     classroom: {
         name: "이름(학년)",
-        add_student: "학생 추가",
+        add_student: "추가",
         remove_student_tilte: "학생 제거",
         remove_student_content: "학생 '{0}'을(를) 제거하시겠습니까?"
     },

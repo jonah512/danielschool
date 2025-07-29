@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Stack, TextField, Button } from '@mui/material';
 import ClassroomTable from './ClassroomTable';
+import ClassroomTableV2 from './ClassroomTableV2';
 import Resource from '../../framework/resource/Resource';
 import SessionManager from '../../control/SessionManager';
 import Logger from '../../framework/logger/Logger';
@@ -83,7 +84,7 @@ export default function ClassroomManager() {
         />
 
       </Stack>
-      <ClassroomTable search={searchWord} year={selectedYear} term={selectedTerm} />
+      <ClassroomTableV2 search={searchWord} year={selectedYear} term={selectedTerm} />
     </Stack>
   );
 }
