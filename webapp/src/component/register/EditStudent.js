@@ -26,6 +26,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
         gender: student?.gender || '',
         church: student?.church || '',
         korean_level: student?.korean_level || 0,
+        korean_level_confirmed: student?.korean_level_confirmed || 0,
         created_at: student?.created_at || '',
         updated_at: student?.updated_at || '',
         religion: Defines.religion.find((religion) => religion.label === student.religion)?.value || student.religion,
@@ -34,7 +35,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
 
     const [emailError, setEmailError] = useState(''); // State for email error
     const [showSelectKoreanLevel, setShowSelectKoreanLevel] = useState(false);
-    const [showKoreanLevel, setShowKoreanLevel] = useState(student.korean_level === 0);
+    const [showKoreanLevel, setShowKoreanLevel] = useState(student.korean_level === 0 || student.korean_level_confirmed == 0);
     const [gradeConfirmed, setGradeConfirmed] = useState(false);
     const [trySubmit, setTrySubmit] = useState(false);
 

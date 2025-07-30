@@ -59,13 +59,13 @@ export default function EnrollmentStudentTable({ search, year, term }) {
         const student_control = new StuidentCtrl(window.APIURL);
         const enrollment_control = new EnrollmentCtrl(window.APIURL);
         const class_control = new ClassesCtrl(window.APIURL);
-        student_control.getStudents(search);
+        student_control.getStudentsEnrollment(search);
         enrollment_control.getEnrollment(year, term);
         const intervalId = setInterval(() => {
             enrollment_control.getEnrollment(year, term);
         }, 3000); // Refresh every 60 seconds
 
-        class_control.getClasses(null, year, term);
+        class_control.getClassesForEnrollment(null, year, term);
         EventPublisher.addEventListener(EventDef.onStudentListChange, MODULE, onStudentListChange);
         EventPublisher.addEventListener(EventDef.onEnrollmentListChange, MODULE, onEnrollmentListChange);
         EventPublisher.addEventListener(EventDef.onClassListChange, MODULE, onClassListChange);

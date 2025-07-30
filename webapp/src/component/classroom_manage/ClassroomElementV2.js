@@ -61,7 +61,6 @@ export default function ClassroomElementV2({ classItem, students, enrollments, c
         const students_ = students.filter(student => enrollmentsInClass.some(enrollment => enrollment.student_id === student.id));
 
         setStudentsInClass(students_);
-        console.log('studentsInClass', students_);
         setEnrollmentsInClass(enrollments_);
         EventPublisher.addEventListener(EventDef.onEnrollmentDelete + classItem.id, 'Classroom' + classItem.id, onEnrollmentDelete);
         return () => {
@@ -218,14 +217,14 @@ export default function ClassroomElementV2({ classItem, students, enrollments, c
                 }
                 arrow
             >
-                {studentsInClass.length > classItem.max_students ? 
+                {classItem.enrolled_number > classItem.max_students ? 
                       (<Box backgroundColor="#dddddd" sx={{ padding: 1, borderRadius: 1 }}>
                         <Typography variant="h8" style={{ color: 'red', fontSize:'13px' }}>{getClassName(classItem.name)}</Typography>
-                        <Typography variant="h8" style={{ color: 'red', fontSize:'13px' }}> [{studentsInClass.length}/{classItem.max_students}]</Typography>
+                        <Typography variant="h8" style={{ color: 'red', fontSize:'13px' }}> [{classItem.enrolled_number}/{classItem.max_students}]</Typography>
                         </Box>)
                     : (<Box backgroundColor="#dddddd" sx={{ padding: 1, borderRadius: 1 }}>
                         <Typography variant="h8" style={{ color: 'black', fontSize:'13px'}} >{getClassName(classItem.name)}</Typography>
-                        <Typography variant="h8" style={{ color: 'black', fontSize:'13px' }} > [{studentsInClass.length}/{classItem.max_students}]</Typography>
+                        <Typography variant="h8" style={{ color: 'black', fontSize:'13px' }} > [{classItem.enrolled_number}/{classItem.max_students}]</Typography>
                         </Box>)}
 
             </Tooltip>

@@ -4,6 +4,7 @@ import Logger from "../framework/logger/Logger";
 
 import EventPublisher from '../framework/event/EventPublisher';
 import { EventDef } from '../framework/event/EventDef';
+import SessionManager from "./SessionManager";
 
 const API_URL = `${window.APIURL}/classes/`; // Ensure trailing slash
 
@@ -15,6 +16,24 @@ export default class ClassesCtrl {
 
   getClasses(search, year, term) {
     Logger.debug('getClasses');
+    if (term === 'all') term = null;
+    if (year === 'all') year = null;
+
+    axios
+      .get(this.#url + "/classes", { params: { name: search, year: year, term: term } })
+      .then(response => {
+        const searchFromSession = SessionManager.getSearchWord('Classes');
+        if(search !== searchFromSession) {
+          console.log("Search word from session does not match current search, updating session.");
+          return;
+        }
+        EventPublisher.publish(EventDef.onClassListChange, response.data);
+      })
+      .catch(error => Logger.error("Error fetching classes:", error));
+  }
+
+  getClassesForEnrollment(search, year, term) {
+    Logger.debug('getClassesForEnrollment');
     if (term === 'all') term = null;
     if (year === 'all') year = null;
 

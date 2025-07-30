@@ -248,6 +248,7 @@ const English = {
             "Enrolled classes:\n{3}\n\n" +
             "Thank you.\n\n" +
             "Daniel Korean School",
+        contacts: "For enrollment-related inquiries, please contact danielschoolonthehill@gmail.com.",
     },
     blocked: {
         opening_time: "Start: {0}",

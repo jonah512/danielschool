@@ -4,6 +4,7 @@ import Logger from "../framework/logger/Logger";
 
 import EventPublisher from '../framework/event/EventPublisher';
 import { EventDef } from '../framework/event/EventDef';
+import SessionManager from "./SessionManager";
 
 export default class StudentCtrl {
   #url = "http://localhost"
@@ -16,7 +17,41 @@ export default class StudentCtrl {
     axios
       .get(this.#url + "/students", { params: { name: search } })
       .then(response => {
-        Logger.debug("Fetched Students:", response.data);
+        const searchFromSession = SessionManager.getSearchWord('Students');
+        if(searchFromSession !== search && searchFromSession !== null) {
+          console.log("Search word from session does not match current search, updating session.");
+          return;
+        }
+        EventPublisher.publish(EventDef.onStudentListChange, response.data);
+      })
+      .catch(error => Logger.error("Error fetching students:", error));
+  }
+
+  getStudentsEnrollment(search = '') {
+    Logger.debug('getStudents');
+    axios
+      .get(this.#url + "/students", { params: { name: search } })
+      .then(response => {
+        const searchFromSession = SessionManager.getSearchWord('Enrollment');
+        if(searchFromSession !== search && searchFromSession !== null) {
+          console.log("Search word from session does not match current search, updating session.");
+          return;
+        }
+        EventPublisher.publish(EventDef.onStudentListChange, response.data);
+      })
+      .catch(error => Logger.error("Error fetching students:", error));
+  }
+
+  getStudentsClassroomManager(search = '') {
+    console.log('getStudents', search);
+    axios
+      .get(this.#url + "/students", { params: { name: search } })
+      .then(response => {
+        const searchFromSession = SessionManager.getSearchWord('ClassroomManager');
+        if(searchFromSession !== search && searchFromSession !== null) {
+          console.log("Search word from session does not match current search, updating session:", searchFromSession, 'seaarch', search);
+          return;
+        }
         EventPublisher.publish(EventDef.onStudentListChange, response.data);
       })
       .catch(error => Logger.error("Error fetching students:", error));

@@ -89,6 +89,7 @@ const Korean = {
         korean_level_missing: "한국어 수준을 선택해 주세요.",
         birthdate_missing: "생년월일을 입력해 주세요.",
         grade_confirm_missing: "학년을 다시 한 번 확인해 주세요.",
+        korean_level_confirmed: "한국어 수준 확정"
     },
     teachers: {
         id: "아이디",
@@ -249,6 +250,7 @@ const Korean = {
             "신청한 과목:\n{3}\n\n" +
             "감사합니다.\n\n" +
             "다니엘 한국어 학교",
+        contacts: "수강신청 관련 문의사항은 danielschoolonthehill@gmail.com 으로 연락주시기 바랍니다.",
     },
     blocked:{
         opening_time: "시작: {0}",

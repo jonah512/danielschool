@@ -32,7 +32,8 @@ export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
         church: '',
         korean_level: 1,
         religion: 'no',
-        grade: 1
+        grade: 1,
+        korean_level_confirmed: 0,
     });
 
     const [emailError, setEmailError] = useState(''); // State for email error

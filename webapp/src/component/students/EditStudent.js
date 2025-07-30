@@ -25,6 +25,7 @@ export default function EditStudent({ open, onClose, student }) {
         gender: student?.gender || '',
         church: student?.church || '',
         korean_level: student?.korean_level || 0,
+        korean_level_confirmed: student?.korean_level_confirmed || 0,
         created_at: student?.created_at || '',
         updated_at: student?.updated_at || '',
         religion: Defines.religion.find((religion) => religion.label === student.religion)?.value || student.religion,
@@ -139,6 +140,21 @@ export default function EditStudent({ open, onClose, student }) {
                             {option.level}. {option.label}
                         </MenuItem>
                     ))}
+                    </TextField>
+                    <TextField
+                        select
+                        label={Resource.get('students.korean_level_confirmed')}
+                        name="korean_level_confirmed"
+                        value={formData.korean_level_confirmed}
+                        onChange={handleChange}
+                        fullWidth
+                    >
+                        <MenuItem key={1} value={1}>
+                            YES
+                        </MenuItem>
+                        <MenuItem key={0} value={0}>
+                            NO
+                        </MenuItem>
                     </TextField>
                     <TextField
                         label={Resource.get('students.email')}

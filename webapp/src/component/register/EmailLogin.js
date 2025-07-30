@@ -74,7 +74,7 @@ export default function EmailLogin(props) {
   };
 
   const onSearchEmail = (event) => {
-    if(searchEmail === null || searchEmail === ''){
+    if (searchEmail === null || searchEmail === '') {
       return;
     }
 
@@ -91,7 +91,7 @@ export default function EmailLogin(props) {
     });
   };
 
-  const onCloseFindEmail = () =>{
+  const onCloseFindEmail = () => {
     setShowFindEmail(false);
   }
 
@@ -139,23 +139,42 @@ export default function EmailLogin(props) {
               variant="none"
               onClick={() => setShowFindEmail(true)}
               sx={{ fontSize: isMobile ? '0.8rem' : '1rem' }} // Adjust font size
-              startIcon={<SearchIcon/>}
+              startIcon={<SearchIcon />}
             >
               {Resource.get('register.find_email_by_name')}
             </Button>
           </Grid>
         </Grid>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2, fontSize: isMobile ? '0.9rem' : '1rem' }} // Adjust font size
-          startIcon={<LoginIcon />}
-          disabled={!foundEmail}
-          onClick={onSearchEmail}
-        >
-        {Resource.get('register.start_registration')}
-        </Button>
+
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} sm={6}> {/* Full width for Button on mobile */}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2, fontSize: isMobile ? '0.9rem' : '1rem' }} // Adjust font size
+              startIcon={<LoginIcon />}
+              disabled={!foundEmail}
+              onClick={onSearchEmail}
+            >
+              {Resource.get('register.start_registration')}
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={3}> {/* Full width for TextField on mobile */}
+            <Button
+              type="submit"
+              fullWidth
+              variant="none"
+
+              sx={{ mt: 3, mb: 2, fontSize: isMobile ? '0.9rem' : '1rem' }} // Adjust font size
+              startIcon={<LoginIcon />}
+              onClick={() => EventPublisher.publish(EventDef.onMenuChanged, 'Login')}
+            >
+              {Resource.get('student_selection.logout')}
+            </Button>
+          </Grid>
+        </Grid>
+
 
         {false ? (
           <TextField
@@ -169,7 +188,7 @@ export default function EmailLogin(props) {
             }}
           />) : (<div></div>)
         }
-        {showFindEmail && <FindEmail funcConfirm={onCloseFindEmail}/>}
+        {showFindEmail && <FindEmail funcConfirm={onCloseFindEmail} />}
 
       </Box>
     </Stack>

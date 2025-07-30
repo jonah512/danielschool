@@ -56,12 +56,12 @@ export default function ClassroomTableV2({ search, year, term }) {
         const class_control = new ClassesCtrl(window.APIURL);
         
         const intervalId = setInterval(() => {
-            student_control.getStudents(search);
+            student_control.getStudentsClassroomManager(search);
             enrollment_control.getEnrollment(year, term);
             class_control.getClasses(null, year, term);
         }, 3000);
 
-        student_control.getStudents(search);
+        student_control.getStudentsClassroomManager(search);
         enrollment_control.getEnrollment(year, term);
         class_control.getClasses(null, year, term);
 

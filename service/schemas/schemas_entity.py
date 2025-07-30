@@ -31,6 +31,7 @@ class StudentBase(BaseModel):
     religion: str
     church: str
     korean_level: int
+    korean_level_confirmed: int
     grade: int
 
 class StudentCreate(StudentBase):

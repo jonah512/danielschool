@@ -133,6 +133,11 @@ export default function Confirmation({ onNext, student }) {
                         </TableBody>
                     </Table>
                 </Box>
+                <Box>
+                    <Typography variant="body1" textAlign="center">
+                        {Resource.get('register.')}
+                    </Typography>
+                </Box>
             </Stack>
         </Box>
     );

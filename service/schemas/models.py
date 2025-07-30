@@ -30,6 +30,7 @@ class Student(Base):
     religion = Column(String)
     church = Column(String)
     korean_level = Column(Integer)
+    korean_level_confirmed = Column(Integer, default=0)
     grade = Column(Integer)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
