@@ -184,11 +184,33 @@ export default function ClassroomElementV2({ classItem, students, enrollments, c
         setSelectedStudentName(null);
         setDeleteConfirm(false);
     }
+    const getGradeLabel = (grade) => {
+        return grade.replace('Grade ', '').replace('Senior Kindergarten', 'SK').replace('Junior Kindergarten', 'JK');
+    };
+    const getClassName = (name) => {
+        if(name.length < 3){
+            return '[ ' +name.substring(0, 1) + ' ' + name.substring(1, 2) + ' ]';
+        }
+        else if (name.length == 3){
+            return '[ ' +name.substring(0, 1) + ' ' + name.substring(1, 2) + ' ' + name.substring(2, 3) + ' ]';
+        }
+        else if(name.length > 5){
+            return name.substring(0, 5) + '...';
+        }
+        return name;
+    };
+    const getStudentName = (name) => {
+        if(name.length > 5){
+            return name.substring(0, 5) + '...';
+        }
+        return name;
+    };
     return (
-        <Box sx={{ border: 0.5, borderRadius: 1, padding: 0, marginBottom: 1 }} minWidth={90} textAlign="center">
+        <Box sx={{ border: 0.5, borderRadius: 1, padding: 0, marginBottom: 1 }} minWidth={80} textAlign="center">
             <Tooltip
                 title={
                     <Stack spacing={1}>
+                        <Typography variant="body2">{classItem.name}</Typography>
                         <Typography variant="body2">{Resource.get('classes.grade')}: {Defines.gradeOptions.find(option => option.value === classItem.min_grade).label}~{Defines.gradeOptions.find(option => option.value === classItem.max_grade).label}</Typography>
                         <Typography variant="body2">{Resource.get('classes.max_students')}: {classItem.max_students}</Typography>
                         <Typography variant="body2">{Resource.get('students.korean_level')}: {classItem.min_korean_level}~{classItem.max_korean_level}</Typography>
@@ -197,12 +219,12 @@ export default function ClassroomElementV2({ classItem, students, enrollments, c
                 arrow
             >
                 {studentsInClass.length > classItem.max_students ? 
-                      (<Box backgroundColor="#dddddd">
-                        <Typography variant="h8" style={{ color: 'red', fontSize:'14px' }}>{classItem.name}</Typography>
+                      (<Box backgroundColor="#dddddd" sx={{ padding: 1, borderRadius: 1 }}>
+                        <Typography variant="h8" style={{ color: 'red', fontSize:'13px' }}>{getClassName(classItem.name)}</Typography>
                         <Typography variant="h8" style={{ color: 'red', fontSize:'13px' }}> [{studentsInClass.length}/{classItem.max_students}]</Typography>
                         </Box>)
                     : (<Box backgroundColor="#dddddd" sx={{ padding: 1, borderRadius: 1 }}>
-                        <Typography variant="h8" style={{ color: 'black', fontSize:'14px'}} >{classItem.name}</Typography>
+                        <Typography variant="h8" style={{ color: 'black', fontSize:'13px'}} >{getClassName(classItem.name)}</Typography>
                         <Typography variant="h8" style={{ color: 'black', fontSize:'13px' }} > [{studentsInClass.length}/{classItem.max_students}]</Typography>
                         </Box>)}
 
@@ -220,7 +242,7 @@ export default function ClassroomElementV2({ classItem, students, enrollments, c
                                 }
                                 arrow
                             >
-                        <TextField value={row.name} key={row.id} variant="standard" size="small" sx={{ width: '100%' }} InputProps={{
+                        <TextField value={getStudentName(row.name) + '(' + getGradeLabel(row.grade) + ')'} key={row.id} variant="standard" size="small" sx={{ width: '100%' }} InputProps={{
                             readOnly: true,
                             disableUnderline: true,                        
                             style: { fontSize: '14px' },
