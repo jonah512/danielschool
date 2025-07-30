@@ -63,7 +63,7 @@ TODO)
 >> done : 등록 enrolled 
 >> done : 나가기 exit 
 >> 확인창에 연락처 보여주기.
-검색은 sync로 이뤄지도록 async 라면 index를 둬서 최신 내용으로 띄우도록.
+>> 검색은 sync로 이뤄지도록 async 라면 index를 둬서 최신 내용으로 띄우도록.
 
 sudo docker stop daniel-service
 sudo docker rm daniel-service
