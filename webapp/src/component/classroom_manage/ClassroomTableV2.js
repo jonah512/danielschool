@@ -87,8 +87,11 @@ export default function ClassroomTableV2({ search, year, term }) {
         
         // Reusable sort function - Sort by mandatory -> name -> period
         const sortClasses = (classes) => classes.sort((a, b) => {
-            if (b.mendatory !== a.mendatory) {
-                return b.mendatory - a.mendatory; // Sort mandatory descending
+            if (a.display_order !== b.display_order) {
+                return a.display_order - b.display_order; // Sort order descending
+            }
+            if (a.display_order !== b.display_order) {
+                return a.display_order - b.display_order; // Sort order descending
             }
             if (a.name !== b.name) {
                 return b.name.localeCompare(a.name); // Sort name descending

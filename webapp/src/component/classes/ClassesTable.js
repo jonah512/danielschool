@@ -53,8 +53,14 @@ export default function ClassesTable({search, year, term}) {
         Logger.debug('onClassListChange handleCloseEditClassDialog ',data);
         // Sort data by mendatory -> name -> period
         const sortedData = data.sort((a, b) => {
-            if (b.mendatory !== a.mendatory) {
-                return b.mendatory - a.mendatory; // Sort mendatory descending
+            // if (b.mendatory !== a.mendatory) {
+            //     return b.mendatory - a.mendatory; // Sort mendatory descending
+            // }
+            if (a.display_order !== b.display_order) {
+                return a.display_order - b.display_order; // Sort order descending
+            }
+            if (a.display_order !== b.display_order) {
+                return a.display_order - b.display_order; // Sort order descending
             }
             if (a.name !== b.name) {
                 return b.name.localeCompare(a.name); // Sort name descending
@@ -183,6 +189,7 @@ export default function ClassesTable({search, year, term}) {
         },
         { field: 'max_students', headerName: Resource.get('classes.max_students'), width: 150 },
         { field: 'fee', headerName: Resource.get('classes.fee'), width:150 },
+        { field: 'display_order', headerName: Resource.get('classes.display_order'), width:150 },
     ];
 
     return (

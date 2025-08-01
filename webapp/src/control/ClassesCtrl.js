@@ -23,8 +23,8 @@ export default class ClassesCtrl {
       .get(this.#url + "/classes", { params: { name: search, year: year, term: term } })
       .then(response => {
         const searchFromSession = SessionManager.getSearchWord('Classes');
-        if(search !== searchFromSession) {
-          console.log("Search word from session does not match current search, updating session.");
+        if(search!==null && searchFromSession !== null && search !== searchFromSession) {
+          console.log("Search word from session does not match current:", search, searchFromSession);
           return;
         }
         EventPublisher.publish(EventDef.onClassListChange, response.data);

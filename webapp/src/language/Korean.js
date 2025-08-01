@@ -140,6 +140,7 @@ const Korean = {
         min_korean_level: "최소 한국어 수준",
         max_korean_level: "최대 한국어 수준",
         grade: "학년",
+        display_order: "순서",
     },
     enrollment: {
         id: "아이디",

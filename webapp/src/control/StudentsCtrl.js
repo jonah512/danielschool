@@ -43,7 +43,7 @@ export default class StudentCtrl {
   }
 
   getStudentsClassroomManager(search = '') {
-    console.log('getStudents', search);
+    Logger.debug('getStudents', search);
     axios
       .get(this.#url + "/students", { params: { name: search } })
       .then(response => {

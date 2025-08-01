@@ -35,6 +35,7 @@ export default function EditClass({ open, onClose, class_ }) {
         id: class_.id || 0,
         min_korean_level: class_.min_korean_level || 1,
         max_korean_level: class_.max_korean_level || 12,
+        display_order: class_.display_order || 0
     });
 
     const [emailError, setEmailError] = useState(''); // State for email error
@@ -227,13 +228,27 @@ export default function EditClass({ open, onClose, class_ }) {
                         <MenuItem value={true}>Yes</MenuItem>
                         <MenuItem value={false}>No</MenuItem>
                     </TextField>
-                    <TextField
+                    <TextField                    
                         label={Resource.get('classes.fee')}
                         name="fee"
                         value={formData.fee}
                         onChange={handleChange}
                         fullWidth
                     />
+                    <TextField
+                        select
+                        label={Resource.get('classes.display_order')}
+                        name="display_order"
+                        value={formData.display_order}
+                        onChange={handleChange}
+                        fullWidth
+                    >
+                        {Array.from({ length: 120 }, (_, i) => i ).map((order) => (
+                            <MenuItem key={order} value={order}>
+                                {order}
+                            </MenuItem>
+                        ))}
+                    </TextField>
                 </Stack>
             </DialogContent>
             <DialogActions>

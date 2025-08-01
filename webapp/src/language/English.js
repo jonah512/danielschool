@@ -139,6 +139,7 @@ const English = {
         min_korean_level: "Minimum Korean Level",
         max_korean_level: "Maximum Korean Level",
         grade: "Grade",
+        display_order: "Display Order",
     },
     enrollment: {
         id: "ID",
