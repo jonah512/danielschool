@@ -100,10 +100,11 @@ export default function Login(props) {
 
   const handleCloseAddStudentDialog = (student) => {
     setShowNewRegistration(false);
+    RegisterCtrl.selected_student = student;
     RegisterCtrl.findEmail(student.email, (data) => {
       Logger.debug('Found email:', data);
       RegisterCtrl.students = data;
-      EventPublisher.publish(EventDef.onMenuChanged, 'SelectStudent');
+      EventPublisher.publish(EventDef.onMenuChanged, 'EnrollmentRegister');
 
     }, (error) => {
       Logger.error('Error finding email:', error);
