@@ -111,36 +111,36 @@ function Topbar({ year, term }) {
                     {Resource.get('topbar.grade')} <strong>{Defines.gradeOptions.find(option => option.value === selectedStudent.grade)?.label}</strong>
                 </Typography>
             )}
-            {selectedStudent && (
-                <Stack direction="row" spacing={2} alignItems="center">
-                    <Tooltip title={Resource.get('usermenu.language')} arrow>
-                        <IconButton aria-label="language" onClick={handleLanguageClick}>
-                            <LanguageIcon />
-                        </IconButton>
-                    </Tooltip>
-                    <Menu
-                        id="language-menu"
-                        anchorEl={anchorElSub}
-                        keepMounted
-                        open={Boolean(anchorElSub)}
-                        onClose={handleClose}
-                    >
-                        {Resource.getLanguages().map((language, index) => (
-                            <MenuItem key={index}>
-                                <FormControlLabel
-                                    control={<Checkbox checked={selectedLanguage === language} onChange={handleLanguageChange} value={language} />}
-                                    label={language}
-                                />
-                            </MenuItem>
-                        ))}
-                    </Menu>
+            <Stack direction="row" spacing={2} alignItems="center">
+                <Tooltip title={Resource.get('usermenu.language')} arrow>
+                    <IconButton aria-label="language" onClick={handleLanguageClick}>
+                        <LanguageIcon />
+                    </IconButton>
+                </Tooltip>
+                <Menu
+                    id="language-menu"
+                    anchorEl={anchorElSub}
+                    keepMounted
+                    open={Boolean(anchorElSub)}
+                    onClose={handleClose}
+                >
+                    {Resource.getLanguages().map((language, index) => (
+                        <MenuItem key={index}>
+                            <FormControlLabel
+                                control={<Checkbox checked={selectedLanguage === language} onChange={handleLanguageChange} value={language} />}
+                                label={language}
+                            />
+                        </MenuItem>
+                    ))}
+                </Menu>
+                {selectedStudent && (
                     <Tooltip title={Resource.get('login.logout')} arrow>
                         <IconButton aria-label="logout" onClick={handleLogout}>
                             <LogoutIcon />
                         </IconButton>
                     </Tooltip>
-                </Stack>
-            )}
+                )}
+            </Stack>
         </Stack>
     );
 }

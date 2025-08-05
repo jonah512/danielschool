@@ -88,7 +88,8 @@ const English = {
         select_korean_level_title: "Select Korean Level",
         korean_level_missing: "Please select a Korean level.",
         birthdate_missing: "Please enter the birthdate.",
-        grade_confirm_missing: "Please confirm the grade."
+        grade_confirm_missing: "Please confirm the grade.",
+        orean_level_confirmed: "Confirmed Korean Level"
     },
     teachers: {
         id: "ID",
@@ -212,6 +213,7 @@ const English = {
         guide2: "자녀가 처음 수강하는 경우에는 아래의 신규 학생 신청으로 등록 바랍니다.",
         guide2_eng: "If a new student, press the button below.",
         create_new_student: "Register as a new student.",
+        cannot_find_email: "Cannot find the email address. Please check the email address and try again.",
         find_email: "Parent's email:",
         find_email_by_name: "Find parent's email.",
         student_name: "Student name",

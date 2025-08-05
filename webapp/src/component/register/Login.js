@@ -147,8 +147,11 @@ export default function Login(props) {
         {Resource.get('register.start_registration')}
         </Button>
         <Box sx={{ height: isMobile ? 20 : 30 }} /> {/* Adjust spacing for mobile */}
-        <Typography textAlign="center" fontSize={isMobile ? '0.9rem' : '1rem'}> {/* Adjust font size */}
+        <Typography textAlign="left" fontSize={isMobile ? '0.9rem' : '1rem'}> {/* Adjust font size */}
           {Resource.get('register.guide2')}
+        </Typography>
+        <Typography textAlign="left" fontSize={isMobile ? '0.9rem' : '1rem'}> {/* Adjust font size */}
+          {Resource.get('register.guide2_eng')}
         </Typography>
         <Button
           type="submit"

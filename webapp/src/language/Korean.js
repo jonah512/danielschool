@@ -213,7 +213,7 @@ const Korean = {
         guide2: "자녀가 처음 수강하는 경우에는 아래의 신규 학생 신청으로 등록 바랍니다.",
         guide2_eng: "If a new student, press the button below",
         create_new_student: "신규 학생으로 수강신청하기",
-        cannot_find_email: "Cannot find the email address. Please check the email address and try again.",
+        cannot_find_email: "이메일을 찾을 수 없습니다. 이메일 주소를 확인하고 다시 시도해 주세요.",
         find_email: "부모님의 이메일: ",
         find_email_by_name: "부모 이메일 찾기",
         student_name: "학생 이름",
