@@ -79,10 +79,10 @@ export default function Blocked() {
                         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-                        if (days > 0) return `${days} days, ${hours}h ${minutes}m ${seconds}s`;
-                        else if (hours > 0) return `${hours}h ${minutes}m ${seconds}s`;
-                        else if (minutes > 0) return `${minutes}m ${seconds}s`;
-                        else return `${seconds}s`;
+                        if (days > 0) return Resource.get('blocked.time_format_1', days, hours, minutes, seconds);
+                        else if (hours > 0) return Resource.get('blocked.time_format_2', hours, minutes, seconds);
+                        else if (minutes > 0) return Resource.get('blocked.time_format_3', minutes, seconds);
+                        else return Resource.get('blocked.time_format_4', seconds);
                     })() : 'Not Set')}
                 </Typography>
                 <Box sx={{ height: 15 }} />
