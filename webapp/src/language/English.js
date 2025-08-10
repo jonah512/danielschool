@@ -245,9 +245,9 @@ const English = {
         add_student: "Add student",
         request: "If you have any additional requests, please write them below.",
         request_confirm: "Request memo:",
-        result_display_title: "{0}'s {1} year {2} term enrollment has been completed.",
-        request_email_title: "{0}'s {1} year {2} term enrollment has been completed.",
-        request_email_content: "{0}'s {1} year {2} term enrollment has been completed.\n\n" +
+        result_display_title: "{0}'s {1} year {2} enrollment has been completed.",
+        request_email_title: "{0}'s {1} year {2} enrollment has been completed.",
+        request_email_content: "{0}'s {1} year {2} enrollment has been completed.\n\n" +
             "Enrolled classes:\n{3}\n\n" +
             "Thank you.\n\n" +
             "Daniel Korean School",

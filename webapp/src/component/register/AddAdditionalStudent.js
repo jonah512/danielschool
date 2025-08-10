@@ -30,9 +30,9 @@ export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
         address: '',
         gender: '',
         church: '',
-        korean_level: 1,
-        religion: 'no',
-        grade: 1,
+        korean_level: 0,
+        religion: '',
+        grade: 0,
         korean_level_confirmed: 0,
     });
 
@@ -95,6 +95,7 @@ export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
                         value={formData.name}
                         onChange={handleChange}
                         fullWidth
+                        error={!formData.name}
                     />
                     <TextField
                         select
@@ -103,6 +104,7 @@ export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
                         value={formData.grade || ''}
                         onChange={handleChange}
                         fullWidth
+                        error={!formData.grade}
                     >
                         {Defines.gradeOptions.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
@@ -127,6 +129,7 @@ export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
                         value={formData.gender}
                         onChange={handleChange}
                         fullWidth
+                        error={!formData.gender}
                     >
                         {["Male", "Female"].map((gender) => (
                             <MenuItem key={gender} value={gender}>
@@ -141,6 +144,7 @@ export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
                         value={formData.religion}
                         onChange={handleChange}
                         fullWidth
+                        error={!formData.religion}
                     >
                         {["protestant", "catholic", "other", "no"].map((option) => (
                             <MenuItem key={option} value={option}>
@@ -164,6 +168,7 @@ export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
                         onClick={() => setShowSelectKoreanLevel(true)}
                         fullWidth
                         InputProps={{ readOnly: true }}
+                        error={!formData.korean_level}
                     >
                         <MenuItem key={formData.korean_level} value={formData.korean_level}>
                             {getKoreanLevelLabel(formData.korean_level)}
@@ -175,6 +180,7 @@ export default function AddAdditionalStudent({ open, onClose, onAddStudent}) {
                         value={formData.phone}
                         onChange={handleChange}
                         fullWidth
+                        error={!formData.phone}
                     />
                 </Stack>
             </DialogContent>

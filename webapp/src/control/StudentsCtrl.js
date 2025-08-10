@@ -73,6 +73,7 @@ export default class StudentCtrl {
     try {
       const response = await axios.post(this.#url + "/students", studentData);
       Logger.debug("Student added successfully:", response.data);
+      studentData.id = response.data.id;
       this.getStudents(search);
     } catch (error) {
       Logger.error("Error adding student:", error);

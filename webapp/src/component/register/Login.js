@@ -86,6 +86,7 @@ export default function Login(props) {
       RegisterCtrl.students = data;
       RegisterCtrl.parent_email = searchEmail;
       RegisterCtrl.parent_name = data[0].parent_name || '';
+      RegisterCtrl.new_student_register = false;
       EventPublisher.publish(EventDef.onMenuChanged, 'SelectStudent');
 
     }, (error) => {
@@ -101,6 +102,7 @@ export default function Login(props) {
   const handleCloseAddStudentDialog = (student) => {
     setShowNewRegistration(false);
     RegisterCtrl.selected_student = student;
+    RegisterCtrl.new_student_register = true;
     RegisterCtrl.findEmail(student.email, (data) => {
       Logger.debug('Found email:', data);
       RegisterCtrl.students = data;

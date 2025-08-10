@@ -30,7 +30,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
         created_at: student?.created_at || '',
         updated_at: student?.updated_at || '',
         religion: Defines.religion.find((religion) => religion.label === student.religion)?.value || student.religion,
-        grade: 0,
+        grade: student?.grade || 0,
     });
 
     const [emailError, setEmailError] = useState(''); // State for email error
@@ -102,7 +102,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
 
     return (
         <Box
-            sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}
+            sx={{  flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}
             id='EditStudent'
             spacing={4}
             fullWidth
@@ -124,7 +124,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
                     value={formData.grade}
                     onChange={handleChange}
                     fullWidth
-                    error={formData.grade === 0}
+                    error={!gradeConfirmed}
                 >
                     {Defines.gradeOptions.map((option) => (
                         <MenuItem key={option.value} value={option.value}>

@@ -38,10 +38,16 @@ export default function EnrollmentRegister() {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
 
   useEffect(() => {
+    console.log('EnrollmentRegister useEffect called', RegisterCtrl.selected_student);
     EventPublisher.addEventListener(EventDef.onSelectedStudentChanged, MODULE, onSelectedStudentChanged);
     EventPublisher.addEventListener(EventDef.onClassListChange, MODULE, onClassListChange);
     EventPublisher.addEventListener(EventDef.onTeacherListChange, MODULE, onTeacherListChange);
     EventPublisher.addEventListener(EventDef.onEnrollmentListChange, MODULE, onEnrollmentListChange);
+    if( RegisterCtrl.new_student_register === true) {
+      setStage(1); // Start from the first stage if it's a new student registration
+    } else {
+      setStage(0); // Start from the second stage if it's an existing student
+    }
 
     const fetchData = () => {
       const class_control = new ClassesCtrl(window.APIURL);
@@ -121,7 +127,7 @@ const onTeacherListChange = (teachers) => {
     reqControl.sendEmail(
       {
         'receiver': RegisterCtrl.selected_student.email,
-        'title' : Resource.get('register.request_email_title', RegisterCtrl.selected_student.name, RegisterCtrl.year, RegisterCtrl.term),
+        'title' : Resource.get('register.request_email_title', RegisterCtrl.selected_student.name, RegisterCtrl.year, Resource.get('topbar.' + RegisterCtrl.term.trim())),
         'body' : RegisterCtrl.email_content
       }
     );

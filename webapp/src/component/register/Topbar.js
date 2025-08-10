@@ -29,11 +29,12 @@ function Topbar({ year, term }) {
 
     useEffect(() => {
         EventPublisher.addEventListener(EventDef.onSelectedStudentChanged, MODULE, onSelectedStudentChanged);
+        setSelectedStudent(RegisterCtrl.selected_student);
         return () => {
             EventPublisher.removeEventListener(EventDef.onSelectedStudentChanged, MODULE);
         };
 
-    }, []);
+    }, [RegisterCtrl.selected_student]);
 
     const onSelectedStudentChanged = (student) => {
         Logger.debug('onSelectedStudentChanged student : ', student);

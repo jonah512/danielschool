@@ -190,8 +190,8 @@ const Korean = {
         title: "{0}년 {1} 수강신청",
         name: "학생 이름:",
         grade: "학년:",
-        spring: "봄 학기",
-        fall: "가을 학기"
+        spring: "봄학기",
+        fall: "가을학기"
     },
     student_selection: {
         title: "학생 선택",
@@ -245,9 +245,9 @@ const Korean = {
         add_student: "학생추가하기",
         request: "기타 요청사항이 있으면 적어주세요.",
         request_confirm: "요청사항 메모:",
-        result_display_title: "{0} 학생의 {1}년 {2}학기 수강신청이 완료되었습니다.",
-        request_email_title: "{0} 학생의 {1}년 {2}학기 수강신청이 완료되었습니다.",
-        request_email_content: "{0} 학생의 {1}년 {2}학기 수강신청이 완료되었습니다.\n\n" +
+        result_display_title: "{0} 학생의 {1}년 {2} 수강신청이 완료되었습니다.",
+        request_email_title: "{0} 학생의 {1}년 {2} 수강신청이 완료되었습니다.",
+        request_email_content: "{0} 학생의 {1}년 {2} 수강신청이 완료되었습니다.\n\n" +
             "신청한 과목:\n{3}\n\n" +
             "감사합니다.\n\n" +
             "다니엘 한국어 학교",

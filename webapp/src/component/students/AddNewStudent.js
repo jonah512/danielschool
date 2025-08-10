@@ -17,6 +17,7 @@ import SessionManager from '../../control/SessionManager';
 import Defines from '../Defines'
 import SelectKoreanLevel from './SelectKoreanLevel';
 import Logger from '../../framework/logger/Logger';
+import { useMediaQuery, useTheme } from '@mui/material'; // Add responsive utilities
 
 export default function AddNewStudent({ open, onClose, onAddStudent }) {
     const [formData, setFormData] = useState({
@@ -29,13 +30,15 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
         gender: '',
         church: '',
         korean_level: 0,
-        religion: 'no',
-        grade: 1,
+        religion: '',
+        grade: 0,
         korean_level_confirmed: 0,
     });
 
     const [emailError, setEmailError] = useState(''); // State for email error
     const [showSelectKoreanLevel, setShowSelectKoreanLevel] = useState(false);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -93,14 +96,15 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
             <DialogTitle>{Resource.get('students.title')}</DialogTitle>
             <DialogContent>
-                <Stack spacing={2}>
-                    <div style={{ marginBottom: '10px' }}></div>
+                <Stack spacing={isMobile?1:2}>
+                    <div style={{ marginBottom: '6px' }}></div>
                     <TextField
                         label={Resource.get('students.name')}
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
                         fullWidth
+                        error={!formData.name}
                     />
                     <TextField
                         select
@@ -109,6 +113,7 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
                         value={formData.grade || ''}
                         onChange={handleChange}
                         fullWidth
+                        error={!formData.grade}
                     >
                         {Defines.gradeOptions.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
@@ -132,6 +137,7 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
                         value={formData.gender}
                         onChange={handleChange}
                         fullWidth
+                        error={!formData.gender}
                     >
                         {["Male", "Female"].map((gender) => (
                             <MenuItem key={gender} value={gender}>
@@ -146,6 +152,7 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
                         value={formData.religion}
                         onChange={handleChange}
                         fullWidth
+                        error={!formData.religion}
                     >
                         {["protestant", "catholic", "other", "no"].map((option) => (
                             <MenuItem key={option} value={option}>
@@ -169,6 +176,7 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
                         onClick={() => setShowSelectKoreanLevel(true)}
                         fullWidth
                         InputProps={{ readOnly: true }}
+                        error={!formData.korean_level}
                     >
                             <MenuItem key={formData.korean_level} value={formData.korean_level}>
                                 {getKoreanLevelLabel(formData.korean_level)}
@@ -180,7 +188,7 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
                         value={formData.email}
                         onChange={handleChange}
                         fullWidth
-                        error={!!emailError}
+                        error={!!emailError || !formData.email}
                         helperText={emailError}
                     />
                     <TextField
@@ -189,6 +197,7 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
                         value={formData.phone}
                         onChange={handleChange}
                         fullWidth
+                        error={!formData.phone}
                     />
                     <TextField
                         label={Resource.get('students.parent_name')}
@@ -196,6 +205,7 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
                         value={formData.parent_name}
                         onChange={handleChange}
                         fullWidth
+                        error={!formData.parent_name}
                     />
                 </Stack>
             </DialogContent>

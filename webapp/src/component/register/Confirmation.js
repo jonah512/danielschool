@@ -50,7 +50,7 @@ export default function Confirmation({ onNext, student }) {
 
         setEnrolledClasses(classes);
 
-        RegisterCtrl.email_content = Resource.get('register.request_email_content', formData.name, RegisterCtrl.year, RegisterCtrl.term, classes.map(c => `${c.period} ${Resource.get('enrollment.period')}: ${c.name}`).join('\n'));
+        RegisterCtrl.email_content = Resource.get('register.request_email_content', formData.name, RegisterCtrl.year, Resource.get('topbar.' + RegisterCtrl.term.trim()), classes.map(c => `${c.period} ${Resource.get('enrollment.period')}: ${c.name}`).join('\n'));
         console.log('Email content:', RegisterCtrl.email_content);
     };
     
@@ -132,11 +132,6 @@ export default function Confirmation({ onNext, student }) {
                             </TableRow>
                         </TableBody>
                     </Table>
-                </Box>
-                <Box>
-                    <Typography variant="body1" textAlign="center">
-                        {Resource.get('register.')}
-                    </Typography>
                 </Box>
             </Stack>
         </Box>

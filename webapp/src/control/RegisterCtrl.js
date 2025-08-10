@@ -10,6 +10,7 @@ class RegisterCtrlObj {
   parent_email = '';
   students = [];
   selected_student = null;
+  new_student_register = false;
   request = null;
   classes = [];
   enrollments = [];

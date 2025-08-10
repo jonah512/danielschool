@@ -41,7 +41,7 @@ function ResultDisplay() {
             >
                 <Box sx={{ width: '100%', height: 100, marginY: 1 }} />
                 <Typography variant="h4" sx={{ color: '#333', textAlign: 'center' }}>
-                    {Resource.get('register.result_display_title', RegisterCtrl.selected_student.name, RegisterCtrl.year, RegisterCtrl.term)}
+                    {Resource.get('register.result_display_title', RegisterCtrl.selected_student.name, RegisterCtrl.year, Resource.get('topbar.' + RegisterCtrl.term.trim()))}
                 </Typography>
                 <Box sx={{ width: '100%', height: 100, marginY: 1 }} />
                 <Button
