@@ -108,7 +108,7 @@ export default function SelectClasses({ onNext, onPrev }) {
 
     const handleClassSelection = (period, classId) => {
         const selected_class = RegisterCtrl.classes.find(c => String(c.id) === String(classId));
-        Logger.debug('handleClassSelection period:', period, 'classId:', classId, 'selected_class:', selected_class);
+        console.log('handleClassSelection period:', period, 'classId:', classId, 'selected_class:', selected_class);
         if (selected_class.max_grade < 0) { // kindergarten class
             // find same class name in all periods and select it
 
@@ -121,7 +121,43 @@ export default function SelectClasses({ onNext, onPrev }) {
             });
 
         }
+        else if (selected_class.name === '한글초급집중반') { // kindergarten class
+            // find same class name in all periods and select it
+
+            const sameClasses = RegisterCtrl.classes.filter(c => String(c.name) === String(selected_class.name));
+            Logger.debug('handleClassSelection sameClasses:', sameClasses);
+            sameClasses.forEach(sameClass => {
+                if (sameClass.period === 1) { setSelectedClassPeriod1(sameClass.id); RegisterCtrl.selectedClassPeriod1 = sameClass.id; setEvaluationCheck('success');}
+                if (sameClass.period === 2) { setSelectedClassPeriod2(sameClass.id); RegisterCtrl.selectedClassPeriod2 = sameClass.id;  setEvaluationCheck('success');}
+                if (sameClass.period === 3) { setSelectedClassPeriod3(sameClass.id); RegisterCtrl.selectedClassPeriod3 = sameClass.id;  setEvaluationCheck('success');}                
+            });
+
+        }
         else { // other classes
+            // Check if only one period has '한글초급집중반' selected, remove selection if so
+            const selectedNames = [
+                period != 1 ? RegisterCtrl.classes.find(c => String(c.id) === String(selectedClassPeriod1))?.name: '',
+                period != 2 ? RegisterCtrl.classes.find(c => String(c.id) === String(selectedClassPeriod2))?.name: '',
+                period != 3 ? RegisterCtrl.classes.find(c => String(c.id) === String(selectedClassPeriod3))?.name: ''
+            ];
+            const hangulBeginnerCount = selectedNames.filter(name => name === '한글초급집중반').length;
+            console.log('handleClassSelection hangulBeginnerCount:', hangulBeginnerCount, 'selectedNames:', selectedNames);
+
+            if (hangulBeginnerCount === 1) {
+                if (period != 1 && selectedClassPeriod1 && RegisterCtrl.classes.find(c => String(c.id) === String(selectedClassPeriod1))?.name === '한글초급집중반') {
+                    setSelectedClassPeriod1(null);
+                    RegisterCtrl.selectedClassPeriod1 = null;
+                }
+                if (period != 2 && selectedClassPeriod2 && RegisterCtrl.classes.find(c => String(c.id) === String(selectedClassPeriod2))?.name === '한글초급집중반') {
+                    setSelectedClassPeriod2(null);
+                    RegisterCtrl.selectedClassPeriod2 = null;
+                }
+                if (period != 3 && selectedClassPeriod3 && RegisterCtrl.classes.find(c => String(c.id) === String(selectedClassPeriod3))?.name === '한글초급집중반') {
+                    setSelectedClassPeriod3(null);
+                    RegisterCtrl.selectedClassPeriod3 = null;
+                }
+            }
+
             Logger.debug('handleClassSelection classId:', classId, period);
             if (period === 1) {
                 setSelectedClassPeriod1(classId);
@@ -418,6 +454,9 @@ export default function SelectClasses({ onNext, onPrev }) {
                 multiline
                 sx={{maxWidth:1200}}
             />
+            <Typography variant="h8" textAlign="center" sx={{color:'#3700ffff'}}>
+                {Resource.get('register.contacts')}
+            </Typography>
             <Box height={20}></Box>
             <Stack direction="row" spacing={2}>
                 <Button variant="contained" color="primary" fullWidth onClick={onPrev} startIcon={<ArrowBackIosNewIcon/>}>

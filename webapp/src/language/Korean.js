@@ -222,11 +222,11 @@ const Korean = {
         final_confirm: "최종확인",
         class_description: "과목 설명",
         class_selection_guide_kr: "필수과목은 파란색으로 표시됩니다. 적어도 1개 이상의 필수과목을 선택하십시오.",
-        class_selection_guide_en: "Mendatory classes are marked in blue. Please select at least one mandatory class.",
+        class_selection_guide_en: "Mandatory classes are marked in blue. Please select at least one mandatory class.",
         class_selection_description: "[과목 상세 설명 보기(클릭)]",
         class_tooltip: "{0} 선생님, Grade {1} ~ {2}",
         enroll_status: "{0}",
-        selected_class: "신청한 과목(Enrolled Classes)",
+        selected_class: "선택한 과목(Selected Classes)",
         prev_select_class : " (이전) 과목선택 단계로 이동",
         confirm_title: "확인",
         confirm_content: "위 사항이 맞습니까?",
@@ -252,6 +252,7 @@ const Korean = {
             "감사합니다.\n\n" +
             "다니엘 한국어 학교",
         contacts: "수강신청 관련 문의사항은 danielschoolonthehill@gmail.com 으로 연락주시기 바랍니다.",
+        confirm_submit: "최종 확인 후 '제출하기(Submit)' 버튼을 반드시 눌러주세요.",
     },
     blocked:{
         opening_time: "시작: {0}",

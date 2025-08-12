@@ -226,7 +226,7 @@ const English = {
         class_selection_description: "[View class details (click)]",
         class_tooltip: "{0} Teacher, Grade {1} ~ {2}",
         enroll_status: "{0}",
-        selected_class: "Enrolled classes",
+        selected_class: "Selected classes",
         prev_select_class: "(Previous) Go to class selection step",
         confirm_title: "Confirmation",
         confirm_content: "Is the above information correct?",
@@ -252,6 +252,7 @@ const English = {
             "Thank you.\n\n" +
             "Daniel Korean School",
         contacts: "For enrollment-related inquiries, please contact danielschoolonthehill@gmail.com.",
+        confirm_submit: "Please press the 'Submit' button after final confirmation.",
     },
     blocked: {
         opening_time: "Start: {0}",

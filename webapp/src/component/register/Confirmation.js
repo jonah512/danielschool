@@ -15,6 +15,7 @@ import RegisterCtrl from '../../control/RegisterCtrl';
 import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
 import Logger from '../../framework/logger/Logger';
+import AlertDialog from '../common/AlertDialog';
 
 export default function Confirmation({ onNext, student }) {
     const formData = {
@@ -133,6 +134,9 @@ export default function Confirmation({ onNext, student }) {
                         </TableBody>
                     </Table>
                 </Box>
+                <Typography variant="h6" textAlign="center" style={{ color: 'red' }}>
+                    {Resource.get('register.confirm_submit')}
+                </Typography>
             </Stack>
         </Box>
     );

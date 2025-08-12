@@ -31,7 +31,7 @@ export default function EnrollmentRegister() {
   const [selectedStudent, setSelectedStudent] = useState(RegisterCtrl.selected_student);
   const [stage, setStage] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
-
+  const [showSubmitConfirmation, setShowSubmitConfirmation] = useState(false);
   const MODULE = 'EnrollmentRegister';
 
   const theme = useTheme();
@@ -101,6 +101,7 @@ const onTeacherListChange = (teachers) => {
 
   const handleMoveNextFromClassSelection = () => {
     setStage(2); // Move to the next stage
+    setShowSubmitConfirmation(true); // Show confirmation dialog
   };
 
   const handleMovePrevFromFinalCheck = () => {
@@ -250,6 +251,14 @@ const onTeacherListChange = (teachers) => {
           EventPublisher.publish(EventDef.onSelectedStudentChanged, null); // Notify that the selected student has changed
           EventPublisher.publish(EventDef.onMenuChanged, 'ResultDisplay'); // Go back to student selection
         }}/>)}
+
+
+        {showSubmitConfirmation &&<AlertDialog
+            YesOrNo={false} Open={true}
+            Title={Resource.get('register.confirm_title')}
+            Content={Resource.get('register.confirm_submit')}
+            onConfirm={() => {setShowSubmitConfirmation(false);}}/>}
+
     </Box>
   );
 }

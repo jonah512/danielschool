@@ -19,7 +19,7 @@ def get_db():
 @router.post("/requests/send_email/")
 def send_email(email_request: EmailRequest, db: Session = Depends(get_db)):
     """Send an email notification for a request."""
-    sender_email = "hyugrae.cho@gmail.com"
+    sender_email = "danielschoolonthehill@gmail.com"
     smtp = SmtpControl()
     smtp.send_email(sender_email=sender_email, receiver_email=email_request.receiver, subject=email_request.title, body=email_request.body)
 

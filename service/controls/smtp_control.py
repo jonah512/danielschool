@@ -12,7 +12,7 @@ class SmtpControl:
         # Configure the logger
         logging.basicConfig(level=logging.INFO)
         logger.info("SMTP Control initialized.")
-        self.app_password = "tjscvgmpmenxverb"
+        self.app_password = "yhaylsjsqoglymsk"
 
     def send_email(self, sender_email: str, receiver_email: str, subject: str, body: str) -> bool:
         """Send an email using Gmail SMTP."""
