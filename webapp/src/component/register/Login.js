@@ -102,6 +102,8 @@ export default function Login(props) {
   const handleCloseAddStudentDialog = (student) => {
     setShowNewRegistration(false);
     RegisterCtrl.selected_student = student;
+    RegisterCtrl.parent_name = student.parent_name;
+    RegisterCtrl.parent_email = student.email;
     RegisterCtrl.new_student_register = true;
     RegisterCtrl.findEmail(student.email, (data) => {
       Logger.debug('Found email:', data);

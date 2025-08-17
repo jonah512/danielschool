@@ -23,6 +23,7 @@ import ClassesCtrl from '../../control/ClassesCtrl';
 import ConfirmConsent from './ConfirmConsent';
 import EmailLogin from './EmailLogin'
 import ResultDisplay from './ResultDisplay';
+import Welcome from './Welcome';
 
 const defaultTheme = createTheme({
   palette: {
@@ -46,7 +47,7 @@ const defaultTheme = createTheme({
 
 
 export default function Register() {
-  const [selectedMenu, setSelectedMenu] = React.useState('ConfirmConsent');
+  const [selectedMenu, setSelectedMenu] = React.useState('Welcome');
   const [language, setLanguage] = React.useState(Resource.language);
   const [year, setYear] = React.useState('2024');
   const [term, setTerm] = React.useState('spring');
@@ -148,6 +149,8 @@ export default function Register() {
   const displayContent = () => {
     Logger.debug('displayContent Menu : ' + selectedMenu);
     switch (selectedMenu) {
+      case 'Welcome':
+        return (<Welcome />);
       case 'Login':
         return (<Login />);
       case 'EmailLogin':

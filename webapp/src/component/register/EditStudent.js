@@ -177,22 +177,21 @@ export default function EditStudent({ onPrev, onNext, student }) {
                     onChange={handleChange}
                     fullWidth
                 />
-                {showKoreanLevel &&
-                    <TextField
-                        select
-                        label={Resource.get('students.korean_level')}
-                        name="korean_level"
-                        value={formData.korean_level}
-                        onChange={handleChange}
-                        onClick={() => setShowSelectKoreanLevel(true)}
-                        fullWidth
-                        InputProps={{ readOnly: true }}
-                    >
-                        <MenuItem key={formData.korean_level} value={formData.korean_level}>
-                            {getKoreanLevelLabel(formData.korean_level)}
-                        </MenuItem>
-                    </TextField>
-                }
+                <TextField
+                    select
+                    label={Resource.get('students.korean_level')}
+                    name="korean_level"
+                    disabled={!showKoreanLevel}
+                    value={formData.korean_level}
+                    onChange={handleChange}
+                    onClick={() => showKoreanLevel?setShowSelectKoreanLevel(true):null}
+                    fullWidth
+                    InputProps={{ readOnly: true }}
+                >
+                    <MenuItem key={formData.korean_level} value={formData.korean_level}>
+                        {getKoreanLevelLabel(formData.korean_level)}
+                    </MenuItem>
+                </TextField>
                 <TextField
                     label={Resource.get('students.email_recommand')}
                     name="email"

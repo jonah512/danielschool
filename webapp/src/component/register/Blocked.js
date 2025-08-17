@@ -34,7 +34,7 @@ export default function Blocked() {
 
             Logger.debug('Current Time:', present);
             if (RegisterCtrl.openingDate <= present && present <= RegisterCtrl.closingDate) {
-                EventPublisher.publish(EventDef.onMenuChanged, 'Login');
+                EventPublisher.publish(EventDef.onMenuChanged, 'Welcome');
             }
         }, 1000);
 

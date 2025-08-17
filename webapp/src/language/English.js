@@ -206,6 +206,7 @@ const English = {
         status: "Enrollment Status"
     },
     register: {
+        start: "Start Enrollment",
         select_class_guide: "Only classes matching the Korean level and grade will be displayed.",
         guide_korean: "지난 학기 등록되었던 학생이면 아래의 버튼을 눌러주세요.",
         guide_english: "If you have registered in the last term, please press the button below.",
@@ -238,7 +239,7 @@ const English = {
         detail_title: "Class name: {0}",
         detail_teacher: "Teacher: {0}",
         detail_grade: "Grade: {0} ~ {1}",
-        detail_korean_level: "Korean level: Level {0}",
+        detail_korean_level: "Korean level: Level {0} ~ {1}",
         detail_description: "Description:",
         occupied_status: "{0} (Closed)",
         enrollment_fail: "'{0}' class is not available. Please choose another.",
@@ -250,7 +251,7 @@ const English = {
         request_email_content: "{0}'s {1} year {2} enrollment has been completed.\n\n" +
             "Enrolled classes:\n{3}\n\n" +
             "Thank you.\n\n" +
-            "Daniel Korean School",
+            "Daniel Korean Culture School",
         contacts: "For enrollment-related inquiries, please contact danielschoolonthehill@gmail.com.",
         confirm_submit: "Please press the 'Submit' button after final confirmation.",
     },

@@ -116,7 +116,7 @@ export default function Confirmation({ onNext, student }) {
                         <TableBody>
                             {enrolledClasses.map((enrolledClass, index) => (
                                 <TableRow key={index}>
-                                    <TableCell align="center">{`${Resource.get('enrollment.period')} ${enrolledClass.period}`}</TableCell>
+                                    <TableCell align="center">{`${enrolledClass.period} ${Resource.get('enrollment.period')}`}</TableCell>
                                     <TableCell align="left">{enrolledClass.name}</TableCell>
                                 </TableRow>
                             ))}

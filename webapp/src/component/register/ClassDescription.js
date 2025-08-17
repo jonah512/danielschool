@@ -34,8 +34,11 @@ export default function ClassDescription({funcConfirm}) {
         </DialogTitle>
         <DialogContent>
           <Stack direction='column'>
-            <img src='class_description_01.png' alt='Class Description' style={{ width: '100%' }} />
-            <img src='class_description_02.png' alt='Class Description' style={{ width: '100%' }} />
+            <img src='intro_register.png' alt='Class Description' style={{ width: '100%' }} />
+            <img src='class_0.png' alt='Class Description' style={{ width: '100%' }} />
+            <img src='class_1.png' alt='Class Description' style={{ width: '100%' }} />
+            <img src='class_2.png' alt='Class Description' style={{ width: '100%' }} />
+            <img src='schedule.png' alt='Class Description' style={{ width: '100%' }} />
           </Stack>
         </DialogContent>
         <DialogActions>

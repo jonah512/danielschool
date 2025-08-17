@@ -82,7 +82,7 @@ const Korean = {
         catholic: "천주교",
         other: "기타",
         no: "없음",
-        grade: "학년",
+        grade: "학년 (2025년 9월 기준)",
         bulk_upload: "일괄 업로드",
         missing: "'{0}'이(가) 누락되었습니다.",
         select_korean_level_title: "한국어 수준 선택",
@@ -139,7 +139,7 @@ const Korean = {
         fee: "수업료",
         min_korean_level: "최소 한국어 수준",
         max_korean_level: "최대 한국어 수준",
-        grade: "학년",
+        grade: "학년(2025년 9월 기준)",
         display_order: "순서",
     },
     enrollment: {
@@ -182,7 +182,7 @@ const Korean = {
         deletetitle: "동의서 삭제",
         deletecontent: "이 동의서를 삭제하시겠습니까?",
         edit_title: "동의서 수정",
-        consent_title: "동의서 작성",
+        consent_title: "동의서",
         agree: "동의합니다.",
         start_enrollment: "수강신청 시작하기"
     },
@@ -206,12 +206,13 @@ const Korean = {
         status: "수강신청상태"
     },
     register: {
+        start: "수강신청 시작하기",
         select_class_guide: "화면에는 한글 수준과 학년에 맞는 반만 보입니다.",
         guide_korean: "지난 학기 등록되었던 학생이면 아래의 버튼을 눌러주세요.",
-        guide_english: "If you have registered in the last term, please the button below.",
+        guide_english: "If a student was enrolled last semester, please click the button below.",
         start_registration: "지난 학기 학생, 수강신청하기",
-        guide2: "자녀가 처음 수강하는 경우에는 아래의 신규 학생 신청으로 등록 바랍니다.",
-        guide2_eng: "If a new student, press the button below",
+        guide2: "신규 학생이라면 아래의 버튼을 눌러주세요.",
+        guide2_eng: "if a student is new, please click the button below.",
         create_new_student: "신규 학생으로 수강신청하기",
         cannot_find_email: "이메일을 찾을 수 없습니다. 이메일 주소를 확인하고 다시 시도해 주세요.",
         find_email: "부모님의 이메일: ",
@@ -238,7 +239,7 @@ const Korean = {
         detail_title: "과목명: {0}",
         detail_teacher: "선생님: {0}",
         detail_grade: "학년: {0} ~ {1}",
-        detail_korean_level: "한국어 수준: 레벨 {0}",
+        detail_korean_level: "한국어 수준: 레벨 {0} ~ {1}",
         detail_description: "설명:",
         occupied_status:"{0} (신청마감)",
         enrollment_fail: "'{0}' 과목은 신청이 불가합니다. 다른 과목으로 변경후 재신청 바랍니다.",
@@ -250,7 +251,7 @@ const Korean = {
         request_email_content: "{0} 학생의 {1}년 {2} 수강신청이 완료되었습니다.\n\n" +
             "신청한 과목:\n{3}\n\n" +
             "감사합니다.\n\n" +
-            "다니엘 한국어 학교",
+            "다니엘한글문화학교",
         contacts: "수강신청 관련 문의사항은 danielschoolonthehill@gmail.com 으로 연락주시기 바랍니다.",
         confirm_submit: "최종 확인 후 '제출하기(Submit)' 버튼을 반드시 눌러주세요.",
     },
