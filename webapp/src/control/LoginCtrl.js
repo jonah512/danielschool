@@ -1,6 +1,7 @@
 // Copyright (c) 2025 Milal Daniel Korean School.
 import axios from "axios";
 import Logger from "../framework/logger/Logger";
+import RegisterCtrl from "./RegisterCtrl";
 
 export default class LoginCtrl {
   constructor(url) {
@@ -17,6 +18,9 @@ export default class LoginCtrl {
         if (response.data.success) {
           Logger.debug('Login successful:', response.data);
           // Store the session ID in local storage
+          RegisterCtrl.session_id = response.data.session_id;
+          RegisterCtrl.userRole = response.data.user_role;
+          RegisterCtrl.userId = id;
           localStorage.setItem('sessionId', response.data.session_id);
           localStorage.setItem('userRole', response.data.user_role);
           localStorage.setItem('userId', id);

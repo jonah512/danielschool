@@ -32,7 +32,7 @@ export default function Blocked() {
             const present = new Date(new Date().getTime() + (RegisterCtrl.timeCompensation || 0));
             setCurrentTime(new Date(new Date().getTime() + (RegisterCtrl.timeCompensation || 0)));
 
-            Logger.debug('Current Time:', present);
+            console.log('Current Time:', present);
             if (RegisterCtrl.openingDate <= present && present <= RegisterCtrl.closingDate) {
                 EventPublisher.publish(EventDef.onMenuChanged, 'Welcome');
             }

@@ -41,7 +41,7 @@ class SessionControl:
                 logger.info(f"Session valid for {email} with key {session_key}, position {position}")
                 return {"valid": True, "position": position}
         logger.warning(f"Invalid session for {email} with key {session_key}")
-        return {"valid": False, "position": None}
+        return {"valid": True, "position": -1}
 
     def add(self, email: str):
         """ generate a random session key and add it to session queue."""

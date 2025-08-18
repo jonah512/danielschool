@@ -17,6 +17,8 @@ import EventPublisher from './framework/event/EventPublisher';
 import { EventDef } from './framework/event/EventDef';
 import Select from './component/common/Select';
 import { Stack } from '@mui/material';
+import RegisterCtrl from './control/RegisterCtrl';
+import Register from './component/register/Register';
 
 const defaultTheme = createTheme({
   palette: {
@@ -29,13 +31,13 @@ const defaultTheme = createTheme({
 export default function Login(props) {
   const [deviceConnectionStatus, setDeviceConnectionStatus] = React.useState(false);
   const [languageIndex, setLanguage] = React.useState(0);
-  const [apiUrl, setApiUrl] = React.useState(localStorage.getItem('apiUrl') || window.APIURL);
+  const [apiUrl, setApiUrl] = React.useState( window.APIURL);
   const MODULE = 'Login';
   const languageMap = {};
 
   useEffect(() => {
-    localStorage.setItem('parent_email', '');
-    localStorage.setItem('session_key', '');
+    RegisterCtrl.parent_email = '';
+    RegisterCtrl.session_key = '';
 
     SessionManager.addDeviceConnectionArbiter("login_window", onDeviceConnectionStatusChanged)
     
@@ -132,7 +134,6 @@ export default function Login(props) {
                 defaultValue={apiUrl}
                 onChange={(e) => {
                   window.APIURL = e.target.value;
-                  localStorage.setItem('apiUrl', window.APIURL)
                 }}
               />) : (<div></div>)
             }

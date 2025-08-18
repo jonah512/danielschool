@@ -78,13 +78,16 @@ export default function RequestsTable({search}) {
 
     const handleDownloadCsv = () => {
       const csvContent = [
-        ['ID', 'Name', 'Subject', 'Email', 'Phone'],
+        ['Name', 'Students', 'Email', 'Phone', 'Message', 'Memo', 'Request Time', 'Status'],
         ...userList.map(request => [
-            request.id,
             request.name,
-            request.subject,
+            request.students,
             request.email,
-            request.phone
+            request.phone,
+            request.message,
+            request.memo,
+            dayjs(request.request_time).format('YYYY-MM-DD HH:mm:ss'),
+            Resource.get('requests.status_' + request.status.toLowerCase())
         ])
       ].map(row => row.join(',')).join('\n');
 

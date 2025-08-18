@@ -36,7 +36,7 @@ export default function EmailLogin(props) {
   const [searchEmail, setSearchEmail] = React.useState(RegisterCtrl.parent_email);
   const [showNewRegistration, setShowNewRegistration] = React.useState(false);
   const [showFindEmail, setShowFindEmail] = React.useState(false);
-  const [apiUrl, setApiUrl] = React.useState(localStorage.getItem('apiUrl') || window.APIURL);
+  const [apiUrl, setApiUrl] = React.useState(window.APIURL);
   const MODULE = 'EmailLogin';
   const languageMap = {};
 
@@ -184,7 +184,6 @@ export default function EmailLogin(props) {
             defaultValue={apiUrl}
             onChange={(e) => {
               window.APIURL = e.target.value;
-              localStorage.setItem('apiUrl', window.APIURL)
             }}
           />) : (<div></div>)
         }

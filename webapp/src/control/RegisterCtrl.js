@@ -7,7 +7,11 @@ import { EventDef } from '../framework/event/EventDef';
 import SchedulesCtrl from '../control/SchedulesCtrl'; // Import SchedulesCtrl
 
 class RegisterCtrlObj {
+  session_key = '';
   parent_email = '';
+  session_id = '';
+  userRole = '';
+  userId = '';
   students = [];
   selected_student = null;
   new_student_register = false;
@@ -30,8 +34,9 @@ class RegisterCtrlObj {
   closingDate = new Date();
   timeGap = 0;
   email_content = '';
+  
   constructor() {
-    this.parent_email = localStorage.getItem('parent_email');   
+    
   }
 
   findEmail(email, onSuccess, onError) {
@@ -43,7 +48,6 @@ class RegisterCtrlObj {
         if (response.data && response.data.length > 0) {
           onSuccess(response.data);
           this.parent_email = email;
-          localStorage.setItem('parent_email', email);
           this.startSession(email);
 
         } else {
@@ -77,12 +81,12 @@ class RegisterCtrlObj {
 
   startSession(email) {
     // call /session/StartSession API
-    Logger.debug('Starting session', email);
+    console.log('Starting session', email);
     axios
       .post(window.APIURL + "/StartSession?email=" + email) // Fix: Pass email as a query parameter
       .then(response => {
-        Logger.debug("Session started successfully:", response.data);
-        localStorage.setItem('session_key', response.data.session_key);
+        console.log("Session started successfully:", response.data);
+        this.session_key =  response.data.session_key;
 
         if (this.waitingPosition != response.data.position) {
           EventPublisher.publish(EventDef.onWaitingPosition, response.data.position);
@@ -90,26 +94,29 @@ class RegisterCtrlObj {
         }
         // start timer to check session status every 5 seconds
         this.sessionCheckInterval = setInterval(() => {
-          Logger.debug("Checking session status...", localStorage.getItem('parent_email'), localStorage.getItem('session_key'));
-          if (localStorage.getItem('parent_email') == null || !localStorage.getItem('session_key') == null) {
+          console.log("Checking session status...", this.parent_email, this.session_key);
+          if (this.parent_email == null || !this.session_key == null) {
             EventPublisher.publish(EventDef.onMenuChanged, 'Login');
             clearInterval(this.sessionCheckInterval);
             return;
           }
-          axios.post(window.APIURL + "/CheckSession?email=" + localStorage.getItem('parent_email') + "&session_key=" + localStorage.getItem('session_key'))
+          axios.post(window.APIURL + "/CheckSession?email=" + this.parent_email + "&session_key=" + this.session_key)
             .then(response => {
-              Logger.debug("Session status checked:", response.data, this.waitingPosition);
+              console.log("Session status checked:", response.data, this.waitingPosition);
+              if (response.data.position === -1) {
+                Logger.debug("Session ended, redirecting to login");
+                this.cleanUpSession();
+                EventPublisher.publish(EventDef.onMenuChanged, 'Login');
+                clearInterval(this.sessionCheckInterval);
+                return;
+              }
               if (this.waitingPosition != response.data.position) {
                 EventPublisher.publish(EventDef.onWaitingPosition, response.data.position);
                 this.waitingPosition = response.data.position;
               }
             })
             .catch(error => {
-              localStorage.setItem('session_key', '');
               Logger.error("Error checking session status:", error);
-              // exit timeInterval
-              EventPublisher.publish(EventDef.onMenuChanged, 'Login');
-              clearInterval(this.sessionCheckInterval);
             });
         }, 5 * 1000); // 5 seconds
       })
@@ -121,8 +128,8 @@ class RegisterCtrlObj {
   cleanUpSession() {
     Logger.debug('Cleaning up session');
     // call /session/EndSession API
-    if (localStorage.getItem('parent_email') != null && localStorage.getItem('session_key') != null) {
-      axios.post(window.APIURL + "/EndSession?email=" + localStorage.getItem('parent_email') + "&session_key=" + localStorage.getItem('session_key'))
+    if (this.parent_email != null && this.session_key != '') {
+      axios.post(window.APIURL + "/EndSession?email=" + this.parent_email + "&session_key=" + this.session_key)
         .then(response => {
           Logger.debug("[cleanUpSession] Session ended successfully:", response.data);
         })
@@ -136,8 +143,8 @@ class RegisterCtrlObj {
       clearInterval(this.sessionCheckInterval);
       this.sessionCheckInterval = null;
     }
-    localStorage.removeItem('parent_email');
-    localStorage.removeItem('session_key');
+    this.parent_email = '';
+    this.session_key = '';
     this.parent_email = null;
     this.selected_student = null;
     this.selectedClassPeriod1 = null;

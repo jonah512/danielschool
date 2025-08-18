@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, Depends, HTTPException, APIRouter
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -82,3 +83,16 @@ def add_log(email : str, log: str, db: Session = Depends(get_db)):
 @router.get("/GetLog", response_model=List[Log])
 def get_log(email: str, db: Session = Depends(get_db)):
     return session_control.get_log(email)
+
+@router.get("/Download_db_file")
+def download_db_file(db: Session = Depends(get_db)):
+    db_file_path = "/home/data/master_db/database.sqlite"
+    
+    if not os.path.exists(db_file_path):
+        raise HTTPException(status_code=404, detail="Database file not found")
+    
+    return FileResponse(
+        path=db_file_path,
+        filename="database.sqlite",
+        media_type="application/octet-stream"
+    )

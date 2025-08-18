@@ -20,7 +20,7 @@ import { EventDef } from '../../framework/event/EventDef';
 import EventPublisher from '../../framework/event/EventPublisher';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import { TablePagination } from '@mui/material';
+import { TablePagination, TableSortLabel } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import Defines from '../Defines';
 import Logger from '../../framework/logger/Logger';
@@ -53,6 +53,8 @@ export default function EnrollmentStudentTable({ search, year, term }) {
     const MODULE = 'EnrollmentStudentTable';
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [orderBy, setOrderBy] = useState('id');
+    const [order, setOrder] = useState('asc');
 
     useEffect(() => {
         Logger.debug('EnrollmentStudentTable useEffect', search, year, term);
@@ -115,8 +117,8 @@ export default function EnrollmentStudentTable({ search, year, term }) {
         const enrollment = studentEnrollments.find((enrollment) =>
             classList.find((classItem) => classItem.id === enrollment.class_id)?.period === period
         );
-
-        return enrollment ? enrollment.class_id : -1;
+        console.log('getEnrolledClass', enrollment);
+        return enrollment ? { class_id: enrollment.class_id, created_at: enrollment.created_at } : { class_id: -1, created_at: null };
     }
 
     const handleChange = async (studentId, period, classId) => {
@@ -187,23 +189,21 @@ export default function EnrollmentStudentTable({ search, year, term }) {
     };
     const handleDownloadCsv = () => {
         const csvContent = [
-            ['Student ID', 'Student Name', 'Grade', 'Period 1 Class', 'Period 2 Class', 'Period 3 Class', 'Status', 'Email', 'Total Fee'],
+            ['Student ID', 'Student Name', 'Grade', 'Korean Level', 'Period 1 Class', 'Period 2 Class', 'Period 3 Class', 'Status', 'Email', 'Phone',
+                'Created At'
+            ],
             ...studentList.map(student => [
                 student.id,
                 student.name,
                 student.grade,
-                classList.find(classItem => classItem.id === getEnrolledClass(student.id, 1))?.name || '',
-                classList.find(classItem => classItem.id === getEnrolledClass(student.id, 2))?.name || '',
-                classList.find(classItem => classItem.id === getEnrolledClass(student.id, 3))?.name || '',
+                student.korean_level || '',
+                classList.find(classItem => classItem.id === getEnrolledClass(student.id, 1).class_id)?.name || '',
+                classList.find(classItem => classItem.id === getEnrolledClass(student.id, 2).class_id)?.name || '',
+                classList.find(classItem => classItem.id === getEnrolledClass(student.id, 3).class_id)?.name || '',
                 getStatus(student.id),
                 student.email || '',
-                classList
-                    .filter(classItem => 
-                        [1, 2, 3].includes(classItem.period) && 
-                        getEnrolledClass(student.id, classItem.period) === classItem.id
-                    )
-                    .reduce((sum, classItem) => sum + (classItem.fee || 0), 0)
-                    .toFixed(2) // Ensure proper rounding to two decimal places
+                student.phone || '',
+                dayjs(getEnrolledClass(student.id, 1).created_at).format('YYYY-MM-DD HH:mm:ss')
             ])
         ].map(row => row.join(',')).join('\n');
 
@@ -217,7 +217,49 @@ export default function EnrollmentStudentTable({ search, year, term }) {
         link.click();
         document.body.removeChild(link);
     }
-  
+
+    const handleRequestSort = (property) => {
+        const isAsc = orderBy === property && order === 'asc';
+        setOrder(isAsc ? 'desc' : 'asc');
+        setOrderBy(property);
+    };
+
+    const sortedStudentList = React.useMemo(() => {
+        return [...studentList].sort((a, b) => {
+            let aValue = a[orderBy];
+            let bValue = b[orderBy];
+
+            // Handle special cases for sorting
+            if (orderBy === 'grade') {
+                aValue = Defines.gradeOptions.find(g => g.label === aValue)?.value || 0;
+                bValue = Defines.gradeOptions.find(g => g.label === bValue)?.value || 0;
+            } else if (orderBy === 'enrollment_date') {
+                // Sort by enrollment date
+                aValue = getEnrolledClass(a.id, 1).created_at;
+                bValue = getEnrolledClass(b.id, 1).created_at;
+                // Handle null dates
+                if (!aValue && !bValue) return 0;
+                if (!aValue) return 1;
+                if (!bValue) return -1;
+                aValue = new Date(aValue);
+                bValue = new Date(bValue);
+            }
+
+            if (typeof aValue === 'string') {
+                aValue = aValue.toLowerCase();
+                bValue = bValue.toLowerCase();
+            }
+
+            if (aValue < bValue) {
+                return order === 'asc' ? -1 : 1;
+            }
+            if (aValue > bValue) {
+                return order === 'asc' ? 1 : -1;
+            }
+            return 0;
+        });
+    }, [studentList, orderBy, order, enrollmentList, classList]);
+
     return (
         <div style={{ width: '100%' }}>
             <Stack spacing={2} style={{ width: '100%' }}>
@@ -225,32 +267,97 @@ export default function EnrollmentStudentTable({ search, year, term }) {
                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
                         <TableHead>
                             <TableRow>
-                                <StyledTableCell align="center"> {Resource.get('enrollment.id')} </StyledTableCell>
-                                <StyledTableCell align="center">{Resource.get('enrollment.student_name')}</StyledTableCell>
-                                <StyledTableCell align="center">{Resource.get('enrollment.grade')}</StyledTableCell>
+                                <StyledTableCell align="center">
+                                    <TableSortLabel
+                                        active={orderBy === 'id'}
+                                        direction={orderBy === 'id' ? order : 'asc'}
+                                        onClick={() => handleRequestSort('id')}
+                                    >
+                                        {Resource.get('enrollment.id')}
+                                    </TableSortLabel>
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                    <TableSortLabel
+                                        active={orderBy === 'name'}
+                                        direction={orderBy === 'name' ? order : 'asc'}
+                                        onClick={() => handleRequestSort('name')}
+                                    >
+                                        {Resource.get('enrollment.student_name')}
+                                    </TableSortLabel>
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                    <TableSortLabel
+                                        active={orderBy === 'grade'}
+                                        direction={orderBy === 'grade' ? order : 'asc'}
+                                        onClick={() => handleRequestSort('grade')}
+                                    >
+                                        {Resource.get('enrollment.grade')}
+                                    </TableSortLabel>
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                    <TableSortLabel
+                                        active={orderBy === 'korean_level'}
+                                        direction={orderBy === 'korean_level' ? order : 'asc'}
+                                        onClick={() => handleRequestSort('korean_level')}
+                                    >
+                                        {Resource.get('students.korean_level')}
+                                    </TableSortLabel>
+                                </StyledTableCell>
                                 <StyledTableCell align="center">{Resource.get('enrollment.period_1')}</StyledTableCell>
                                 <StyledTableCell align="center">{Resource.get('enrollment.period_2')}</StyledTableCell>
                                 <StyledTableCell align="center">{Resource.get('enrollment.period_3')}</StyledTableCell>
-                                <StyledTableCell align="center">{Resource.get('enrollment.status')}</StyledTableCell>
-                                <StyledTableCell align="center">{Resource.get('students.email')}</StyledTableCell>
-                                <StyledTableCell align="center">{Resource.get('classes.fee')}</StyledTableCell>
-                                
-                                
+                                <StyledTableCell align="center">
+                                    <TableSortLabel
+                                        active={orderBy === 'status'}
+                                        direction={orderBy === 'status' ? order : 'asc'}
+                                        onClick={() => handleRequestSort('status')}
+                                    >
+                                        {Resource.get('enrollment.status')}
+                                    </TableSortLabel>
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                    <TableSortLabel
+                                        active={orderBy === 'email'}
+                                        direction={orderBy === 'email' ? order : 'asc'}
+                                        onClick={() => handleRequestSort('email')}
+                                    >
+                                        {Resource.get('students.email')}
+                                    </TableSortLabel>
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                    <TableSortLabel
+                                        active={orderBy === 'phone'}
+                                        direction={orderBy === 'phone' ? order : 'asc'}
+                                        onClick={() => handleRequestSort('phone')}
+                                    >
+                                        {Resource.get('students.phone')}
+                                    </TableSortLabel>
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                    <TableSortLabel
+                                        active={orderBy === 'enrollment_date'}
+                                        direction={orderBy === 'enrollment_date' ? order : 'asc'}
+                                        onClick={() => handleRequestSort('enrollment_date')}
+                                    >
+                                        {'Date'}
+                                    </TableSortLabel>
+                                </StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {studentList
+                            {sortedStudentList
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row) => (
                                     <StyledTableRow key={row.id}>
                                         <StyledTableCell align="center">{row.id}</StyledTableCell>
                                         <StyledTableCell align="center">{row.name}</StyledTableCell>
                                         <StyledTableCell align="center">{row.grade}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.korean_level}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             <TextField
                                                 select
                                                 name="period_3"
-                                                value={getEnrolledClass(row.id, 1)}
+                                                value={getEnrolledClass(row.id, 1).class_id}
                                                 onChange={(event) => { handleChange(row.id, 1, event.target.value) }}
                                                 InputProps={{
                                                     style: {
@@ -273,7 +380,7 @@ export default function EnrollmentStudentTable({ search, year, term }) {
                                             <TextField
                                                 select
                                                 name="period_2"
-                                                value={getEnrolledClass(row.id, 2)}
+                                                value={getEnrolledClass(row.id, 2).class_id}
                                                 onChange={(event) => { handleChange(row.id, 2, event.target.value) }}
                                                 InputProps={{
                                                     style: {
@@ -296,7 +403,7 @@ export default function EnrollmentStudentTable({ search, year, term }) {
                                             <TextField
                                                 select
                                                 name="period_3"
-                                                value={getEnrolledClass(row.id, 3)}
+                                                value={getEnrolledClass(row.id, 3).class_id}
                                                 onChange={(event) => { handleChange(row.id, 3, event.target.value) }}
                                                 InputProps={{
                                                     style: {
@@ -336,16 +443,8 @@ export default function EnrollmentStudentTable({ search, year, term }) {
                                         </StyledTableCell>
 
                                         <StyledTableCell align="center">{row.email}</StyledTableCell>
-                                        <StyledTableCell align="center">
-                                            {classList
-                                                .filter(classItem => 
-                                                    [1, 2, 3].includes(classItem.period) && 
-                                                    getEnrolledClass(row.id, classItem.period) === classItem.id
-                                                )
-                                                .reduce((sum, classItem) => sum + (classItem.fee || 0), 0)
-                                                .toFixed(2) // Ensure proper rounding to two decimal places
-                                            }
-                                        </StyledTableCell>
+                                        <StyledTableCell align="center">{row.phone}</StyledTableCell>
+                                        <StyledTableCell align="center">{dayjs(getEnrolledClass(row.id, 1).created_at).format('YYYY-MM-DD HH:mm:ss')}</StyledTableCell>
                                     </StyledTableRow>
                                 ))}
                         </TableBody>
@@ -353,7 +452,7 @@ export default function EnrollmentStudentTable({ search, year, term }) {
                 </TableContainer>
                 <TablePagination
                     component="div"
-                    count={studentList.length}
+                    count={sortedStudentList.length}
                     page={page}
                     onPageChange={handleChangePage}
                     rowsPerPage={rowsPerPage}

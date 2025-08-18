@@ -84,7 +84,7 @@ export default function Register() {
   }, []);
 
   const onScheduleListChange = (schedules) => {
-    Logger.debug('onScheduleListChange:', schedules);
+    console.log('onScheduleListChange:', schedules);
 
     // Get the earliest schedule (smallest id or -1)
     const earliestSchedule = schedules.reduce((earliest, current) => {
@@ -96,8 +96,8 @@ export default function Register() {
       return current.id > (latest?.id || 0) ? current : latest;
     }, null);
 
-    Logger.debug('Earliest Schedule:', earliestSchedule);
-    Logger.debug('Latest Schedule:', lastSchedule);
+    console.log('Earliest Schedule:', earliestSchedule);
+    console.log('Latest Schedule:', lastSchedule);
 
     const currentDateTime = earliestSchedule.opening_time;
     const openingTime = lastSchedule.opening_time;
@@ -105,14 +105,14 @@ export default function Register() {
     RegisterCtrl.currentDateTime = currentDateTime;
     RegisterCtrl.timeGap = Date.now() - new Date(currentDateTime).getTime();
 
-    Logger.debug('Current Time Gap:', RegisterCtrl.timeGap);
+    console.log('Current Time Gap:', RegisterCtrl.timeGap);
     const currentDate = new Date(currentDateTime);
     const openingDate = new Date(openingTime);
     const closingDate = new Date(closingTime);
 
-    Logger.debug('Current DateTime:', currentDate);
-    Logger.debug('Opening Time:', openingDate);
-    Logger.debug('Closing Time:', closingDate);
+    console.log('Current DateTime:', currentDate);
+    console.log('Opening Time:', openingDate);
+    console.log('Closing Time:', closingDate);
 
     if (RegisterCtrl.year != lastSchedule.year || RegisterCtrl.term != lastSchedule.term) {
       const enroll_control = new EnrollmentCtrl(window.APIURL);
@@ -141,13 +141,13 @@ export default function Register() {
   };
 
   const onMenuChanged = (menu) => {
-    Logger.debug('onMenuChanged Menu : ' + menu);
+    console.log('onMenuChanged Menu : ' + menu);
     // ask menu chanbge first
     setSelectedMenu(menu);
   };
 
   const displayContent = () => {
-    Logger.debug('displayContent Menu : ' + selectedMenu);
+    console.log('displayContent Menu : ' + selectedMenu);
     switch (selectedMenu) {
       case 'Welcome':
         return (<Welcome />);
