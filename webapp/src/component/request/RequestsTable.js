@@ -1,6 +1,7 @@
 // Copyright (c) 2025 Milal Daniel Korean School.
 import * as React from 'react';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { Stack, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import AlertDialog from '../common/AlertDialog';
@@ -15,6 +16,7 @@ import SessionManager from '../../control/SessionManager';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DownloadIcon from '@mui/icons-material/Download';
 import Logger from '../../framework/logger/Logger';
+import Defines from '../Defines';
 
 export default function RequestsTable({search}) {
     const [userList, setUserList] = useState([]); // State for user list
@@ -86,7 +88,7 @@ export default function RequestsTable({search}) {
             request.phone,
             request.message,
             request.memo,
-            dayjs(request.request_time).format('YYYY-MM-DD HH:mm:ss'),
+            dayjs(request.request_time).utcOffset(Defines.UTC_GAP).format('YYYY-MM-DD HH:mm:ss'),
             Resource.get('requests.status_' + request.status.toLowerCase())
         ])
       ].map(row => row.join(',')).join('\n');
@@ -112,7 +114,7 @@ export default function RequestsTable({search}) {
         { field: 'memo', headerName: Resource.get('requests.memo'), width: 250 },
         { field: 'request_time', headerName: Resource.get('requests.request_time'), width: 200,
             renderCell: (params) => {
-                return dayjs(params.value).format('YYYY-MM-DD HH:mm:ss');
+                return dayjs(params.value).utcOffset(Defines.UTC_GAP).format('YYYY-MM-DD HH:mm:ss');
             }
         },
         { field: 'status', headerName: Resource.get('requests.status'), width: 150,

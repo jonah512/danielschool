@@ -1,5 +1,6 @@
 // Copyright (c) 2025 Milal Daniel Korean School.
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
@@ -24,6 +25,8 @@ import { TablePagination, TableSortLabel } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import Defines from '../Defines';
 import Logger from '../../framework/logger/Logger';
+
+dayjs.extend(utc);
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -189,21 +192,31 @@ export default function EnrollmentStudentTable({ search, year, term }) {
     };
     const handleDownloadCsv = () => {
         const csvContent = [
-            ['Student ID', 'Student Name', 'Grade', 'Korean Level', 'Period 1 Class', 'Period 2 Class', 'Period 3 Class', 'Status', 'Email', 'Phone',
-                'Created At'
+            ['Student ID', 'Student Name', 'Grade', 'Korean Level', 'Birth Date', 'Period 1 Class', 'Period 2 Class', 'Period 3 Class', 'Status', 'Email', 'Phone',
+                'Created At', 'Religion', 'Church', 'Total Fee'
             ],
             ...studentList.map(student => [
                 student.id,
                 student.name,
                 student.grade,
                 student.korean_level || '',
+                student.birth_date ? dayjs(student.birth_date).format('YYYY-MM-DD') : '',
                 classList.find(classItem => classItem.id === getEnrolledClass(student.id, 1).class_id)?.name || '',
                 classList.find(classItem => classItem.id === getEnrolledClass(student.id, 2).class_id)?.name || '',
                 classList.find(classItem => classItem.id === getEnrolledClass(student.id, 3).class_id)?.name || '',
                 getStatus(student.id),
                 student.email || '',
                 student.phone || '',
-                dayjs(getEnrolledClass(student.id, 1).created_at).format('YYYY-MM-DD HH:mm:ss')
+                getEnrolledClass(student.id, 1).created_at ? dayjs(getEnrolledClass(student.id, 1).created_at).utcOffset(Defines.UTC_GAP).format('YYYY-MM-DD HH:mm:ss') : '',
+                student.religion || '',
+                student.church || '',
+                classList
+                    .filter(classItem => 
+                        [1, 2, 3].includes(classItem.period) && 
+                        getEnrolledClass(student.id, classItem.period).class_id === classItem.id
+                    )
+                    .reduce((sum, classItem) => sum + (classItem.fee || 0), 0)
+                    .toFixed(2)                
             ])
         ].map(row => row.join(',')).join('\n');
 
@@ -262,7 +275,7 @@ export default function EnrollmentStudentTable({ search, year, term }) {
 
     return (
         <div style={{ width: '100%' }}>
-            <Stack spacing={2} style={{ width: '100%' }}>
+            <Stack spacing={1} style={{ width: '100%' }}>
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
                         <TableHead>
@@ -303,17 +316,20 @@ export default function EnrollmentStudentTable({ search, year, term }) {
                                         {Resource.get('students.korean_level')}
                                     </TableSortLabel>
                                 </StyledTableCell>
+                                <StyledTableCell align="center">
+                                    <TableSortLabel
+                                        active={orderBy === 'birth_date'}
+                                        direction={orderBy === 'birth_date' ? order : 'asc'}
+                                        onClick={() => handleRequestSort('birth_date')}
+                                    >
+                                        {Resource.get('students.birthdate')}
+                                    </TableSortLabel>
+                                </StyledTableCell>
                                 <StyledTableCell align="center">{Resource.get('enrollment.period_1')}</StyledTableCell>
                                 <StyledTableCell align="center">{Resource.get('enrollment.period_2')}</StyledTableCell>
                                 <StyledTableCell align="center">{Resource.get('enrollment.period_3')}</StyledTableCell>
                                 <StyledTableCell align="center">
-                                    <TableSortLabel
-                                        active={orderBy === 'status'}
-                                        direction={orderBy === 'status' ? order : 'asc'}
-                                        onClick={() => handleRequestSort('status')}
-                                    >
                                         {Resource.get('enrollment.status')}
-                                    </TableSortLabel>
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
                                     <TableSortLabel
@@ -342,6 +358,9 @@ export default function EnrollmentStudentTable({ search, year, term }) {
                                         {'Date'}
                                     </TableSortLabel>
                                 </StyledTableCell>
+                                <StyledTableCell align="center">{Resource.get('students.religion')}</StyledTableCell>
+                                <StyledTableCell align="center">{Resource.get('students.church')}</StyledTableCell>
+                                <StyledTableCell align="center">{Resource.get('classes.fee')}</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -353,6 +372,7 @@ export default function EnrollmentStudentTable({ search, year, term }) {
                                         <StyledTableCell align="center">{row.name}</StyledTableCell>
                                         <StyledTableCell align="center">{row.grade}</StyledTableCell>
                                         <StyledTableCell align="center">{row.korean_level}</StyledTableCell>
+                                        <StyledTableCell align="center">{dayjs(row.birth_date).format('YYYY-MM-DD')}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             <TextField
                                                 select
@@ -444,7 +464,19 @@ export default function EnrollmentStudentTable({ search, year, term }) {
 
                                         <StyledTableCell align="center">{row.email}</StyledTableCell>
                                         <StyledTableCell align="center">{row.phone}</StyledTableCell>
-                                        <StyledTableCell align="center">{dayjs(getEnrolledClass(row.id, 1).created_at).format('YYYY-MM-DD HH:mm:ss')}</StyledTableCell>
+                                        <StyledTableCell align="center">{getEnrolledClass(row.id, 1).created_at ? dayjs(getEnrolledClass(row.id, 1).created_at).utcOffset(Defines.UTC_GAP).format('YYYY-MM-DD HH:mm:ss') : ''}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.religion}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.church}</StyledTableCell>
+                                        <StyledTableCell align="center">
+                                            {classList
+                                                .filter(classItem => 
+                                                    [1, 2, 3].includes(classItem.period) && 
+                                                    getEnrolledClass(row.id, classItem.period).class_id === classItem.id
+                                                )
+                                                .reduce((sum, classItem) => sum + (classItem.fee || 0), 0)
+                                                .toFixed(2) // Ensure proper rounding to two decimal places
+                                            }
+                                        </StyledTableCell>
                                     </StyledTableRow>
                                 ))}
                         </TableBody>

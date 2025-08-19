@@ -9,6 +9,7 @@ import UsersCtrl from '../../control/UsersCtrl';
 import Logger from '../../framework/logger/Logger';
 import { DataGrid } from '@mui/x-data-grid';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { EventDef } from '../../framework/event/EventDef';
 import EventPublisher from '../../framework/event/EventPublisher';
 import Defines from '../Defines';
@@ -99,7 +100,7 @@ export default function AccessedUser(props) {
     {
       field: 'last_access', headerName: 'Last Access', width: 200,
       renderCell: (params) => {
-        return dayjs(params.value).format('YYYY-MM-DD HH:mm:ss');
+        return dayjs(params.value).utcOffset(Defines.UTC_GAP).format('YYYY-MM-DD HH:mm:ss');
       }
     },
     { field: 'session_key', headerName: 'Session Key', width: 250 },
