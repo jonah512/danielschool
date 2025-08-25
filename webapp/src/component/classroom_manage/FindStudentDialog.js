@@ -16,27 +16,36 @@ import { useEffect, useState } from 'react';
 import StuidentCtrl from '../../control/StudentsCtrl';
 import SearchIcon from '@mui/icons-material/Search';
 import Logger from '../../framework/logger/Logger';
+import SessionManager from '../../control/SessionManager';
 
 export default function FindStudentDialog({ classId, onClose, onAddStudent }) {
   const [studentList, setStudentList] = useState([]); // State for user list
   const [selectionStudent, setSelectionStudent] = React.useState([]);
-  const [search, setSearch] = React.useState("");
   const MODULE = 'FindStudentDialog';
+  const [search, setSearch] = React.useState(SessionManager.getSearchWord(MODULE));
 
   const handleSearchChange = async (event) => {
     const control = new StuidentCtrl(window.APIURL);
+    if(search === event.target.value) {
+      return;
+    }
     setSearch(event.target.value);
-    Logger.debug("Search text changed:", event.target.value);
-    const students_ = await control.getStudentsSync(event.target.value); // Await the async function
-    Logger.debug('students_ : ', students_);
-    setStudentList(students_);
+    console.log("handleSearchChange Search text changed:", event.target.value);
+    const result = await control.getStudentsSync(event.target.value); // Await the async function
+    console.log('handleSearchChange students_ : ', result.search, result.students);
+    if(result.search !== event.target.value) {
+      return;
+    }
+    setStudentList(result.students);
   };
 
   useEffect(() => {
+    const control = new StuidentCtrl(window.APIURL);
     const fetchStudents = async () => {
-      const control = new StuidentCtrl(window.APIURL);
-      const students_ = await control.getStudentsSync(search); // Await the async function
-      setStudentList(students_);
+      const result = await control.getStudentsSync(SessionManager.getSearchWord(MODULE));
+      if (result) {
+        setStudentList(result.students);
+      }
     };
     fetchStudents();
   }, [classId]);
@@ -51,7 +60,7 @@ export default function FindStudentDialog({ classId, onClose, onAddStudent }) {
   };
 
   const handleAddStudent = async () => {
-    Logger.debug('handleAddStudent', selectionStudent);
+    console.log('handleAddStudent', selectionStudent);
     onAddStudent(selectionStudent);
     onClose();
 

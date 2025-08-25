@@ -58,11 +58,11 @@ export default class StudentCtrl {
   }
 
   async getStudentsSync(search = '') {
-    Logger.debug('getStudentsSync', search);
+    console.log('getStudentsSync: ', search);
     try {
       const response = await axios.get(this.#url + "/students", { params: { name: search } });
-      Logger.debug("getStudentsSync Students:", response.data);
-      return response.data;
+      console.log("getStudentsSync Students:", search, response.data);
+      return {students: response.data, search: search };
     } catch (error) {
       Logger.error("Error fetching students:", error);
     }
