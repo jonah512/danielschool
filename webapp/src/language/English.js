@@ -264,7 +264,8 @@ const English = {
         time_format_3: "{0} minutes {1} seconds",
         time_format_4: "{0} seconds",
         automatic_refresh: "Automatically redirecting to enrollment screen.",
-        closed_enrollment: "Enrollment is closed."
+        closed_enrollment: "Enrollment is closed.",
+        closed_time: "Close Date:"
     },
     waiting:{
         message: "Currently {0} people are waiting. Please wait a moment. You will be redirected to the enrollment screen automatically."

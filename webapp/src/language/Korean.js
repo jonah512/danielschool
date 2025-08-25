@@ -264,7 +264,8 @@ const Korean = {
         time_format_3: "{0}분 {1}초",
         time_format_4: "{0}초",
         automatic_refresh: "자동으로 수강신청 화면으로 전환됩니다.",
-        closed_enrollment: "수강신청이 마감되었습니다.",
+        closed_enrollment: "수강신청이 조기에 마감되었습니다. 성원에 감사드립니다.",
+        closed_time: "수강마감:"
     },
     waiting:{
         message: "현재 {0}명이 대기 중입니다. 잠시 기다려 주세요. 수강신청 화면으로 자동으로 전환됩니다.",

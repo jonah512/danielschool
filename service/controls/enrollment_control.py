@@ -3,26 +3,28 @@ from sqlalchemy.sql import func
 from ..schemas import models, schemas_entity
 from fastapi import HTTPException
 from datetime import datetime 
-
+import threading
 class EnrollmentControl:
     def __init__(self, db: Session):
         self.db = db
 
     def _update_enrolled_number(self, class_id: int, year: int, term: str):
         """Update the enrolled_number for a specific class, filtered by year and term."""
-        enrolled_count = (
-            self.db.query(func.count(models.Enrollment.id))
-            .filter(
-                models.Enrollment.class_id == class_id,
+        lock = threading.Lock()
+        with lock:
+            enrolled_count = (
+                self.db.query(func.count(models.Enrollment.id))
+                .filter(
+                    models.Enrollment.class_id == class_id,
                 models.Enrollment.year == year,
                 models.Enrollment.term == term
+                )
+                .scalar()
             )
-            .scalar()
-        )
-        class_record = self.db.query(models.Class).filter(models.Class.id == class_id).first()
-        if class_record:
-            class_record.enrolled_number = enrolled_count
-            self.db.commit()
+            class_record = self.db.query(models.Class).filter(models.Class.id == class_id).first()
+            if class_record:
+                class_record.enrolled_number = enrolled_count
+                self.db.commit()
 
     def add(self, enrollment_data: schemas_entity.EnrollmentCreate):
         """Add a new enrollment to the database."""

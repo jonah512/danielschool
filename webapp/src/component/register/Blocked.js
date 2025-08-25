@@ -94,7 +94,10 @@ export default function Blocked() {
             {
                 (closingTime-currentTime < 0) && <div>
                 <Typography variant="h6" component="div">
-                    {Resource.get('blocked.closed_enrollment')} ({closingTime ? closingTime.toLocaleDateString() + ' ' + closingTime.toTimeString().slice(0, 8) : 'Not Set'})
+                    {Resource.get('blocked.closed_enrollment')}
+                </Typography>
+                <Typography variant="h6" component="div">
+                 {Resource.get('blocked.closed_time')}({closingTime ? closingTime.toLocaleDateString() + ' ' + closingTime.toTimeString().slice(0, 8) : 'Not Set'})
                 </Typography>
                 </div>
             }
