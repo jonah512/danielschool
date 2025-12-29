@@ -68,6 +68,16 @@ export default function EditStudent({ onPrev, onNext, student }) {
             return;
         }
 
+        if (formData.gender === '') {
+            alert(Resource.get('students.gender_missing'));
+            return;
+        }
+
+        if (formData.parent_name.trim() === '') {
+            alert(Resource.get('students.parent_name_missing'));
+            return;
+        }
+
         Object.assign(RegisterCtrl.selected_student, {
             korean_level: formData.korean_level,
             grade: formData.grade,
@@ -149,6 +159,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
                     value={formData.gender}
                     onChange={handleChange}
                     fullWidth
+                    error={formData.gender===''}
                 >
                     {["Male", "Female"].map((gender) => (
                         <MenuItem key={gender} value={gender}>
@@ -214,6 +225,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
                     value={formData.parent_name}
                     onChange={handleChange}
                     fullWidth
+                    error={formData.parent_name.trim() === ''}
                 />
 
                 <Stack spacing={2} direction="row" justifyContent="center" style={{ marginTop: '20px' }}>

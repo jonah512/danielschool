@@ -193,7 +193,7 @@ export default function EnrollmentStudentTable({ search, year, term }) {
     const handleDownloadCsv = () => {
         const csvContent = [
             ['Student ID', 'Student Name', 'Grade', 'Korean Level', 'Birth Date', 'Period 1 Class', 'Period 2 Class', 'Period 3 Class', 'Status', 'Email', 'Phone',
-                'Created At', 'Religion', 'Church', 'Total Fee'
+                'Parent Name', 'Created At', 'Religion', 'Church', 'Total Fee'
             ],
             ...studentList.map(student => [
                 student.id,
@@ -207,6 +207,7 @@ export default function EnrollmentStudentTable({ search, year, term }) {
                 getStatus(student.id),
                 student.email || '',
                 student.phone || '',
+                student.parent_name || '',
                 getEnrolledClass(student.id, 1).created_at ? dayjs(getEnrolledClass(student.id, 1).created_at).utcOffset(Defines.UTC_GAP).format('YYYY-MM-DD HH:mm:ss') : '',
                 student.religion || '',
                 student.church || '',
@@ -349,6 +350,7 @@ export default function EnrollmentStudentTable({ search, year, term }) {
                                         {Resource.get('students.phone')}
                                     </TableSortLabel>
                                 </StyledTableCell>
+                                <StyledTableCell align="center">{Resource.get('students.parent_name')}</StyledTableCell>
                                 <StyledTableCell align="center">
                                     <TableSortLabel
                                         active={orderBy === 'enrollment_date'}
@@ -464,6 +466,7 @@ export default function EnrollmentStudentTable({ search, year, term }) {
 
                                         <StyledTableCell align="center">{row.email}</StyledTableCell>
                                         <StyledTableCell align="center">{row.phone}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.parent_name}</StyledTableCell>
                                         <StyledTableCell align="center">{getEnrolledClass(row.id, 1).created_at ? dayjs(getEnrolledClass(row.id, 1).created_at).utcOffset(Defines.UTC_GAP).format('YYYY-MM-DD HH:mm:ss') : ''}</StyledTableCell>
                                         <StyledTableCell align="center">{row.religion}</StyledTableCell>
                                         <StyledTableCell align="center">{row.church}</StyledTableCell>

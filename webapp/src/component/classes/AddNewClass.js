@@ -34,7 +34,8 @@ export default function AddNewClass({ open, onClose }) {
         max_korean_level: 12,
         period: 1,
         mendatory: 'no',        
-        fee: 100.1
+        fee: 100.1,
+        display_order:0
     });
     const [teachers, setTeachers] = useState([]);
     const MODULE = 'AddNewClass';
@@ -75,13 +76,13 @@ export default function AddNewClass({ open, onClose }) {
         formData.max_students = Number(formData.max_students);
         formData.period = Number(formData.period);
         // Check if the year is a valid number
-        if (isNaN(formData.year) || formData.year < 2025 || formData.year > new Date().getFullYear()) {
+        if (isNaN(formData.year) || formData.year < 2025 || formData.year > 2100) {
+            console.log('Year validation failed:', formData.year);
             alert(Resource.get('classes.year_error')); // Show year error
             return;
         }
 
-        Logger.debug(formData);
-
+        Logger.info(formData);
 
         const control = new ClassesCtrl(window.APIURL);
         control.addClass(formData, SessionManager.getSearchWord('Classes')); // Call addClass to save the new class

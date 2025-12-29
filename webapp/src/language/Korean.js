@@ -87,6 +87,8 @@ const Korean = {
         missing: "'{0}'이(가) 누락되었습니다.",
         select_korean_level_title: "한국어 수준 선택",
         korean_level_missing: "한국어 수준을 선택해 주세요.",
+        gender_missing: "성별을 선택해 주세요.",
+        parent_name_missing: "학부모 이름을 입력해 주세요.",
         birthdate_missing: "생년월일을 입력해 주세요.",
         grade_confirm_missing: "학년을 다시 한 번 확인해 주세요.",
         korean_level_confirmed: "한국어 수준 확정"

@@ -87,6 +87,8 @@ const English = {
         missing: "'{0}' is missing.",
         select_korean_level_title: "Select Korean Level",
         korean_level_missing: "Please select a Korean level.",
+        gender_missing: "Please select gender.",
+        parent_name_missing: "Please enter the parent name.",
         birthdate_missing: "Please enter the birthdate.",
         grade_confirm_missing: "Please confirm the grade.",
         orean_level_confirmed: "Confirmed Korean Level"
