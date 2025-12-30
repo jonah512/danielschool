@@ -28,7 +28,7 @@ const Defines = {
   ],
   enrollmentStatus: ['enrolled', 'waiting', 'not-enrolled'],
   MAX_WAITING_POSITION: 25,
-  UTC_GAP: -8
+  UTC_GAP: -12 // UTC-12 for EST (UTC-5) with daylight saving consideration
 };
 
 export default Defines;
