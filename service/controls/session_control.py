@@ -74,11 +74,28 @@ class SessionControl:
         if len(self.session_queue) == 0:
             return True
         current_time = datetime.now()
+        
+        # Find sessions to remove
+        sessions_to_remove = [
+            session for session in self.session_queue
+            if (current_time - session["last_access"]).total_seconds() >= 30 # 30 seconds session timeout
+        ]
+        
+        # Log removed sessions
+        for session in sessions_to_remove:
+            time_diff = (current_time - session["last_access"]).total_seconds()
+            logger.info(f"Removing disconnected session: email={session['email']}, key={session['session_key'][:8]} lastaccess={session['last_access']}, inactive_time={time_diff:.1f}s")
+        
+        # Keep only active sessions
         self.session_queue = [
             session for session in self.session_queue
             if (current_time - session["last_access"]).total_seconds() < 30 # 30 seconds session timeout
         ]
-        logger.info("Disconnected sessions removed.")
+        
+        if sessions_to_remove:
+            logger.info(f"Removed {len(sessions_to_remove)} disconnected sessions.")
+        else:
+            logger.info("No disconnected sessions to remove.")
 
         if len(self.session_queue) == 0:
             self.index = 0

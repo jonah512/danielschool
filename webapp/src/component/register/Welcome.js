@@ -58,7 +58,7 @@ export default function Welcome(props) {
           alignItems="center"
         >
           
-          <img src='intro2.png' alt='Class Description' style={{ width: '100%' }} />
+          <img src='intro.png' alt='Class Description' style={{ width: '100%' }} />
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
 
             <Button
