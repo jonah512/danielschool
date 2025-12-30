@@ -260,8 +260,8 @@ const Korean = {
         thank_you_message: "수강신청이 성공적으로 완료되었습니다. 곧 수강신청 결과를 이메일로 보내드리겠습니다. 감사합니다."
     },
     blocked:{
-        opening_time: "시작: {0}",
-        closing_time: "종료: {0}",
+        opening_time: "시작(EST): {0}",
+        closing_time: "종료(EST): {0}",
         remaining_time: " 잔여 대기시간: {0}",
         time_format_1: "{0}일 {1}시간 {2}분 {3}초",
         time_format_2: "{0}시간 {1}분 {2}초",

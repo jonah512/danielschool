@@ -18,17 +18,19 @@ def get_db():
         db.close()
 
 router = APIRouter()
-user_control = UserControl(db=SessionLocal())
+# Remove global user control - will create per request
 
 @router.post("/users/", response_model=schemas_entity.User)
 def create_new_user(user: schemas_entity.UserCreate, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.email == user.email).first()
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
+    user_control = UserControl(db=db)
     return user_control.create_user( user)
 
 @router.get("/users/{user_id}", response_model=schemas_entity.User)
 def get_user(user_id: int, db: Session = Depends(get_db)):
+    user_control = UserControl(db=db)
     user = user_control.get_user_by_id( user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -36,6 +38,7 @@ def get_user(user_id: int, db: Session = Depends(get_db)):
 
 @router.get("/users/", response_model=list[schemas_entity.User])
 def list_users(name: Optional[str] = None, db: Session = Depends(get_db)):
+    user_control = UserControl(db=db)
     return user_control.get_all_users( name=name)
 
 # Define a Pydantic model for the login request

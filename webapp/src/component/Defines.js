@@ -27,7 +27,7 @@ const Defines = {
     { value: 'no', label: 'No' },
   ],
   enrollmentStatus: ['enrolled', 'waiting', 'not-enrolled'],
-  MAX_WAITING_POSITION: 1,
+  MAX_WAITING_POSITION: 25,
   UTC_GAP: -8
 };
 

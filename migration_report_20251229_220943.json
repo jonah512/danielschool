@@ -1,0 +1,71 @@
+{
+  "timestamp": "2025-12-29T22:09:43.234220",
+  "total_tables": 9,
+  "successful_tables": 9,
+  "total_rows_migrated": 936,
+  "tables": [
+    {
+      "table_name": "Class",
+      "rows_migrated": 132,
+      "success": true,
+      "duration_seconds": 0.04507,
+      "timestamp": "2025-12-29T22:09:42.872772"
+    },
+    {
+      "table_name": "Consent",
+      "rows_migrated": 1,
+      "success": true,
+      "duration_seconds": 0.023243,
+      "timestamp": "2025-12-29T22:09:42.917882"
+    },
+    {
+      "table_name": "Enrollment",
+      "rows_migrated": 502,
+      "success": true,
+      "duration_seconds": 0.151691,
+      "timestamp": "2025-12-29T22:09:42.941167"
+    },
+    {
+      "table_name": "Log",
+      "rows_migrated": 0,
+      "success": true,
+      "duration_seconds": 0.000288,
+      "timestamp": "2025-12-29T22:09:43.092944"
+    },
+    {
+      "table_name": "Request",
+      "rows_migrated": 1,
+      "success": true,
+      "duration_seconds": 0.029037,
+      "timestamp": "2025-12-29T22:09:43.093270"
+    },
+    {
+      "table_name": "Schedule",
+      "rows_migrated": 1,
+      "success": true,
+      "duration_seconds": 0.018003,
+      "timestamp": "2025-12-29T22:09:43.122349"
+    },
+    {
+      "table_name": "Student",
+      "rows_migrated": 270,
+      "success": true,
+      "duration_seconds": 0.055608,
+      "timestamp": "2025-12-29T22:09:43.140394"
+    },
+    {
+      "table_name": "Teacher",
+      "rows_migrated": 28,
+      "success": true,
+      "duration_seconds": 0.019059,
+      "timestamp": "2025-12-29T22:09:43.196047"
+    },
+    {
+      "table_name": "User",
+      "rows_migrated": 1,
+      "success": true,
+      "duration_seconds": 0.019058,
+      "timestamp": "2025-12-29T22:09:43.215149"
+    }
+  ]
+}

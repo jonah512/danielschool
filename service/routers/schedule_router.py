@@ -54,3 +54,12 @@ def search_schedulees(db: Session = Depends(get_db)):
     current_time = datetime.now().astimezone(timezone(est_offset + (timedelta(hours=1) if is_dst else timedelta(0)))).isoformat()
     schedules.append(Schedule(id=-1, year=0, term="", opening_time=current_time, closing_time=current_time))
     return schedules
+
+@router.get("/schedules/GetCurrentTime")
+def get_current_time(db: Session = Depends(get_db)):
+    """Get current time in server timezone (EST)."""
+    # Adjust current_time to EST with daylight saving
+    est_offset = timedelta(hours=-5)  # Standard offset for EST
+    is_dst = datetime.now().astimezone().dst() != timedelta(0)  # Check if daylight saving is active
+    current_time = datetime.now().astimezone(timezone(est_offset + (timedelta(hours=1) if is_dst else timedelta(0)))).isoformat()
+    return {"now": current_time}    

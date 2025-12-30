@@ -83,7 +83,7 @@ export default function Register() {
     };
   }, []);
 
-  const onScheduleListChange = (schedules) => {
+  const onScheduleListChange = async (schedules) => {
     console.log('onScheduleListChange:', schedules);
 
     // Get the earliest schedule (smallest id or -1)
@@ -99,20 +99,26 @@ export default function Register() {
     console.log('Earliest Schedule:', earliestSchedule);
     console.log('Latest Schedule:', lastSchedule);
 
-    const currentDateTime = earliestSchedule.opening_time;
+
     const openingTime = lastSchedule.opening_time;
     const closingTime = lastSchedule.closing_time;
-    RegisterCtrl.currentDateTime = currentDateTime;
-    RegisterCtrl.timeGap = Date.now() - new Date(currentDateTime).getTime();
 
-    console.log('Current Time Gap:', RegisterCtrl.timeGap);
-    const currentDate = new Date(currentDateTime);
     const openingDate = new Date(openingTime);
     const closingDate = new Date(closingTime);
-
-    console.log('Current DateTime:', currentDate);
-    console.log('Opening Time:', openingDate);
+    console.log('Opening Time:', openingTime, openingDate);
     console.log('Closing Time:', closingDate);
+
+
+    const serverTime = await new ScheduleCtrl(window.APIURL).getCurrentTime();
+    const temp = serverTime.split('.')[0];
+    console.log('Server Time:', temp, new Date(temp));
+    const currentDate = new Date(temp);
+    console.log('Closing Time:', closingDate);
+    RegisterCtrl.timeGap = new Date(openingTime).getTime() - currentDate.getTime();
+    RegisterCtrl.currentDateTime = currentDate;
+
+    console.log('Current Time Gap:', RegisterCtrl.timeGap);
+    console.log('Current DateTime:', currentDate);
 
     if (RegisterCtrl.year != lastSchedule.year || RegisterCtrl.term != lastSchedule.term) {
       const enroll_control = new EnrollmentCtrl(window.APIURL);
@@ -132,7 +138,7 @@ export default function Register() {
         setSelectedMenu('Login');
       }
     } else {
-      Logger.info('Register is closed');
+      Logger.info('Register is blocked');
       setSelectedMenu('Blocked');
     }
 

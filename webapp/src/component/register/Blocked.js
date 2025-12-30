@@ -10,6 +10,7 @@ import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
 import { Stack } from '@mui/material';
 import RegisterCtrl from '../../control/RegisterCtrl';
+import ScheduleCtrl from '../../control/SchedulesCtrl';
 
 const defaultTheme = createTheme({
     palette: {
@@ -28,9 +29,13 @@ export default function Blocked() {
 
     useEffect(() => {
         EventPublisher.addEventListener(EventDef.onScheduleListChange, MODULE, onScheduleListChange);
-        const intervalId = setInterval(() => {
-            const present = new Date(new Date().getTime() + (RegisterCtrl.timeCompensation || 0));
-            setCurrentTime(new Date(new Date().getTime() + (RegisterCtrl.timeCompensation || 0)));
+        const intervalId = setInterval(async () => {
+            const serverTime = await new ScheduleCtrl(window.APIURL).getCurrentTime();
+            const temp = serverTime.split('.')[0];
+            console.log('Server Time:', temp, new Date(temp));
+            const present =  new Date(temp);
+            
+            setCurrentTime(present);
 
             console.log('Current Time:', present);
             if (RegisterCtrl.openingDate <= present && present <= RegisterCtrl.closingDate) {

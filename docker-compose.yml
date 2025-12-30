@@ -17,11 +17,35 @@ services:
     volumes:
       - daniel_data:/home/data
     environment:
-      - SQLITE_DB=./app/database.sqlite  # SQLite Database path
+      - MYSQL_HOST=daniel-mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=daniel_user
+      - MYSQL_PASSWORD=daniel_password_2025
+      - MYSQL_DATABASE=daniel_school
+      - DATABASE_URL=mysql+pymysql://daniel_user:daniel_password_2025@daniel-mysql:3306/daniel_school?ssl_disabled=true
+    depends_on:
+      - daniel-mysql
+    networks:
+      - daniel
+
+  daniel-mysql:
+    image: mysql:8.0
+    container_name: daniel-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password_2025
+      - MYSQL_DATABASE=daniel_school
+      - MYSQL_USER=daniel_user
+      - MYSQL_PASSWORD=daniel_password_2025
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./scripts/init_mysql.sql:/docker-entrypoint-initdb.d/init_mysql.sql
     networks:
       - daniel
 
 volumes:
   daniel_data:
+  mysql_data:
 networks:
   daniel:
