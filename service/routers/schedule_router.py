@@ -60,6 +60,6 @@ def get_current_time(db: Session = Depends(get_db)):
     """Get current time in server timezone (EST)."""
     # Adjust current_time to EST with daylight saving
     est_offset = timedelta(hours=-5)  # Standard offset for EST
-    is_dst = datetime.now().astimezone().dst() != timedelta(0)  # Check if daylight saving is active
+    is_dst = False
     current_time = datetime.now().astimezone(timezone(est_offset + (timedelta(hours=1) if is_dst else timedelta(0)))).isoformat()
     return {"now": current_time}    
