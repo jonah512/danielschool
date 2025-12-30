@@ -256,6 +256,8 @@ const English = {
             "Daniel Korean Culture School",
         contacts: "For enrollment-related inquiries, please contact danielschoolonthehill@gmail.com.",
         confirm_submit: "Please press the 'Submit' button after final confirmation.",
+        thank_you_title: "Enrollment Completed!",
+        thank_you_message: "Your enrollment has been successfully completed. You will receive the enrollment results via email shortly. Thank you."
     },
     blocked: {
         opening_time: "Start: {0}",

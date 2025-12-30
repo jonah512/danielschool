@@ -19,6 +19,7 @@ from threading import Timer
 
 # Initialize the logger
 logger = logging.getLogger(__name__)
+SESSION_TIMEOUT_SECONDS = 30 * 60  # 30 minutes
 
 class SessionControl:
     def __init__(self, db: Session):
@@ -78,7 +79,7 @@ class SessionControl:
         # Find sessions to remove
         sessions_to_remove = [
             session for session in self.session_queue
-            if (current_time - session["last_access"]).total_seconds() >= 30 # 30 seconds session timeout
+            if (current_time - session["last_access"]).total_seconds() >= SESSION_TIMEOUT_SECONDS # 30 min session timeout
         ]
         
         # Log removed sessions
@@ -89,7 +90,7 @@ class SessionControl:
         # Keep only active sessions
         self.session_queue = [
             session for session in self.session_queue
-            if (current_time - session["last_access"]).total_seconds() < 30 # 30 seconds session timeout
+            if (current_time - session["last_access"]).total_seconds() < SESSION_TIMEOUT_SECONDS # 30 minutes session timeout
         ]
         
         if sessions_to_remove:

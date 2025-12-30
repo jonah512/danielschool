@@ -25,6 +25,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Logger from '../../framework/logger/Logger';
 import RequestsCtrl from '../../control/RequestsCtrl';
 import Register from './Register';
+import SessionManager from '../../control/SessionManager';
 
 export default function EnrollmentRegister() {
 
@@ -32,6 +33,7 @@ export default function EnrollmentRegister() {
   const [stage, setStage] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showSubmitConfirmation, setShowSubmitConfirmation] = useState(false);
+  const [showFinalConfirmation, setShowFinalConfirmation] = useState(false);
   const MODULE = 'EnrollmentRegister';
 
   const theme = useTheme();
@@ -143,7 +145,6 @@ const onTeacherListChange = (teachers) => {
       Logger.debug('update enrollment status', e);
       enrollment_control.updateEnrollment(e.id, e);
     });
-
   }
 
   return (
@@ -248,8 +249,7 @@ const onTeacherListChange = (teachers) => {
         onYes={() => {
           setShowConfirmation(false);
           submitEnrollment();
-          EventPublisher.publish(EventDef.onSelectedStudentChanged, null); // Notify that the selected student has changed
-          EventPublisher.publish(EventDef.onMenuChanged, 'ResultDisplay'); // Go back to student selection
+          setShowFinalConfirmation(true);
         }}/>)}
 
 
@@ -258,6 +258,21 @@ const onTeacherListChange = (teachers) => {
             Title={Resource.get('register.confirm_title')}
             Content={Resource.get('register.confirm_submit')}
             onConfirm={() => {setShowSubmitConfirmation(false);}}/>}
+
+        {showFinalConfirmation &&(<AlertDialog
+        YesOrNo={false} Open={true}
+        onClose={() => setShowFinalConfirmation(false)}
+        Title={Resource.get('register.thank_you_title')}
+        Content={Resource.get('register.thank_you_message')}
+        onConfirm={() => {
+          setShowFinalConfirmation(false);
+          // session cleanup // logout.
+          RegisterCtrl.cleanUpSession();
+          SessionManager.setLoginStatus(false);
+          EventPublisher.publish(EventDef.onSelectedStudentChanged, null);
+          EventPublisher.publish(EventDef.onMenuChanged, "Login");
+          Logger.info('Logging out... end');
+        }}/>)}
 
     </Box>
   );

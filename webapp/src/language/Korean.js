@@ -256,6 +256,8 @@ const Korean = {
             "다니엘한글문화학교",
         contacts: "수강신청 관련 문의사항은 danielschoolonthehill@gmail.com 으로 연락주시기 바랍니다.",
         confirm_submit: "최종 확인 후 '제출하기(Submit)' 버튼을 반드시 눌러주세요.",
+        thank_you_title: "수강신청이 완료되었습니다!",
+        thank_you_message: "수강신청이 성공적으로 완료되었습니다. 곧 수강신청 결과를 이메일로 보내드리겠습니다. 감사합니다."
     },
     blocked:{
         opening_time: "시작: {0}",
