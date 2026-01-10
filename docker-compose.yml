@@ -11,6 +11,7 @@ services:
       context: .
       dockerfile: Dockerfile  
     container_name: daniel-service
+    restart: always
     ports:
       - "8080:8080"  # Map Uvicorn port
       - "80:80"      # Map Apache port
@@ -31,6 +32,7 @@ services:
   daniel-mysql:
     image: mysql:8.0
     container_name: daniel-mysql
+    restart: always
     ports:
       - "3306:3306"
     environment:
