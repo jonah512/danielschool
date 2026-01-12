@@ -73,3 +73,7 @@ sudo docker save -o daniel-service.tar daniel-daniel-service
 sudo docker exec -it daniel-service /bin/bash
 sudo docker logs -f daniel-service
 
+
+
+to access mysql :
+sudo docker exec -it daniel-mysql mysql -u daniel_user -pdaniel_password_2025 daniel_school

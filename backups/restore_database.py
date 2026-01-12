@@ -3,45 +3,36 @@
 Database Restore Script
 Restores database tables from CSV backup files.
 Supports both MySQL (production) and SQLite (local development).
-
-Copyright (c) 2025 Milal Daniel Korean School.
+Copyright (c) 2025 Milal Daniel Korean         # Insert data using pandas
+        print(f"  Inserting {len(df)} rows into '{table_name}'...")
+        
+        # Use pandas to_sql with the engine
+        df.to_sql(table_name, engine, if_exists='append', index=False, chunksize=500)
+        
+        # Verify data was inserted by querying the count
+        inspector = inspect(engine)
+        with engine.connect() as conn:
+            result = conn.execute(text(f"SELECT COUNT(*) as cnt FROM `{table_name}`"))
+            count = result.fetchone()[0]
+            print(f"  Verified: {count} rows in '{table_name}'")os
 """
-
 import os
 import csv
 import sys
 from datetime import datetime
-from sqlalchemy import create_engine, text, inspect, MetaData, Table, Column
+
+# Add parent directory to path to import service module
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from sqlalchemy import create_engine, text, inspect, MetaData, Table, Column, event, insert
 from sqlalchemy import Integer, String, DateTime, Float, TEXT
 from sqlalchemy.orm import sessionmaker
 import pandas as pd
+from service.db_config import engine
 
 def get_database_connection():
-    """Get database connection based on environment."""
-    DATABASE_URL = os.getenv("DATABASE_URL")
-    
-    if DATABASE_URL:
-        # Production MySQL configuration
-        print("Connecting to MySQL database...")
-        engine = create_engine(
-            DATABASE_URL,
-            pool_size=10,
-            max_overflow=20,
-            pool_pre_ping=True,
-            pool_recycle=3600
-        )
-    else:
-        # Local development SQLite fallback
-        print("Connecting to SQLite database...")
-        BASE_DIR = "/home/data/master_db"
-        DATABASE_FILENAME = "database.sqlite"
-        SQLITE_DATABASE_URL = f"sqlite:///{BASE_DIR}/{DATABASE_FILENAME}"
-        
-        os.makedirs(BASE_DIR, exist_ok=True)
-        engine = create_engine(
-            SQLITE_DATABASE_URL, connect_args={"check_same_thread": False}
-        )
-    
+    """Get database connection using the engine from db_config."""
+    print("Using database engine from db_config...")
     return engine
 
 def get_csv_files(backup_dir):
@@ -68,14 +59,14 @@ def create_table_schema(engine, table_name):
     # Define table schemas based on your models.py
     table_schemas = {
         'Teacher': Table('Teacher', metadata,
-            Column('id', Integer, primary_key=True, autoincrement=True),
+            Column('id', Integer, primary_key=True),
             Column('name', String(100)),
             Column('subject', String(100)),
             Column('email', String(255)),
             Column('phone', String(20))
         ),
         'Student': Table('Student', metadata,
-            Column('id', Integer, primary_key=True, autoincrement=True),
+            Column('id', Integer, primary_key=True),
             Column('name', String(100)),
             Column('birth_date', DateTime),
             Column('email', String(255)),
@@ -92,7 +83,7 @@ def create_table_schema(engine, table_name):
             Column('updated_at', DateTime)
         ),
         'Class': Table('Class', metadata,
-            Column('id', Integer, primary_key=True, autoincrement=True),
+            Column('id', Integer, primary_key=True),
             Column('name', String(100)),
             Column('description', String(500)),
             Column('year', Integer),
@@ -110,7 +101,7 @@ def create_table_schema(engine, table_name):
             Column('display_order', Integer)
         ),
         'User': Table('User', metadata,
-            Column('id', Integer, primary_key=True, autoincrement=True),
+            Column('id', Integer, primary_key=True),
             Column('username', String(50)),
             Column('email', String(255)),
             Column('hashed_password', String(255)),
@@ -120,7 +111,7 @@ def create_table_schema(engine, table_name):
             Column('role', String(20))
         ),
         'Enrollment': Table('Enrollment', metadata,
-            Column('id', Integer, primary_key=True, autoincrement=True),
+            Column('id', Integer, primary_key=True),
             Column('student_id', Integer),
             Column('class_id', Integer),
             Column('comment', String(1000)),
@@ -131,26 +122,26 @@ def create_table_schema(engine, table_name):
             Column('updated_at', DateTime)
         ),
         'Schedule': Table('Schedule', metadata,
-            Column('id', Integer, primary_key=True, autoincrement=True),
+            Column('id', Integer, primary_key=True),
             Column('year', Integer),
             Column('term', String(20)),
             Column('opening_time', DateTime),
             Column('closing_time', DateTime)
         ),
         'Consent': Table('Consent', metadata,
-            Column('id', Integer, primary_key=True, autoincrement=True),
+            Column('id', Integer, primary_key=True),
             Column('title', String(200)),
             Column('content', TEXT),
             Column('content_eng', TEXT)
         ),
         'Log': Table('Log', metadata,
-            Column('id', Integer, primary_key=True, autoincrement=True),
+            Column('id', Integer, primary_key=True),
             Column('email', String(255)),
             Column('log', TEXT),
             Column('action_time', DateTime)
         ),
         'Request': Table('Request', metadata,
-            Column('id', Integer, primary_key=True, autoincrement=True),
+            Column('id', Integer, primary_key=True),
             Column('email', String(255)),
             Column('phone', String(20)),
             Column('name', String(100)),
@@ -163,13 +154,17 @@ def create_table_schema(engine, table_name):
     }
     
     if table_name in table_schemas:
-        return table_schemas[table_name]
+        table = table_schemas[table_name]
+        # Create the table in the database
+        metadata.create_all(engine)
+        return table
     else:
         print(f"Warning: No schema defined for table '{table_name}', will try to create from CSV structure")
         return None
 
 def restore_table_from_csv(engine, table_name, csv_filepath):
     """Restore a single table from CSV file."""
+    print(f"  Restoring table '{table_name}' from '{csv_filepath}'")
     try:
         # Check if CSV file exists and is not empty
         if not os.path.exists(csv_filepath):
@@ -202,42 +197,42 @@ def restore_table_from_csv(engine, table_name, csv_filepath):
         if table_exists:
             # Truncate existing table
             print(f"  Table '{table_name}' exists, truncating...")
-            with engine.connect() as conn:
-                # Disable foreign key checks temporarily (MySQL)
-                if 'mysql' in str(engine.url):
-                    conn.execute(text("SET FOREIGN_KEY_CHECKS = 0"))
-                
+            with engine.begin() as conn:
                 conn.execute(text(f"DELETE FROM `{table_name}`"))
                 
                 # Reset auto increment if it exists
                 if 'mysql' in str(engine.url):
-                    conn.execute(text(f"ALTER TABLE `{table_name}` AUTO_INCREMENT = 1"))
-                
-                conn.commit()
+                    try:
+                        conn.execute(text(f"ALTER TABLE `{table_name}` AUTO_INCREMENT = 1"))
+                    except:
+                        pass  # Table might not have auto increment
         else:
             # Create table with schema
             print(f"  Table '{table_name}' doesn't exist, creating...")
-            table_schema = create_table_schema(engine, table_name)
-            if table_schema:
-                table_schema.create(engine)
-            else:
-                # Try to create table dynamically from CSV structure
-                print(f"  Creating table '{table_name}' dynamically from CSV structure")
+            create_table_schema(engine, table_name)
         
         # Insert data using pandas
-        df.to_sql(table_name, engine, if_exists='append', index=False, method='multi')
+        print(f"  Inserting {len(df)} rows into '{table_name}'...")
         
-        # Re-enable foreign key checks (MySQL)
-        if 'mysql' in str(engine.url):
+        try:
+            df.to_sql(table_name, con=engine, if_exists='append', index=False, chunksize=100)
+            
+            # Verify data was inserted
             with engine.connect() as conn:
-                conn.execute(text("SET FOREIGN_KEY_CHECKS = 1"))
-                conn.commit()
-        
-        print(f"  ✓ Restored '{table_name}' with {len(df)} rows")
-        return True, len(df)
+                result = conn.execute(text(f"SELECT COUNT(*) FROM `{table_name}`"))
+                count = result.scalar()
+                print(f"  Verified: {count} rows in '{table_name}'")
+            
+            print(f"  ✓ Restored '{table_name}' with {len(df)} rows")
+            return True, len(df)
+        except Exception as insert_error:
+            print(f"  Error during insertion: {str(insert_error)}")
+            return False, 0
         
     except Exception as e:
         print(f"  ✗ Error restoring '{table_name}': {str(e)}")
+        import traceback
+        traceback.print_exc()
         return False, 0
 
 def restore_database(backup_dir, table_names=None):
@@ -247,7 +242,7 @@ def restore_database(backup_dir, table_names=None):
     
     if not backup_dir:
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        backup_dir = os.path.join(script_dir, "backups")
+        backup_dir = os.path.join(script_dir, "")
     
     print(f"Restoring from: {backup_dir}")
     
@@ -283,22 +278,21 @@ def restore_database(backup_dir, table_names=None):
         
         # Disable foreign key checks for the entire restore process (MySQL)
         if 'mysql' in str(engine.url):
-            with engine.connect() as conn:
+            with engine.begin() as conn:
                 conn.execute(text("SET FOREIGN_KEY_CHECKS = 0"))
-                conn.commit()
         
-        for table_name, csv_filepath in csv_files:
-            print(f"Restoring table: {table_name}")
-            success, row_count = restore_table_from_csv(engine, table_name, csv_filepath)
-            if success:
-                successful_restores += 1
-                total_rows += row_count
-        
-        # Re-enable foreign key checks (MySQL)
-        if 'mysql' in str(engine.url):
-            with engine.connect() as conn:
-                conn.execute(text("SET FOREIGN_KEY_CHECKS = 1"))
-                conn.commit()
+        try:
+            for table_name, csv_filepath in csv_files:
+                print(f"Restoring table: {table_name}")
+                success, row_count = restore_table_from_csv(engine, table_name, csv_filepath)
+                if success:
+                    successful_restores += 1
+                    total_rows += row_count
+        finally:
+            # Re-enable foreign key checks (MySQL)
+            if 'mysql' in str(engine.url):
+                with engine.begin() as conn:
+                    conn.execute(text("SET FOREIGN_KEY_CHECKS = 1"))
         
         # Summary
         print(f"\n=== Restore Summary ===")
@@ -308,10 +302,19 @@ def restore_database(backup_dir, table_names=None):
         print(f"Total rows restored: {total_rows}")
         print(f"Restore completed at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         
+        # Final verification
+        print(f"\n=== Final Verification ===")
+        inspector = inspect(engine)
+        for table_name in inspector.get_table_names():
+            with engine.connect() as conn:
+                result = conn.execute(text(f"SELECT COUNT(*) as cnt FROM `{table_name}`"))
+                count = result.fetchone()[0]
+                print(f"  {table_name}: {count} rows")
+        
         if successful_restores == len(csv_files):
-            print("✓ All tables restored successfully!")
+            print("\n✓ All tables restored successfully!")
         else:
-            print(f"⚠ {len(csv_files) - successful_restores} tables failed to restore")
+            print(f"\n⚠ {len(csv_files) - successful_restores} tables failed to restore")
             
     except Exception as e:
         print(f"✗ Critical error during restore: {str(e)}")
