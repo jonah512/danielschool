@@ -1,0 +1,2 @@
+id,username,email,hashed_password,is_active,created_at,updated_at,role
+1,admin,danielschoolonthehill@gmail.com,6864f4a2647e2d26f002c3e097d83e21,1,2025-12-29 05:15:58,2025-12-29 05:15:58,admin

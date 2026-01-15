@@ -28,7 +28,7 @@ from sqlalchemy import create_engine, text, inspect, MetaData, Table, Column, ev
 from sqlalchemy import Integer, String, DateTime, Float, TEXT
 from sqlalchemy.orm import sessionmaker
 import pandas as pd
-from service.db_config import engine
+from db_config import engine
 
 def get_database_connection():
     """Get database connection using the engine from db_config."""
@@ -242,7 +242,7 @@ def restore_database(backup_dir, table_names=None):
     
     if not backup_dir:
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        backup_dir = os.path.join(script_dir, "")
+        backup_dir = os.path.join(script_dir, "/workspace/backups/20260111")
     
     print(f"Restoring from: {backup_dir}")
     
