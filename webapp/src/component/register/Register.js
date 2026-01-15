@@ -58,6 +58,11 @@ export default function Register() {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
 
   useEffect(() => {
+    // Check if URL has teacher=yes parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('teacher') === 'yes') {
+      setSelectedMenu('Login');
+    }
 
     EventPublisher.addEventListener(EventDef.onLanguageChange, MODULE, setLanguage);
     EventPublisher.addEventListener(EventDef.onMenuChanged, MODULE, onMenuChanged);
@@ -85,7 +90,6 @@ export default function Register() {
 
   const onScheduleListChange = async (schedules) => {
     console.log('onScheduleListChange:', schedules);
-
     // Get the earliest schedule (smallest id or -1)
     const earliestSchedule = schedules.reduce((earliest, current) => {
       return (current.id < earliest.id || earliest.id === -1) ? current : earliest;
@@ -131,8 +135,9 @@ export default function Register() {
     setTerm(lastSchedule.term);
     RegisterCtrl.openingDate = openingDate;
     RegisterCtrl.closingDate = closingDate;
+    const urlParams = new URLSearchParams(window.location.search);
 
-    if (currentDate >= openingDate && currentDate <= closingDate) {
+    if (currentDate >= openingDate && currentDate <= closingDate || urlParams.get('teacher') === 'yes') {
       if (selectedMenu === 'Blocked') {
         Logger.info('Register is open');
         setSelectedMenu('Login');
