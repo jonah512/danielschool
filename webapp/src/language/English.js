@@ -87,6 +87,8 @@ const English = {
         missing: "'{0}' is missing.",
         select_korean_level_title: "Select Korean Level",
         korean_level_missing: "Please select a Korean level.",
+        gender_missing: "Please select gender.",
+        parent_name_missing: "Please enter the parent name.",
         birthdate_missing: "Please enter the birthdate.",
         grade_confirm_missing: "Please confirm the grade.",
         orean_level_confirmed: "Confirmed Korean Level"
@@ -254,6 +256,8 @@ const English = {
             "Daniel Korean Culture School",
         contacts: "For enrollment-related inquiries, please contact danielschoolonthehill@gmail.com.",
         confirm_submit: "Please press the 'Submit' button after final confirmation.",
+        thank_you_title: "Enrollment Completed!",
+        thank_you_message: "Your enrollment has been successfully completed. You will receive the enrollment results via email shortly. Please proceed with the payment within two weeks after receiving the payment email. Thank you."
     },
     blocked: {
         opening_time: "Start: {0}",
@@ -268,7 +272,7 @@ const English = {
         closed_time: "Close Date:"
     },
     waiting:{
-        message: "Currently {0} people are waiting. Please wait a moment. You will be redirected to the enrollment screen automatically."
+        message: "Currently {0} people are waiting. Please wait a moment. You will be redirected to the enrollment screen automatically. *If you are using a mobile device, switching to another app while waiting may return you to the beginning.*"
     }
 };
 

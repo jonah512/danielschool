@@ -55,5 +55,17 @@ export default class ScheduleCtrl {
     this.getSchedules(); // Refresh the schedule list
   }
 
+  async getCurrentTime() {
+    Logger.info('Fetching current time from server');
+    try {
+      const response = await axios.get(`${this.#url}/schedules/GetCurrentTime`);
+      Logger.info('Current time fetched:', response.data.now);
+      return response.data.now;
+    } catch (error) {
+      Logger.error('Error fetching current time:', error);
+      return null;
+    }
+  }
+
 }
 

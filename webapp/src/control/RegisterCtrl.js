@@ -34,6 +34,8 @@ class RegisterCtrlObj {
   closingDate = new Date();
   timeGap = 0;
   email_content = '';
+  timeCompensation = 0;
+  currentDateTime = new Date();
   
   constructor() {
     

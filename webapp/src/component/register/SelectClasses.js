@@ -345,7 +345,6 @@ export default function SelectClasses({ onNext, onPrev }) {
                                 label={
                                     <div
                                         onMouseEnter={() => setHoveredClass(classItem)}
-                                        onMouseLeave={() => setHoveredClass(null)}
                                     >
                                         {classItem.enrolled_number < classItem.max_students ?
                                             <Typography
@@ -383,7 +382,6 @@ export default function SelectClasses({ onNext, onPrev }) {
                                 label={
                                     <div
                                         onMouseEnter={() => setHoveredClass(classItem)}
-                                        onMouseLeave={() => setHoveredClass(null)}
                                     >
                                         {classItem.enrolled_number < classItem.max_students ?
                                             <Typography
@@ -420,7 +418,6 @@ export default function SelectClasses({ onNext, onPrev }) {
                                 label={
                                     <div
                                         onMouseEnter={() => setHoveredClass(classItem)}
-                                        onMouseLeave={() => setHoveredClass(null)}
                                     >
                                         {classItem.enrolled_number < classItem.max_students ?
                                             <Typography

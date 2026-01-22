@@ -32,6 +32,17 @@ export default class UsersCtrl {
       throw error;
     }
   }
+
+  removeUser(session_key, email) {
+    Logger.debug('removeUser', session_key, email);
+    axios.post(window.APIURL + "/EndSession?email=" + email + "&session_key=" + session_key)
+      .then(response => {
+        Logger.debug("[cleanUpSession] Session ended successfully:", response.data);
+      })
+      .catch(error => {
+        console.error("[cleanUpSession] Error ending session:", error);
+      });
+  }
   
   clearUser(search) {
     Logger.debug('clearUser', search);

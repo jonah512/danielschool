@@ -56,13 +56,14 @@ export default function ClassroomElementV2({ classItem, students, enrollments, c
     const [addConfirm, setAddConfirm] = React.useState(false);
 
     useEffect(() => {
-
+        console.log('ClassroomElementV2 - classItem changed:', classItem);
         const enrollments_ = enrollments.filter(enrollment => enrollment.class_id === classItem.id);
         const students_ = students.filter(student => enrollmentsInClass.some(enrollment => enrollment.student_id === student.id));
 
         setStudentsInClass(students_);
         setEnrollmentsInClass(enrollments_);
         EventPublisher.addEventListener(EventDef.onEnrollmentDelete + classItem.id, 'Classroom' + classItem.id, onEnrollmentDelete);
+        console.log('ClassroomElementV2 - classItem changed:', classItem);
         return () => {
             EventPublisher.removeEventListener(EventDef.onEnrollmentDelete + classItem.id, 'Classroom' + classItem.id);
         }

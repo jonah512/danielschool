@@ -1,8 +1,9 @@
 // Copyright (c) 2025 Milal Daniel Korean School.
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { Stack, TextField, Button } from '@mui/material';
+import { Stack, TextField, Button, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Resource from '../../framework/resource/Resource';
 import SessionManager from '../../control/SessionManager';
 import UsersCtrl from '../../control/UsersCtrl';
@@ -89,6 +90,12 @@ export default function AccessedUser(props) {
     Logger.debug("Search text changed:", event.target.value);
   };
 
+  const handleRemoveUser = async (sessionKey, email) => {
+    Logger.debug('Removing user:', sessionKey, email);
+    // Add your remove user logic here
+    usersCtrl.removeUser(sessionKey, email);
+  };
+
   
   const columns = [
     { field: 'id', headerName: Resource.get('students.id'), width: 90 },
@@ -104,6 +111,21 @@ export default function AccessedUser(props) {
       }
     },
     { field: 'session_key', headerName: 'Session Key', width: 250 },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 100,
+      sortable: false,
+      renderCell: (params) => (
+        <IconButton 
+          color="error"
+          onClick={() => handleRemoveUser(params.row.session_key, params.row.email)}
+          size="small"
+        >
+          <DeleteIcon />
+        </IconButton>
+      )
+    },
   ];
 
   return (

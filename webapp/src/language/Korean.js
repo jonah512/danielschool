@@ -87,6 +87,8 @@ const Korean = {
         missing: "'{0}'이(가) 누락되었습니다.",
         select_korean_level_title: "한국어 수준 선택",
         korean_level_missing: "한국어 수준을 선택해 주세요.",
+        gender_missing: "성별을 선택해 주세요.",
+        parent_name_missing: "학부모 이름을 입력해 주세요.",
         birthdate_missing: "생년월일을 입력해 주세요.",
         grade_confirm_missing: "학년을 다시 한 번 확인해 주세요.",
         korean_level_confirmed: "한국어 수준 확정"
@@ -254,10 +256,12 @@ const Korean = {
             "다니엘한글문화학교",
         contacts: "수강신청 관련 문의사항은 danielschoolonthehill@gmail.com 으로 연락주시기 바랍니다.",
         confirm_submit: "최종 확인 후 '제출하기(Submit)' 버튼을 반드시 눌러주세요.",
+        thank_you_title: "수강신청이 완료되었습니다!",
+        thank_you_message: "수강신청이 성공적으로 완료되었습니다. 곧 수강신청 결과를 이메일로 보내드리겠습니다. 수강료 납부는 등록 후 2주일 안에 수강료납부 이메일을 받으면 진행해 주세요. 감사합니다."
     },
     blocked:{
-        opening_time: "시작: {0}",
-        closing_time: "종료: {0}",
+        opening_time: "시작(EST): {0}",
+        closing_time: "종료(EST): {0}",
         remaining_time: " 잔여 대기시간: {0}",
         time_format_1: "{0}일 {1}시간 {2}분 {3}초",
         time_format_2: "{0}시간 {1}분 {2}초",
@@ -268,7 +272,7 @@ const Korean = {
         closed_time: "수강마감:"
     },
     waiting:{
-        message: "현재 {0}명이 대기 중입니다. 잠시 기다려 주세요. 수강신청 화면으로 자동으로 전환됩니다.",
+        message: "현재 {0}명이 대기 중입니다. 수강신청 화면으로 자동으로 전환됩니다. 잠시 기다려 주세요. *모바일을 사용하시는 분은 대기중 다른 앱을 사용하면 다시 처음으로 돌아갈 수 있습니다.*",
     }
 };
 

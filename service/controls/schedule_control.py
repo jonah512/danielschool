@@ -45,3 +45,4 @@ class ScheduleControl:
         """Search for schedulees by name, year, or term."""
         query = self.db.query(models.Schedule)
         return query.all()
+    

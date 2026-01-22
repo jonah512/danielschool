@@ -7,3 +7,6 @@ pika
 psutil
 passlib
 python-multipart
+pymysql
+cryptography
+pandas
