@@ -13,10 +13,8 @@ logger = logging.getLogger(__name__)
 class SettingsControl:
     def __init__(self, db: Session = None):
         self.db = db
-        # Define the path to webapp public directory
-        self.webapp_public_dir = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), '..', '..', 'webapp', 'public')
-        )
+        # Define the path to docker volume for image storage
+        self.webapp_public_dir = os.path.abspath('/home/data/images')
         
         # Create directory if it doesn't exist
         self._ensure_directory_exists()
@@ -34,7 +32,7 @@ class SettingsControl:
         self.max_file_size = 5 * 1024 * 1024  # 5MB
 
     def _ensure_directory_exists(self):
-        """Ensure the webapp public directory exists, create if necessary."""
+        """Ensure the docker volume image directory exists, create if necessary."""
         try:
             if not os.path.exists(self.webapp_public_dir):
                 os.makedirs(self.webapp_public_dir, exist_ok=True)
@@ -252,7 +250,7 @@ class SettingsControl:
         return removed_files
 
     def get_system_info(self) -> Dict:
-        """Get system information about the settings directory."""
+        """Get system information about the docker volume image directory."""
         try:
             stat = os.stat(self.webapp_public_dir)
             

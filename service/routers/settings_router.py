@@ -26,11 +26,11 @@ def get_db():
 ALLOWED_EXTENSIONS = {'.jpg', '.jpeg', '.png'}
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
 
-# Define the path to webapp public directory
-WEBAPP_PUBLIC_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'webapp', 'public'))
+# Define the path to docker volume for image storage
+WEBAPP_PUBLIC_DIR = os.path.abspath('/home/data/images')
 
 def ensure_directory_exists():
-    """Ensure the webapp public directory exists, create if necessary."""
+    """Ensure the docker volume image directory exists, create if necessary."""
     try:
         if not os.path.exists(WEBAPP_PUBLIC_DIR):
             os.makedirs(WEBAPP_PUBLIC_DIR, exist_ok=True)
@@ -52,7 +52,7 @@ def validate_file(file: UploadFile) -> bool:
 
 @router.get("/settings/image/{filename}")
 def get_image_file(filename: str):
-    """Serve image files from the webapp public directory."""
+    """Serve image files from the docker volume image directory."""
     try:
         # Validate filename is in allowed list
         allowed_files = [

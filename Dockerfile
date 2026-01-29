@@ -22,6 +22,9 @@ RUN mkdir -p /workspace
 COPY service /workspace
 COPY webapp/build /var/www/html
 
+# Copy default images to workspace for initialization
+COPY images /workspace/default_images
+
 # Add a script to start both uvicorn and apache2
 COPY start.sh /start.sh
 RUN chmod +x /start.sh

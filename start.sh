@@ -22,6 +22,17 @@ if [ -n "$DATABASE_URL" ]; then
     fi
 fi
 
+# Initialize images in docker volume if not already present
+echo "Initializing images in docker volume..."
+mkdir -p /home/data/images
+if [ ! -f "/home/data/images/daniel_logo.png" ] && [ -d "/workspace/default_images" ]; then
+    echo "Copying default images to docker volume..."
+    cp -r /workspace/default_images/* /home/data/images/
+    echo "Default images copied successfully"
+else
+    echo "Images already exist in docker volume or default images not found"
+fi
+
 # Start Apache in the background
 apache2ctl -D FOREGROUND &
 
