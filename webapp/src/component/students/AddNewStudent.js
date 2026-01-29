@@ -56,11 +56,11 @@ export default function AddNewStudent({ open, onClose, onAddStudent }) {
 
     const handleSubmit = async () => {
         const control = new StudentsCtrl(window.APIURL);
-        formData.name = formData.name.trim();
-        formData.email = formData.email.trim();
-        formData.phone = formData.phone.trim();
-        formData.parent_name = formData.parent_name.trim();
-        formData.church = formData.church.trim();
+        formData.name = formData.name?.trim();
+        formData.email = formData.email?.trim();
+        formData.phone = formData.phone?.trim();
+        formData.parent_name = formData.parent_name?.trim();
+        formData.church = formData.church?.trim();
 
         // check if anything missing
         const requiredFields = ['name', 'email', 'phone', 'parent_name', 'gender', 'grade'];

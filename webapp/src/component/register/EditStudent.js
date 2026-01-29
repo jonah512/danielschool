@@ -73,7 +73,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
             return;
         }
 
-        if (formData.parent_name.trim() === '') {
+        if (!formData.parent_name || formData.parent_name?.trim() === '') {
             alert(Resource.get('students.parent_name_missing'));
             return;
         }
@@ -81,11 +81,11 @@ export default function EditStudent({ onPrev, onNext, student }) {
         Object.assign(RegisterCtrl.selected_student, {
             korean_level: formData.korean_level,
             grade: formData.grade,
-            name: formData.name.trim(),
-            email: formData.email.trim(),
-            phone: formData.phone.trim(),
-            parent_name: formData.parent_name.trim(),
-            church: formData.church.trim(),
+            name: formData.name?.trim(),
+            email: formData.email?.trim(),
+            phone: formData.phone?.trim(),
+            parent_name: formData.parent_name?.trim(),
+            church: formData.church?.trim(),
         });
 
         Logger.debug('formData', formData);
@@ -225,7 +225,7 @@ export default function EditStudent({ onPrev, onNext, student }) {
                     value={formData.parent_name}
                     onChange={handleChange}
                     fullWidth
-                    error={formData.parent_name.trim() === ''}
+                    error={formData.parent_name?.trim() === ''}
                 />
 
                 <Stack spacing={2} direction="row" justifyContent="center" style={{ marginTop: '20px' }}>

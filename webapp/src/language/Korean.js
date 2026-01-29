@@ -82,7 +82,7 @@ const Korean = {
         catholic: "천주교",
         other: "기타",
         no: "없음",
-        grade: "학년 (2025년 9월 기준)",
+        grade: "학년",
         bulk_upload: "일괄 업로드",
         missing: "'{0}'이(가) 누락되었습니다.",
         select_korean_level_title: "한국어 수준 선택",
@@ -141,7 +141,7 @@ const Korean = {
         fee: "수업료",
         min_korean_level: "최소 한국어 수준",
         max_korean_level: "최대 한국어 수준",
-        grade: "학년(2025년 9월 기준)",
+        grade: "학년",
         display_order: "순서",
     },
     enrollment: {
