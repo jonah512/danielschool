@@ -28,7 +28,7 @@ export default function TopBar(props) {
       <Stack direction="row" spacing={1}>
         <Box alignSelf="center">
           <img
-            src="daniel_logo.png"
+            src={`${window.APIURL || 'http://localhost:8080'}/settings/image/daniel_logo.png`}
             height={30}
             alt="Daniel  Logo"
           />

@@ -37,6 +37,8 @@ import Schedules from './component/schedule/Schedules';
 import Consents from './component/consents/Consents';
 import AccessedUser from './component/users/AccessedUser';
 import Requests from './component/request/Requests';
+import LeftMenuSettings from './component/left_menu/LeftMenuSettings';
+import Settings from './component/settings/Settings';
 
 const drawerWidth = 240;
 
@@ -173,6 +175,8 @@ export default function DanielAdminApp() {
       case 'Login':
         window.location.reload();
         break;
+      case 'Settings':
+        return (<Settings />);
       default:
         return (selectedMenu);
     }
@@ -226,7 +230,7 @@ export default function DanielAdminApp() {
             <Divider sx={{ my: 1 }} />
             <LeftMenuRelations onMenuChanged={onMenuChanged} SelectedMenu={selectedMenu} />
             <Divider sx={{ my: 1 }} />
-
+            <LeftMenuSettings onMenuChanged={onMenuChanged} SelectedMenu={selectedMenu} />
           </List>
         </Drawer>
         <Box

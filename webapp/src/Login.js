@@ -91,7 +91,7 @@ export default function Login(props) {
           justifyContent="center"
           alignItems="center"
         >
-          <img src="daniel_logo.png" width='300' alt='Daniel School Admin Page'></img>
+          <img src={`${window.APIURL || 'http://localhost:8080'}/settings/image/daniel_logo.png`} width='300' alt='Daniel School Admin Page'></img>
           <Box sx={{ height: 30}} />
           <Typography component="h1" variant="h4" textAlign={'center'} >
             {Resource.get('common.title')}

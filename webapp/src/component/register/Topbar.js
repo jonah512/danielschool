@@ -83,7 +83,7 @@ function Topbar({ year, term }) {
                 textAlign: isMobile ? 'center' : 'center', // Center text on mobile
             }}
         >
-            <img src="daniel_logo.png" width={isMobile ? '50' : '70'} alt="Daniel School Register Web" /> {/* Adjust logo size */}
+            <img src={`${window.APIURL || 'http://localhost:8080'}/settings/image/daniel_logo.png`} width={isMobile ? '50' : '70'} alt="Daniel School Register Web" /> {/* Adjust logo size */}
             <Typography
                 variant={isMobile ? "h6" : "h4"} // Adjust font size for mobile
                 sx={{ color: '#333', flexGrow: 1 }}
