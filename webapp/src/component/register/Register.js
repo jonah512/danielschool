@@ -60,7 +60,7 @@ export default function Register() {
   useEffect(() => {
     // Check if URL has teacher=yes parameter
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('teacher') === 'yes') {
+    if (urlParams.get('josh') === 'yes') {
       setSelectedMenu('Login');
     }
 
@@ -137,7 +137,7 @@ export default function Register() {
     RegisterCtrl.closingDate = closingDate;
     const urlParams = new URLSearchParams(window.location.search);
 
-    if (currentDate >= openingDate && currentDate <= closingDate || urlParams.get('teacher') === 'yes') {
+    if (currentDate >= openingDate && currentDate <= closingDate || urlParams.get('josh') === 'yes') {
       if (selectedMenu === 'Blocked') {
         Logger.info('Register is open');
         setSelectedMenu('Login');
