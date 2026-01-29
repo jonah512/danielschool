@@ -13,7 +13,7 @@ read -p "Choose option (1-5): " choice
 case $choice in
     1)
         echo "Connecting as daniel_user..."
-        sudo docker exec -it daniel-mysql mysql -u daniel_user -p daniel_school
+        sudo docker exec -it daniel-mysql mysql -u daniel_user -pdaniel_password_2025 daniel_school
         ;;
     2)
         echo "Connecting as root..."
@@ -21,7 +21,7 @@ case $choice in
         ;;
     3)
         echo "Showing tables..."
-        sudo docker exec -it daniel-mysql mysql -u daniel_user -p daniel_school -e "SHOW TABLES;"
+        sudo docker exec -it daniel-mysql mysql -u daniel_user -pdaniel_password_2025 daniel_school -e "SHOW TABLES;"
         ;;
     4)
         echo "Checking table row counts..."
