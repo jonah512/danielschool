@@ -34,11 +34,11 @@ export default function ClassDescription({funcConfirm}) {
         </DialogTitle>
         <DialogContent>
           <Stack direction='column'>
-            <img src='register01.jpg' alt='Class Description' style={{ width: '100%' }} />
-            <img src='register02.jpg' alt='Class Description' style={{ width: '100%' }} />
-            <img src='register04.jpg' alt='Class Description' style={{ width: '100%' }} />
-            <img src='register05.jpg' alt='Class Description' style={{ width: '100%' }} />            
-            <img src='register03.jpg' alt='Class Description' style={{ width: '100%' }} />
+            <img src={`${window.APIURL || 'http://localhost:8080'}/settings/image/register01.jpg`} alt='Class Description' style={{ width: '100%' }} />
+            <img src={`${window.APIURL || 'http://localhost:8080'}/settings/image/register02.jpg`} alt='Class Description' style={{ width: '100%' }} />
+            <img src={`${window.APIURL || 'http://localhost:8080'}/settings/image/register04.jpg`} alt='Class Description' style={{ width: '100%' }} />
+            <img src={`${window.APIURL || 'http://localhost:8080'}/settings/image/register05.jpg`} alt='Class Description' style={{ width: '100%' }} />            
+            <img src={`${window.APIURL || 'http://localhost:8080'}/settings/image/register03.jpg`} alt='Class Description' style={{ width: '100%' }} />
           </Stack>
         </DialogContent>
         <DialogActions>
