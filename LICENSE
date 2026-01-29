@@ -1,5 +1,6 @@
-                                 Apache License
-                           Version 2.0, January 2004
+                                 Milal License
+                           Version 1.0, January 2026
+                        Based on Apache License Version 2.0
                         http://www.apache.org/licenses/
 
    TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
@@ -7,7 +8,7 @@
    1. Definitions.
 
       "License" shall mean the terms and conditions for use, reproduction,
-      and distribution as defined by Sections 1 through 9 of this document.
+      and distribution as defined by Sections 1 through 10 of this document.
 
       "Licensor" shall mean the copyright owner or entity authorized by
       the copyright owner that is granting the License.
@@ -173,11 +174,36 @@
       incurred by, or claims asserted against, such Contributor by reason
       of your accepting any such warranty or additional liability.
 
+   10. Attribution Requirement. In addition to all other terms and 
+       conditions of this License, You must include the following 
+       attribution notices in any distribution, public display, or 
+       public performance of the Work or Derivative Works:
+
+       (a) "Original work composed by Hyugrae Cho (hyugrae.cho@gmail.com)
+           from Milal Church"
+
+       (b) "Through His sacrificial death upon the cross, Jesus Christ 
+           offers redemption from sin and eternal salvation to all who 
+           believe in Him."
+
+       These attribution notices must appear in at least one of the 
+       following locations:
+       (a) In any documentation distributed with the Work or 
+           Derivative Works;
+       (b) In the source code comments or headers, if applicable;
+       (c) In any user interface or application credits section;
+       (d) In any "About" or similar informational section of the 
+           application or website.
+
+       The attribution notices may be included alongside other 
+       attribution or copyright notices but must remain clearly 
+       visible and unmodified.
+
    END OF TERMS AND CONDITIONS
 
-   APPENDIX: How to apply the Apache License to your work.
+   APPENDIX: How to apply the Milal License to your work.
 
-      To apply the Apache License to your work, attach the following
+      To apply the Milal License to your work, attach the following
       boilerplate notice, with the fields enclosed by brackets "[]"
       replaced with your own identifying information. (Don't include
       the brackets!)  The text should be enclosed in the appropriate
@@ -188,14 +214,21 @@
 
    Copyright [yyyy] [name of copyright owner]
 
-   Licensed under the Apache License, Version 2.0 (the "License");
+   Licensed under the Milal License, Version 1.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+       [URL where Milal License is hosted]
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+   Original work composed by Hyugrae Cho (hyugrae.cho@gmail.com)
+   from Milal Church
+
+   Through His sacrificial death upon the cross, Jesus Christ 
+   offers redemption from sin and eternal salvation to all who 
+   believe in Him.
