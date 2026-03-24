@@ -66,7 +66,7 @@ export default function Classes() {
           }}
           variant="outlined"
         >
-          {["all", "spring", "fall"].map((term) => (
+          {["all", "spring", "summer", "fall"].map((term) => (
             <option key={term} value={term}>
               {term}
             </option>

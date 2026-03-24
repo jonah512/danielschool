@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     default-libmysqlclient-dev \
     pkg-config \
     gcc \
+    dos2unix \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
@@ -27,7 +28,7 @@ COPY images /workspace/default_images
 
 # Add a script to start both uvicorn and apache2
 COPY start.sh /start.sh
-RUN chmod +x /start.sh
+RUN dos2unix /start.sh && chmod +x /start.sh
 
 # Set the ServerName to suppress Apache warnings
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf

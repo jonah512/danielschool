@@ -137,7 +137,7 @@ export default function AddNewClass({ open, onClose }) {
                         onChange={handleChange}
                         fullWidth
                     >
-                        {["spring", "fall"].map((term) => (
+                        {["spring", "summer", "fall"].map((term) => (
                             <MenuItem key={term} value={term}>
                                 {term}
                             </MenuItem>

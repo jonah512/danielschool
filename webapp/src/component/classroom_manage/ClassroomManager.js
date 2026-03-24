@@ -70,7 +70,7 @@ export default function ClassroomManager() {
           }}
           variant="outlined"
         >
-          {["spring", "fall"].map((term) => (
+          {["spring", "summer", "fall"].map((term) => (
             <option key={term} value={term}>
               {term}
             </option>

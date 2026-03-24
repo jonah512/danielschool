@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 # Function to wait for MySQL to be ready
 wait_for_mysql() {

@@ -231,7 +231,8 @@ const Korean = {
         name: "학생 이름:",
         grade: "학년:",
         spring: "봄학기",
-        fall: "가을학기"
+        fall: "가을학기",
+        summer: "여름학기"
     },
     student_selection: {
         title: "학생 선택",

@@ -57,6 +57,11 @@ A comprehensive web application for managing Korean language school operations i
 # Update system
 sudo apt update && sudo apt upgrade -y
 
+# Install nodejs
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+
 # Install Docker
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh

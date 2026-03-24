@@ -231,7 +231,8 @@ const English = {
         name: "Student Name:",
         grade: "Grade:",
         spring: "Spring Term",
-        fall: "Fall Term"
+        fall: "Fall Term",
+        summer: "Summer Term",
     },
     student_selection: {
         title: "Select Student",
