@@ -106,22 +106,17 @@ export default function SelectClasses({ onNext, onPrev }) {
 
     };
 
+    const checkIfMultipleSelection = (selected_class) => {
+       if(selected_class.max_grade < 0 || selected_class.name === '한글초급집중반') return true;;
+       if(selected_class.name === '한글초급집중반') return true;
+       if(selected_class.multiple_selection === 1) return true;
+       return false;
+    }
+
     const handleClassSelection = (period, classId) => {
         const selected_class = RegisterCtrl.classes.find(c => String(c.id) === String(classId));
         console.log('handleClassSelection period:', period, 'classId:', classId, 'selected_class:', selected_class);
-        if (selected_class.max_grade < 0) { // kindergarten class
-            // find same class name in all periods and select it
-
-            const sameClasses = RegisterCtrl.classes.filter(c => String(c.name) === String(selected_class.name));
-            Logger.debug('handleClassSelection sameClasses:', sameClasses);
-            sameClasses.forEach(sameClass => {
-                if (sameClass.period === 1) { setSelectedClassPeriod1(sameClass.id); RegisterCtrl.selectedClassPeriod1 = sameClass.id; setEvaluationCheck('success');}
-                if (sameClass.period === 2) { setSelectedClassPeriod2(sameClass.id); RegisterCtrl.selectedClassPeriod2 = sameClass.id;  setEvaluationCheck('success');}
-                if (sameClass.period === 3) { setSelectedClassPeriod3(sameClass.id); RegisterCtrl.selectedClassPeriod3 = sameClass.id;  setEvaluationCheck('success');}                
-            });
-
-        }
-        else if (selected_class.name === '한글초급집중반') { // kindergarten class
+        if (checkIfMultipleSelection(selected_class)) { // kindergarten class
             // find same class name in all periods and select it
 
             const sameClasses = RegisterCtrl.classes.filter(c => String(c.name) === String(selected_class.name));

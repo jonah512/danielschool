@@ -39,6 +39,7 @@ CREATE TABLE `Class` (
   `min_korean_level` int DEFAULT NULL,
   `max_korean_level` int DEFAULT NULL,
   `display_order` int DEFAULT NULL,
+  `multiple_selection` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=207 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

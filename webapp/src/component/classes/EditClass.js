@@ -35,7 +35,8 @@ export default function EditClass({ open, onClose, class_ }) {
         id: class_.id || 0,
         min_korean_level: class_.min_korean_level || 1,
         max_korean_level: class_.max_korean_level || 12,
-        display_order: class_.display_order || 0
+        display_order: class_.display_order || 0,
+        multiple_selection: class_.multiple_selection ?? 0
     });
 
     const [emailError, setEmailError] = useState(''); // State for email error
@@ -248,6 +249,17 @@ export default function EditClass({ open, onClose, class_ }) {
                                 {order}
                             </MenuItem>
                         ))}
+                    </TextField>
+                    <TextField
+                        select
+                        label={Resource.get('classes.multiple_selection')}
+                        name="multiple_selection"
+                        value={formData.multiple_selection}
+                        onChange={handleChange}
+                        fullWidth
+                    >
+                        <MenuItem value={1}>Yes</MenuItem>
+                        <MenuItem value={0}>No</MenuItem>
                     </TextField>
                 </Stack>
             </DialogContent>

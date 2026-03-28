@@ -52,6 +52,7 @@ class Class(Base):
     min_korean_level = Column(Integer, default=1)
     max_korean_level = Column(Integer, default=12)
     display_order = Column(Integer, default=0)
+    multiple_selection = Column(Integer, default=0)
 
 class User(Base):
     __tablename__ = "User"

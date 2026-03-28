@@ -190,6 +190,7 @@ export default function ClassesTable({search, year, term}) {
         { field: 'max_students', headerName: Resource.get('classes.max_students'), width: 150 },
         { field: 'fee', headerName: Resource.get('classes.fee'), width:150 },
         { field: 'display_order', headerName: Resource.get('classes.display_order'), width:150 },
+        { field: 'multiple_selection', headerName: Resource.get('classes.multiple_selection'), width:150 },
     ];
 
     return (

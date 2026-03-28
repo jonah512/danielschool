@@ -61,6 +61,7 @@ class ClassBase(BaseModel):
     min_korean_level: Optional[int] = None
     max_korean_level: Optional[int] = None
     display_order: Optional[int] = None
+    multiple_selection: Optional[int] = None
     
 class ClassCreate(ClassBase):
     pass

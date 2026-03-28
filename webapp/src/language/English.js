@@ -181,6 +181,7 @@ const English = {
         max_korean_level: "Maximum Korean Level",
         grade: "Grade",
         display_order: "Display Order",
+        multiple_selection: "Multiple Selection"
     },
     enrollment: {
         id: "ID",

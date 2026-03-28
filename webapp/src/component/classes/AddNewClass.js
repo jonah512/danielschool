@@ -35,7 +35,8 @@ export default function AddNewClass({ open, onClose }) {
         period: 1,
         mendatory: 'no',        
         fee: 100.1,
-        display_order:0
+        display_order:0,
+        multiple_selection: 0
     });
     const [teachers, setTeachers] = useState([]);
     const MODULE = 'AddNewClass';
@@ -248,6 +249,24 @@ export default function AddNewClass({ open, onClose }) {
                         onChange={handleChange}
                         fullWidth
                     />
+                        <TextField
+                        label={Resource.get('classes.display_order')}
+                        name="display_order"
+                        value={formData.display_order}  
+                        onChange={handleChange}
+                        fullWidth
+                    />
+                     <TextField
+                        select
+                        label={Resource.get('classes.multiple_selection')}
+                        name="multiple_selection"
+                        value={formData.multiple_selection}  
+                        onChange={handleChange}
+                        fullWidth
+                    >
+                        <MenuItem value={1}>Yes</MenuItem>
+                        <MenuItem value={0}>No</MenuItem>
+                    </TextField>                                                
                 </Stack>
             </DialogContent>
             <DialogActions>

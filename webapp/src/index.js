@@ -7,6 +7,7 @@ import SessionManager from './control/SessionManager';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 let baseAddress = window.location.toString();
+//let baseAddress = 'http://98.82.202.253';//window.location.toString();
 if(baseAddress.split('?').length > 1){
   baseAddress = baseAddress.split('?')[0];
   if (baseAddress.includes('/')) {
