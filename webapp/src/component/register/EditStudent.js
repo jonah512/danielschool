@@ -129,7 +129,13 @@ export default function EditStudent({ onPrev, onNext, student }) {
                 />
                 <TextField
                     select
-                    label={Resource.get('students.grade')}
+                    label={Resource.get('students.grade_caution', (() => {
+                        const today = new Date();
+                        const year = today.getFullYear();
+                        const month = today.toLocaleString('en-US', { month: 'short' });
+                        const day = today.getDate();
+                        return `${year} ${month}. ${day}`;
+                    })())}
                     name="grade"
                     value={formData.grade}
                     onChange={handleChange}

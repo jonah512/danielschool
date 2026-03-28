@@ -121,6 +121,7 @@ const Korean = {
         other: "기타",
         no: "없음",
         grade: "학년",
+        grade_caution: "학년 ({0} 현재 기준)",
         bulk_upload: "일괄 업로드",
         missing: "'{0}'이(가) 누락되었습니다.",
         select_korean_level_title: "한국어 수준 선택",

@@ -121,6 +121,7 @@ const English = {
         other: "Other",
         no: "None",
         grade: "Grade",
+        grade_caution: "Grade ({0} as of now)",
         bulk_upload: "Bulk Upload",
         missing: "'{0}' is missing.",
         select_korean_level_title: "Select Korean Level",
