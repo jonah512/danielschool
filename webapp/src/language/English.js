@@ -281,6 +281,7 @@ const English = {
         detail_title: "Class name: {0}",
         detail_teacher: "Teacher: {0}",
         detail_grade: "Grade: {0} ~ {1}",
+        detail_grade2: "Grade: {0}",
         detail_korean_level: "Korean level: Level {0} ~ {1}",
         detail_description: "Description:",
         occupied_status: "{0} (Closed)",

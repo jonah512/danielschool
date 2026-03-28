@@ -1,6 +1,7 @@
 import React from 'react';
 import RegisterCtrl from '../../control/RegisterCtrl';
 import Resource from '../../framework/resource/Resource';
+import Defines from '../Defines';
 import { Box, Stack } from '@mui/material';
 
 export default function ClassDetailPopup({ classItem }) {
@@ -9,6 +10,19 @@ export default function ClassDetailPopup({ classItem }) {
         const teacher = RegisterCtrl.teachers.find(t => t.id === classItem.teacher_id);
         return teacher ? teacher.name : 'N/A';
     };
+
+    const getDisplayGrade = (grade) => {
+        const gradeOption = Defines.gradeOptions.find(option => option.value === grade);
+        return gradeOption ? gradeOption.label : 'N/A';
+    };
+
+    const getDisplayGradeRange = (minGrade, maxGrade) => {
+        if (minGrade === maxGrade) {
+            return Resource.get('register.detail_grade2', getDisplayGrade(minGrade));
+        }
+        return Resource.get('register.detail_grade', getDisplayGrade(minGrade), getDisplayGrade(maxGrade));
+    };
+
 
     return (
         <Box
@@ -28,8 +42,7 @@ export default function ClassDetailPopup({ classItem }) {
                     {Resource.get('register.detail_title',classItem.name)}
                 </Box>
                 <Box>
-
-                    {Resource.get('register.detail_grade', classItem.min_grade,classItem.max_grade)}
+                    {getDisplayGradeRange(classItem.min_grade, classItem.max_grade)}
                 </Box>                
                 {
                     classItem.min_korean_level > 1 || classItem.max_korean_level < 12 ? (

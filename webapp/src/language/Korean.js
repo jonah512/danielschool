@@ -281,6 +281,7 @@ const Korean = {
         detail_title: "과목명: {0}",
         detail_teacher: "선생님: {0}",
         detail_grade: "학년: {0} ~ {1}",
+        detail_grade2: "학년: {0} ",
         detail_korean_level: "한국어 수준: 레벨 {0} ~ {1}",
         detail_description: "설명:",
         occupied_status:"{0} (신청마감)",
