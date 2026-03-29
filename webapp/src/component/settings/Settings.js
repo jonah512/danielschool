@@ -61,7 +61,7 @@ export default function Settings(props) {
         const response = await settingsCtrl.getImagesInfo();
         const imageMap = {};
         response.images.forEach(img => {
-          imageMap[img.filename] = `${settingsCtrl.baseURL}${img.path}`;
+          imageMap[img.filename] = `${settingsCtrl.baseURL}${img.path}?v=${Math.random()}`;
         });
         setImages(imageMap);
         Logger.debug('Loaded images info from API:', imageMap);
@@ -70,7 +70,7 @@ export default function Settings(props) {
         Logger.error('API not available, using service URLs:', apiError.message);
         const defaultImages = {};
         settingsCtrl.getAllowedImages().forEach(filename => {
-          defaultImages[filename] = `${settingsCtrl.baseURL}/settings/image/${filename}`;
+          defaultImages[filename] = `${settingsCtrl.baseURL}/settings/image/${filename}?v=${Math.random()}`;
         });
         setImages(defaultImages);
         Logger.debug('Using fallback images:', defaultImages);
@@ -102,13 +102,6 @@ export default function Settings(props) {
         
         // Reload images info to get updated path with cache busting
         await loadImagesInfo();
-        
-        // Add cache busting timestamp to force browser refresh
-        const timestamp = new Date().getTime();
-        setImages(prev => ({
-          ...prev,
-          [imageName]: `${settingsCtrl.baseURL}/settings/image/${imageName}?t=${timestamp}`
-        }));
         
         setUploadMessage(Resource.get('common.uploadedsuccessfully', file.name, imageName));
         setAlertSeverity('success');
@@ -159,13 +152,6 @@ export default function Settings(props) {
         // Reload images info to get updated path with cache busting
         await loadImagesInfo();
         
-        // Add cache busting timestamp to force browser refresh
-        const timestamp = new Date().getTime();
-        setImages(prev => ({
-          ...prev,
-          [imageName]: `${settingsCtrl.baseURL}/settings/image/${imageName}?t=${timestamp}`
-        }));
-        
         setUploadMessage(Resource.get('common.restoredsuccessfully', imageName));
         setAlertSeverity('success');
         setShowAlert(true);
@@ -173,10 +159,9 @@ export default function Settings(props) {
       } catch (apiError) {
         // Fallback to service URL
         Logger.error('API restore failed, using service URL:', apiError.message);
-        
         setImages(prev => ({
           ...prev,
-          [imageName]: `${settingsCtrl.baseURL}/settings/image/${imageName}`
+          [imageName]: `${settingsCtrl.baseURL}/settings/image/${imageName}?v=${Math.random()}`
         }));
         
         setUploadMessage(Resource.get('common.restoreddefault', imageName));
