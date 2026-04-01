@@ -54,7 +54,10 @@ export default function Confirmation({ onNext, student }) {
         RegisterCtrl.email_content = Resource.get('register.request_email_content', formData.name, RegisterCtrl.year, Resource.get('topbar.' + RegisterCtrl.term.trim()), classes.map(c => `${c.period} ${Resource.get('enrollment.period')}: ${c.name}`).join('\n'));
         console.log('Email content:', RegisterCtrl.email_content);
     };
-    
+    const getDisplayGrade = (grade) => {
+        const gradeOption = Defines.gradeOptions.find(option => option.value === grade);
+        return gradeOption ? gradeOption.label : 'N/A';
+    };
     return (
         <Box>
             <Stack spacing={2}>
@@ -70,7 +73,7 @@ export default function Confirmation({ onNext, student }) {
                             </TableRow>
                             <TableRow>
                                 <TableCell align="center">{Resource.get('students.grade')}</TableCell>
-                                <TableCell align="left">{formData.grade}</TableCell>
+                                <TableCell align="left">{getDisplayGrade(formData.grade)}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell align="center">{Resource.get('students.birthdate')}</TableCell>
