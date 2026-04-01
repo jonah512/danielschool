@@ -16,6 +16,7 @@ import EventPublisher from '../../framework/event/EventPublisher';
 import { EventDef } from '../../framework/event/EventDef';
 import Logger from '../../framework/logger/Logger';
 import AlertDialog from '../common/AlertDialog';
+import Defines from '../Defines';
 
 export default function Confirmation({ onNext, student }) {
     const formData = {
